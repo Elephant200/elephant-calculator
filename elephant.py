@@ -1,0 +1,2 @@
+def elephant():
+    print("ELEPHANT")
