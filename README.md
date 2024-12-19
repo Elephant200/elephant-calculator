@@ -44,11 +44,3 @@
 0. CAS (computer algebra system)
    - Can factor, simplify, and expand expressions. Can solve equations. Can differentiate, integrate, and compute definite integrals
    - Uses the sympy module
-
-## About the Programmer ##
-Elephant200 is a programmer based in the U.S. The Elephant Calculator is one of his first major programming projects. The calculator was coded in python.
-
-The calculator's results were verified using _Wolfram_|_Alpha_, a program that is relatively similar to this one.
-
-### Skills:
-Python, Tensorflow, Keras, Pandas, Java, C++, Javascript, HTML, CSS, PHP
