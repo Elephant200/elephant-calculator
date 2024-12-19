@@ -25,7 +25,7 @@ def formatExp(expression, diff=False):
 		for j in ['w','x','y','z','a','b','c','d','(','f','g','h','exp','ln','sin','cos','tan']:
 			expression = expression.replace('%s%s' % (i,j), '%s*%s' % (i,j))
 			for k in range(10): expression = expression.replace('%s^%s%s' % (i, k, j), '(%s^%s)*%s' % (i, k, j))
-	expression = expression.replace('^', '**').replace(')(', ')*(').replace('infinity','oo').replace('e^%s' % x,'exp(%s)' % x)
+	expression = expression.replace('^', '**').replace(')(', ')*(').replace('infinity','oo').replace('infty','oo').replace('e^%s' % x,'exp(%s)' % x)
 	for i in list("wxyzabcd(fe"):
 		expression = expression.replace('0%s' % i,'0*%s' % i).replace('2%s' % i,'2*%s' % i).replace('3%s' % i,'3*%s' % i).replace('4%s' % i,'4*%s' % i).replace('5%s' % i,'5*%s' % i).replace('6%s' % i,'6*%s' % i).replace('7%s' % i,'7*%s' % i).replace('8%s' % i,'8*%s' % i).replace('9%s' % i,'9*%s' % i)
 	return expression
