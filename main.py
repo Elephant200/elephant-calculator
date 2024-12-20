@@ -20,12 +20,13 @@ import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
-from geoFormulas import Area, Perimeter, Volume, SurfaceArea
-import vectorCalc as vm
-import triangleSolver as triangle
-import irrationals as irr
-import pythagGen as pythag
-import primeGen as prime
+from modules.geoFormulas import Area, Perimeter, Volume, SurfaceArea
+from modules import vectorCalc as vm
+from modules import triangleSolver as triangle
+from modules import irrationals as irr
+from modules import pythagGen as pythag
+from modules import primeGen as prime
+from modules import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... DONE")
 clear()
