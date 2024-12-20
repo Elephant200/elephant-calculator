@@ -16,17 +16,17 @@ import sys
 from time import sleep, time
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy...\n - Loading files... ")
-from modules import cas
+from services import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
-from modules.geoFormulas import Area, Perimeter, Volume, SurfaceArea
-from modules import vectorCalc as vm
-from modules import triangleSolver as triangle
-from modules import irrationals as irr
-from modules import pythagGen as pythag
-from modules import primeGen as prime
-from modules import cas
+from services.geoFormulas import Area, Perimeter, Volume, SurfaceArea
+from services import vectorCalc as vm
+from services import triangleSolver as triangle
+from services import irrationals as irr
+from services import pythagGen as pythag
+from services import primeGen as prime
+from services import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... DONE")
 clear()
