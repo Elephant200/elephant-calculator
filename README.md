@@ -4,11 +4,21 @@
 2. Calculator Functions Explanations
 3. About the Programmer
 
+---
+
 ## Overview ##
 * Work on this calculator began in May, 2024 by Elephant200
 * This calculator is intended to bring together many existing functions in one, convenient machine
-* "The Elephant Calculator" includes diverse features like geometry formulas, ultra-high precision algorithms, and a CAS
-* There is a built-in review system that enables users to give feedback and request new features. All reviews are read carefully, so feel free to write them!
+* "The Elephant Calculator" is a multi-purpose calculator that combines features like:
+- Vector and Matrix Operations
+- Geometry Formulas
+- High-Precision Calculations
+- Pythagorean Triple Generation
+- Prime Number Analysis
+- A built-in Computer Algebra System (CAS)
+* Users can also leave reviews and ratings to provide feedback or suggest new features.
+
+---
 
 ## Calculator Functions ##
 1. Vectors and Matrices
@@ -44,3 +54,56 @@
 0. CAS (computer algebra system)
    - Can factor, simplify, and expand expressions. Can solve equations. Can differentiate, integrate, and compute definite integrals
    - Uses the sympy module
+
+## Installation and Setup
+### Requirements:
+- Python 3.12.5 or later
+- pip (Python package manager)
+
+### Steps to Set Up:
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+2. Run the setup script:
+   ```bash
+   ./setup.sh
+   ```
+   This script will:
+   - Set up a virtual environment.
+   - Install dependencies.
+   - Prepare the folder structure.
+   - Create an empty `.env` file if not already present.
+
+3. Activate the virtual environment:
+   - On macOS/Linux:
+     ```bash
+     source .venv/bin/activate
+     ```
+   - On Windows:
+     ```cmd
+     .venv\Scripts\activate
+     ```
+
+4. Run the calculator:
+   ```bash
+   python main.py
+   ```
+
+---
+
+## How to Use
+1. Launch the calculator with `python main.py`.
+2. Follow the prompts to choose categories and functions.
+3. Exit the calculator to leave a review or rating.
+
+---
+
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and submit a pull request.
+
+---
