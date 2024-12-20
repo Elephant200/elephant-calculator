@@ -2,8 +2,13 @@ from sympy import *
 w, x, y, z, a, b, c, d = symbols("w x y z a b c d")
 
 import os
+import platform
 
-clear = lambda: os.system('clear')
+def clear():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
 
 elephant = r"""            
             __     __

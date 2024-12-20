@@ -5,7 +5,12 @@
 # Loading screen during imports
 print(" - Loading os...\n - Loading sys...\n - Loading time...\n - Loading sympy...\n - Loading files... ")
 import os
-clear = lambda: os.system('clear')
+import platform
+def clear():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
 clear()
 print(" - Loading os... DONE\n - Loading sys...\n - Loading time...\n - Loading sympy...\n - Loading files... ")
 import sys
