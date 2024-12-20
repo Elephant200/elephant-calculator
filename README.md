@@ -55,6 +55,8 @@
    - Can factor, simplify, and expand expressions. Can solve equations. Can differentiate, integrate, and compute definite integrals
    - Uses the sympy module
 
+---
+
 ## Installation and Setup
 ### Requirements:
 - Python 3.12.5 or later
