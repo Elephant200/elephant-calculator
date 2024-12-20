@@ -6,11 +6,10 @@
 print(" - Loading os...\n - Loading sys...\n - Loading time...\n - Loading sympy...\n - Loading files... ")
 import os
 import platform
+clear_cmd = "cls" if platform.system() == "Windows" else "clear"
 def clear():
-    if platform.system() == "Windows":
-        os.system('cls')
-    else:
-        os.system('clear')
+    os.system(clear_cmd)
+
 clear()
 print(" - Loading os... DONE\n - Loading sys...\n - Loading time...\n - Loading sympy...\n - Loading files... ")
 import sys

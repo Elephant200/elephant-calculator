@@ -4,11 +4,9 @@ w, x, y, z, a, b, c, d = symbols("w x y z a b c d")
 import os
 import platform
 
+clear_cmd = "cls" if platform.system() == "Windows" else "clear"
 def clear():
-    if platform.system() == "Windows":
-        os.system('cls')
-    else:
-        os.system('clear')
+    os.system(clear_cmd)
 
 elephant = r"""            
             __     __
@@ -44,7 +42,7 @@ def reverseFormat(expression):
 			expression = expression.replace('%s*%s' % (i,j), '%s%s' % (i,j))
 	return expression
 
-print("The Elephant CAS (computer algebra system)\nPowered by sympy\n" + elephant + "\n")
+# print("The Elephant CAS (computer algebra system)\nPowered by sympy\n" + elephant + "\n")
 
 def hub():
 	clear()
