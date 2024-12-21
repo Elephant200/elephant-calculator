@@ -191,45 +191,62 @@ def tan(n, precision=100, rad=True):
     getcontext().prec = precision
     return +result
 
-def arcsin(n, precision=100):
+def arcsin(n, precision=100, degrees=False):
     getcontext().prec = precision + 10
     if abs(Decimal(n)) > 1:
-        raise ValueError("arcsin input must be between -1 and 1")
-        
+        return "arcsin input must be between -1 and 1"
+    if n == 1:
+        result = Decimal(90) if degrees else pi(precision + 10) / Decimal(2)
+        getcontext().prec = precision
+        return +result
+    if n == -1:
+        result = Decimal(-90) if degrees else -pi(precision + 10) / Decimal(2)
+        getcontext().prec = precision
+        return +result
     result = Decimal(n)
     term = Decimal(n)
     epsilon = Decimal(10)**(-precision - 10)
     i = Decimal(1)
-    
+
     while abs(term) > epsilon:
-        term *= (2*i - 1) * (2*i - 1) * n * n
+        term *= (2*i - 1) * (2*i - 1) * Decimal(n) * Decimal(n)
         term /= (2*i) * (2*i + 1)
         result += term / (2*i + 1)
         i += 1
-        
+
+    if degrees:
+        result = result * Decimal(180) / pi(precision + 10)
+    
     getcontext().prec = precision
     return +result
 
-def arccos(n, precision=100):
+def arccos(n, precision=100, degrees=False):
     getcontext().prec = precision + 10
     PI = pi(precision + 10)
     result = PI/Decimal(2) - arcsin(n, precision + 10)
+
+    if degrees:
+        result = result * Decimal(180) / pi(precision + 10)
+    
     getcontext().prec = precision
     return +result
 
-def arctan(n, precision=100):
+def arctan(n, precision=100, degrees=False):
     getcontext().prec = precision + 10
     x = Decimal(n)
     result = Decimal(0)
     term = x
-    epsilon = Decimal(10)**(-precision - 10)
+    epsilon = Decimal(10)**(-precision)
     i = Decimal(1)
-    
+
     while abs(term) > epsilon:
         result += term
-        term *= -x * x * (2*i - 1)
+        term *= -x * x
         term /= (2*i + 1)
         i += 1
-        
+
+    if degrees:
+        result = result * Decimal(180) / pi(precision + 10)
+    
     getcontext().prec = precision
     return +result

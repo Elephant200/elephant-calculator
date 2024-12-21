@@ -121,7 +121,7 @@ while True:
             print("Output:\n" + str(vm.dot(vm.inputVector(), vm.inputVector())))
         #input()
     elif func.startswith('2'):
-        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n7. Legacy Algorithms\n").lower()
+        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n\n7. Cosine\n8. Tangent\n9. Inverse Trig Functions\n0. Legacy Algorithms (not recommended)\n").lower()
         clear()
         print(elephant)
         if func.startswith('1'):
@@ -136,7 +136,19 @@ while True:
             print("Output:\n" + str(irr.advancedE(int(int(input("How many decimal places would you like? "))))))
         elif func.startswith('6'): #sin
             print("Output:\n" + str(irr.sin(float(input("What angle (in degrees) would you like to find the sine of? ")), int(input("How many decimal places would you like? ")), False)))
-        elif func.startswith('7'):
+        elif func.startswith('7'): #cos
+            print("Output:\n" + str(irr.cos(float(input("What angle (in degrees) would you like to find the cosine of? ")), int(input("How many decimal places would you like? ")), False)))
+        elif func.startswith('8'): #tan
+            print("Output:\n" + str(irr.tan(float(input("What angle (in degrees) would you like to find the tangent of? ")), int(input("How many decimal places would you like? ")), False)))
+        elif func.startswith('9'): #inverse
+            subfunc = input("1. arcsin\n2. arccos\n3. arctan")
+            if subfunc.startswith('1'):
+                print("Output:\n" + str(irr.arcsin(float(input("What would you like to find the inverse sine of? ")), int(input("How many decimal places would you like? ")), True)))
+            if subfunc.startswith('2'):
+                print("Output:\n" + str(irr.arccos(float(input("What would you like to find the inverse cosine of? ")), int(input("How many decimal places would you like? ")), True)))
+            if subfunc.startswith('3'):
+                print("Output:\n" + str(irr.arctan(float(input("What would you like to find the inverse tangent of? ")), int(input("How many decimal places would you like? ")), True)))
+        elif func.startswith('0'):
             clear()
             print(elephant)
             func = input("What legacy function would you like to use?\n1. Gauss-Legendre Algorithm (PI)\n2. Taylor Series for E\n")
