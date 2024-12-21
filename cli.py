@@ -23,7 +23,7 @@ from inputimeout import inputimeout
 from services.geometry import area, perimeter, volume, surface_area
 from services.vector import Vector
 from services.matrix import Matrix
-from services import triangleSolver as triangle
+from services import triangle_solver as triangle
 from services import irrationals as irr
 from services import pythagorean as pythag
 from services import primes as prime
