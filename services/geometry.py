@@ -1,215 +1,389 @@
 import math
 
 #====================AREA FORMULAS================================
-class Area:
-    def area(type):
-        if type.lower().startswith('cir'):
-            return Area.circleA(float(input("radius = ")))
-        if type.lower().startswith('sem'):
-            return Area.semiA(float(input("radius = ")))
-        elif type.lower().startswith('ell'):
-            return Area.ellipseA(float(input('semi-major axis = ')), float(input('semi-minor axis = ')))
-        elif type.lower().startswith('rec'):
-            return Area.rectangleA(float(input('length = ')), float(input('width = ')))
-        elif type.lower().startswith('squ'):
-            return Area.squareA(float(input('Side length = ')))
-        elif type.lower().startswith('par'):
-            return round(Area.parallelogramA(float(input("Side 1 = ")), float(input("Side 2 = ")), float(input("theta (degrees) = "))),10)
-        elif type.lower().startswith('rho'):
-            return Area.rhombusA(float(input("Diagonal 1 = ")), float(input("Diagonal 2 = ")))
-        elif type.lower().startswith('kit'):
-            return Area.rhombusA(float(input("Diagonal 1 = ")), float(input("Diagona 2 = ")))
-        elif type.lower().startswith('tri'):
-            return Area.triangleA()
-        elif type.lower().startswith('tra'):
-            return Area.trapezoidA(float(input("Longer base = ")), float(input("Shorter base = ")), float(input("Height = ")))
-        elif type.lower().startswith('pol'):
-            return Area.polygon(float(input("Number of sides = ")), float(input("Side = ")))
-        elif type.lower().startswith('pen'):
-            return Area.pentagonA(float(input("Side = ")))
-        elif type.lower().startswith('hex'):
-            return Area.hexagonA(float(input("Side = ")))
-        elif type.lower().startswith('hep'):
-            return Area.polygon(7, float(input("Side = ")))
-        elif type.lower().startswith('oct'):
-            return Area.octagonA(float(input("Side = ")))
-        elif type.lower().startswith('non'):
-            return Area.polygon(9, float(input("Side = ")))
-        elif type.lower().startswith('dec'):
-            return Area.polygon(10, float(input("Side = ")))
-        else:
-            return "That is an unsupported shape. Please try again. "
+def area_circle(radius):
+    return math.pi * radius * radius
 
-    def circleA(radius):
-        return str(math.pi * radius * radius) + "\nExact: " + str(radius * radius) + "pi"
-    def semiA(r):
-        return str(math.pi * r * r/2) + "\nExact: " + (str(round(1/2*r*r)) if (r*r)%2==0 else str(round(r*r))+'/2') + "pi"
-    def ellipseA(a, b):
-        return str(math.pi * a * b) + " = " + str(a * b) + "pi"
-    def squareA(side):
-        return side * side
-    def rectangleA(l, w):
-        return l * w
-    def parallelogramA(s1, s2, theta):
-        return s1 * s2 * round(math.sin(theta * math.pi / 180),10)
-    def rhombusA(d1, d2):
-        return d1 * d2 / 2
-    def trapezoidA(b1, b2, h):
-        return (b1 + b2) * h / 2
-    def pentagonA(s):
-        return 0.25 * math.sqrt(25 + 10 * math.sqrt(5)) * s * s
-    def hexagonA(s):
-        return 1.5 * math.sqrt(3) * s * s
-    def octagon(s):
-        return (2 + 2 * math.sqrt(2)) * s * s
-    def polygon(sides, s):
-        match sides:
-            case 3: return Area.herons(s, s, s)
-            case 4: return Area.squareA(s)
-            case 5: return Area.pentagonA(s)
-            case 6: return Area.hexagonA(s)
-            case 8: return Area.octagon(s)
-            case _: return sides / 4 * 1/(math.tan(math.pi/sides)) * s * s
-    def herons(s1, s2, s3):
-        s = (s1 + s2 + s3) / 2
-        return math.sqrt(s * (s-s1) * (s-s2) * (s-s3))
-    def triangleA():
-        method = input("You may either input\n1. 3 sides\n2. 2 sides and the included angle\n3. Base and height\n")
-        if method.lower().startswith('1'):
-            return round(Area.herons(float(input("Side 1 = ")), float(input("Side 2 = ")), float(input("Side 3 = "))), 10)
-        elif method.lower().startswith('2'):
-            return round(0.5 * float(input("Side 1 = ")) * float(input("Side 2 = ")) * math.sin(float(input("Included angle = ")) * math.pi / 180), 10)
-        elif method.lower().startswith('3'):
-            return 0.5 * float(input("Side 1 = ")) * float(input("Side 2 = "))
-        else:
-            return "Invalid input"   
-    
+def area_semi_circle(radius):
+    return 0.5 * math.pi * radius * radius
+
+def area_ellipse(semi_major, semi_minor):
+    return math.pi * semi_major * semi_minor
+
+def area_rectangle(length, width):
+    return length * width
+
+def area_square(side):
+    return side * side
+
+def area_parallelogram(side1, side2, theta):
+    return side1 * side2 * math.sin(math.radians(theta))
+
+def area_rhombus(diagonal1, diagonal2):
+    return 0.5 * diagonal1 * diagonal2
+
+def area_trapezoid(base1, base2, height):
+    return 0.5 * (base1 + base2) * height
+
+def area_polygon(sides, side_length):
+    if sides < 3:
+        return "A polygon must have at least 3 sides."
+    apothem = side_length / (2 * math.tan(math.pi / sides))
+    return 0.5 * sides * side_length * apothem
+
+def area_triangle_heron(side1, side2, side3):
+    s = (side1 + side2 + side3) / 2
+    return math.sqrt(s * (s - side1) * (s - side2) * (s - side3))
+
+def area_triangle_sas(side1, side2, angle):
+    return 0.5 * side1 * side2 * math.sin(math.radians(angle))
+
+def area_triangle_base_height(base, height):
+    return 0.5 * base * height
+
+def area_pentagon(side):
+    return 0.25 * math.sqrt(25 + 10 * math.sqrt(5)) * side ** 2
+
+def area_hexagon(side):
+    return (3 * math.sqrt(3) / 2) * side ** 2
+
+def area_heptagon(side):
+    return 0.25 * 7 * side ** 2 / math.tan(math.pi / 7)
+
+def area_octagon(side):
+    return 2 * (1 + math.sqrt(2)) * side ** 2
+
+def area_nonagon(side):
+    return 0.25 * 9 * side ** 2 / math.tan(math.pi / 9)
+
+def area_decagon(side):
+    return 0.25 * 10 * side ** 2 / math.tan(math.pi / 10)
+
 #====================PERIMETER FORMULAS===========================
-class Perimeter:
-    def perimeter(type):
-        if type.startswith('cir'):
-            radius = float(input("Radius = "))
-            return str(2*math.pi*radius) + "\nExact: " + str(2 * radius) + "pi"
-        elif type.startswith('rec'):
-            return 2*float(input("Length = ")) + 2*float(input("Width = "))
-        elif type.startswith('squ'):
-            return 4*float(input("Side = "))
-        elif type.startswith('par'):
-            return 2*float(input("Length = ")) + 2*float(input("Width = "))
-        elif type.startswith('rho'):
-            return 4*float(input("Side = "))
-        elif type.startswith('kit'):
-            return 2*float(input("Side 1 = ")) + 2*float(input("Side = 2"))
-        elif type.startswith('tri'):
-            return float(input("Side 1 = ")) + float(input("Side 2 = ")) + float(input("Side 3 = "))
-        elif type.startswith('tra'):
-            return float(input("Longer base = ")) + float(input("Shorter base = ")) + float(input("Left side = ")) + float(input("Right side = "))
-        elif type.startswith('pol'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(int(input("# sides: ")))])
-        elif type.startswith('pen'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(5)])
-        elif type.startswith('hex'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(6)])
-        elif type.startswith('hep'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(7)])
-        elif type.startswith('oct'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(8)])
-        elif type.startswith('non'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(9)])
-        elif type.startswith('dec'):
-            return sum([float(input("Side %s = " % (i+1))) for i in range(10)])
-        else:
-            return "This is an unsupported shape. Please try again. "
+def perimeter_circle(radius):
+    return 2 * math.pi * radius
+
+def perimeter_rectangle(length, width):
+    return 2 * (length + width)
+
+def perimeter_square(side):
+    return 4 * side
+
+def perimeter_polygon(sides, side_length):
+    return sides * side_length
+
+def perimeter_triangle(side1, side2, side3):
+    return side1 + side2 + side3
+
+def perimeter_trapezoid(base1, base2, side1, side2):
+    return base1 + base2 + side1 + side2
+
+def perimeter_pentagon(side):
+    return 5 * side
+
+def perimeter_hexagon(side):
+    return 6 * side
+
+def perimeter_heptagon(side):
+    return 7 * side
+
+def perimeter_octagon(side):
+    return 8 * side
+
+def perimeter_nonagon(side):
+    return 9 * side
+
+def perimeter_decagon(side):
+    return 10 * side
 
 #====================VOLUME FORMULAS==============================
-class Volume:
-    def vol(type):
-        if type.startswith('cub'):
-            return float(input("side = "))**3
-        elif type.startswith('rec'):
-            return float(input("Length = "))*float(input("Width = "))*float(input("Height = "))
-        elif type.startswith('cyl'):
-            r, h = float(input("Radius = ")), float(input("Height = "))
-            return f"{math.pi*r*r*h}\nExact:{round(r*r*h)}pi"
-        elif type.startswith('con'):
-            r, h = float(eval(input("Radius = "))), float(input("Height = "))
-            return f"{1/3*math.pi*r*r*h}\nExact: {round(1/3*r*r*h) if (r*r*h)%3==0 else str(round(r*r*h))+'/3'}pi"
-        elif type.startswith('sph'):
-            r = float(eval(input("Radius = ")))
-            return f"{4/3*math.pi*r**3}\nExact: {round(4/3*r**3) if r%3==0 else str(round(4*r**3))+'/3'}pi"
-        elif type.startswith('ell'):
-            a,b,c = float(input("a = ")),float(input("b = ")),float(input("c = "))
-            return f"{4/3*math.pi*a*b*c}\nExact: {round(4/3*a*b*c) if (a*b*c)%3==0 else str(round(4*a*b*c))+'/3'}pi"
-        elif type.startswith('hem'):
-            r = float(eval(input("Radius = ")))
-            return f"{2/3*math.pi*r**3}\nExact: {round(2/3*r**3) if r%3==0 else str(round(2*r**3))+'/3'}pi"
-        elif type.startswith('pyr'):
-            sides = int(input("How many sides does the regular polygon at the base of this pyramid have? "))
-            if sides < 2: return "That is an unsupported polygon. Please try again."
-            elif sides == 3: B = Area.herons(float(input("Side 1 = ")), float(input("Side 2 = ")), float(input("Side 3 = ")))
-            else: B = Area.polygon(sides, float(input("Base side = ")))
-            h = float(input("Height = "))
-            return round(B*h/3) if (B*h)%3==0 else (f"{round(B*h/3,10)}\nExact: {round(B*h)}/3" if (B*h*3)%3==0 else round(B*h/3,10))
-        elif type.startswith('pri'):
-            sides = int(input("How many sides does the polygon at the base of this prism have? "))
-            if sides < 2: return "That is an unsupported polygon. Please try again."
-            elif sides == 3: B = Area.herons(float(input("Side 1 = ")), float(input("Side 2 = ")), float(input("Side 3 = ")))
-            elif sides == 4: B = Area.rectangleA(float(input("Length = ")), float(input("Width = ")))
-            else: B = Area.polygon(sides, float(input("Base side = ")))
-            h = float(input("Height = "))
-            return B*h
-        elif type.startswith('tet'):
-            side = float(eval(input("Side = ")))
-            return side**3/(6 * math.sqrt(2))
-        elif type.startswith('oct'):
-            side = float(eval(input("Side = ")))
-            return side**3*math.sqrt(2)/3
-        elif type.startswith('dod'):
-            side = float(eval(input("Side = ")))
-            return (15 + 7*math.sqrt(5)) * side**3 / 4
-        elif type.startswith('ico'):
-            side = float(eval(input("Side = ")))
-            return (15 + 5*math.sqrt(5)) * side**3 / 12
-        else:
-            return "That is an unsupported solid. Please try again."
+def volume_cube(side):
+    return side ** 3
+
+def volume_rectangular_prism(length, width, height):
+    return length * width * height
+
+def volume_cylinder(radius, height):
+    return math.pi * radius ** 2 * height
+
+def volume_cone(radius, height):
+    return (1 / 3) * math.pi * radius ** 2 * height
+
+def volume_sphere(radius):
+    return (4 / 3) * math.pi * radius ** 3
+
+def volume_ellipsoid(axis1, axis2, axis3):
+    return (4 / 3) * math.pi * axis1 * axis2 * axis3
+
+def volume_prism(base_area, height):
+    return base_area * height
+
+def volume_tetrahedron(side):
+    return (side ** 3) / (6 * math.sqrt(2))
+
+def volume_octahedron(side):
+    return (math.sqrt(2) / 3) * side ** 3
+
+def volume_dodecahedron(side):
+    return ((15 + 7 * math.sqrt(5)) / 4) * side ** 3
+
+def volume_icosahedron(side):
+    return (5 * (3 + math.sqrt(5)) / 12) * side ** 3
+
 #====================SURFACE AREA FORMULAS========================
-class SurfaceArea:
-    def sa(type):
-        if type.startswith('cub'):
-            return 6*float(input("Side = "))**2
-        elif type.startswith('rec'):
-            l, w, h = float(input("Length = ")), float(input("Width = ")), float(input("Height = "))
-            return 2*l*w + 2*l*h + 2*w*h
-        elif type.startswith('cyl'):
-            r, h = float(input("Radius = ")), float(input("Height = "))
-            return f"{2*math.pi*r*r+2*math.pi*r*h}\nExact: {2*r*(r+h)}pi" if 2*r*(r+h)%1==0 else 2*math.pi*r*r+2*math.pi*r*h
-        elif type.startswith('con'):
-            r, h = float(input("Radius = ")), float(input("Height = "))
-            l = math.sqrt(r**2+h**2)
-            return f"{math.pi*r*(r+l)}\nExact: {r*(r+l)}pi" if r*(r+l)%1==0 else math.pi*r*(r+l)
-        elif type.startswith('sph'):
-            r = float(input("Radius = "))
-            return f"{4*math.pi*r*r}\nExact: {4*r*r}pi"
-        elif type.startswith('hem'):
-            r = float(input("Radius = "))
-            return f"{3*math.pi*r*r}\nExact: {3*r*r}pi"
-        elif type.startswith('pyr'):
-            sides = int(input("How many sides does the regular polygon at the base of this pyramid have? "))
-            side = float(input("Base side = "))
-            h = float(eval(input("Height: ")))
-            return 0.5*sides*side*math.sqrt(0.25*side**2+h**2) + Area.polygon(sides, side)
-        elif type.startswith('pri'):
-            sides = int(input("# sides: "))
-            sideLength = float(input("Side = "))
+def surface_area_cube(side):
+    return 6 * side ** 2
+
+def surface_area_rectangular_prism(length, width, height):
+    return 2 * (length * width + length * height + width * height)
+
+def surface_area_cylinder(radius, height):
+    return 2 * math.pi * radius * (radius + height)
+
+def surface_area_cone(radius, height):
+    slant_height = math.sqrt(radius ** 2 + height ** 2)
+    return math.pi * radius * (radius + slant_height)
+
+def surface_area_sphere(radius):
+    return 4 * math.pi * radius ** 2
+
+def surface_area_ellipsoid(axis1, axis2, axis3):
+    # Approximation formula for ellipsoid surface area
+    p = 1.6075
+    return 4 * math.pi * ((axis1**p * axis2**p + axis1**p * axis3**p + axis2**p * axis3**p) / 3) ** (1/p)
+
+def surface_area_prism(base_area, base_perimeter, height):
+  return 2*base_area + base_perimeter * height
+
+def surface_area_tetrahedron(side):
+    return math.sqrt(3) * side ** 2
+
+def surface_area_octahedron(side):
+    return 2 * math.sqrt(3) * side ** 2
+
+def surface_area_dodecahedron(side):
+    return 3 * math.sqrt(25 + 10 * math.sqrt(5)) * side ** 2
+
+def surface_area_icosahedron(side):
+    return 5 * math.sqrt(3) * side ** 2
+
+def surface_area_prism(base_area, base_perimeter, height):
+    return 2 * base_area + base_perimeter * height
+
+#====================USER INTERFACE===============================
+def area(type):
+    type = type.lower()
+    if type.startswith('cir'):
+        radius = float(input("Radius = "))
+        return area_circle(radius)
+    elif type.startswith('sem'):
+        radius = float(input("Radius = "))
+        return area_semi_circle(radius)
+    elif type.startswith('ell'):
+        semi_major = float(input("Semi-major axis = "))
+        semi_minor = float(input("Semi-minor axis = "))
+        return area_ellipse(semi_major, semi_minor)
+    elif type.startswith('rec'):
+        length = float(input("Length = "))
+        width = float(input("Width = "))
+        return area_rectangle(length, width)
+    elif type.startswith('squ'):
+        side = float(input("Side = "))
+        return area_square(side)
+    elif type.startswith('par'):
+        side1 = float(input("Side 1 = "))
+        side2 = float(input("Side 2 = "))
+        theta = float(input("Theta (degrees) = "))
+        return area_parallelogram(side1, side2, theta)
+    elif type.startswith('rho'):
+        diagonal1 = float(input("Diagonal 1 = "))
+        diagonal2 = float(input("Diagonal 2 = "))
+        return area_rhombus(diagonal1, diagonal2)
+    elif type.startswith('tra'):
+        base1 = float(input("Base 1 = "))
+        base2 = float(input("Base 2 = "))
+        height = float(input("Height = "))
+        return area_trapezoid(base1, base2, height)
+    elif type.startswith('tri'):
+        method = input("You may input:\n1. 3 sides\n2. 2 sides and included angle\n3. Base and height\nChoice: ")
+        if method == '1':
+            side1 = float(input("Side 1 = "))
+            side2 = float(input("Side 2 = "))
+            side3 = float(input("Side 3 = "))
+            return area_triangle_heron(side1, side2, side3)
+        elif method == '2':
+            side1 = float(input("Side 1 = "))
+            side2 = float(input("Side 2 = "))
+            angle = float(input("Included angle (degrees) = "))
+            return area_triangle_sas(side1, side2, angle)
+        elif method == '3':
+            base = float(input("Base = "))
             height = float(input("Height = "))
-            return 2 * Area.polygon(sides, sideLength) + sides * sideLength * height
-        elif type.startswith('tet'):
-            return math.sqrt(3) * float(input("Side = "))**2
-        elif type.startswith('oct'):
-            return 2 * math.sqrt(3) * float(input("Side = "))**2
-        elif type.startswith('dod'):
-            return 12 * Area.polygon(5, float(input("Side = ")))
-        elif type.startswith('ico'):
-            return 5 * math.sqrt(3) * float(input("Side = "))**2
+            return area_triangle_base_height(base, height)
         else:
-            return "That is an unsupported solid. Please try again."
+            return "Invalid input for triangle area calculation."
+    elif type.startswith('pol'):
+        sides = float(input("# of sides = "))
+        side = float(input("Side = "))
+        return area_polygon(sides, side)
+    elif type.startswith('pen'):
+        side = float(input("Side = "))
+        return area_pentagon(side)
+    elif type.startswith('hex'):
+        side = float(input("Side = "))
+        return area_hexagon(side)
+    elif type.startswith('hep'):
+        side = float(input("Side = "))
+        return area_heptagon(side)
+    elif type.startswith('oct'):
+        side = float(input("Side = "))
+        return area_octagon(side)
+    elif type.startswith('non'):
+        side = float(input("Side = "))
+        return area_nonagon(side)
+    elif type.startswith('dec'):
+        side = float(input("Side = "))
+        return area_decagon(side)
+    else:
+        return "Unsupported shape type"
+
+def perimeter(type):
+    type = type.lower()
+    if type.startswith('cir'):
+        radius = float(input("Radius = "))
+        return perimeter_circle(radius)
+    elif type.startswith('rec'):
+        length = float(input("Length = "))
+        width = float(input("Width = "))
+        return perimeter_rectangle(length, width)
+    elif type.startswith('squ'):
+        side = float(input("Side = "))
+        return perimeter_square(side)
+    elif type.startswith('tri'):
+        side1 = float(input("Side 1 = "))
+        side2 = float(input("Side 2 = "))
+        side3 = float(input("Side 3 = "))
+        return perimeter_triangle(side1, side2, side3)
+    elif type.startswith('tra'):
+        base1 = float(input("Base 1 = "))
+        base2 = float(input("Base 2 = "))
+        side1 = float(input("Side 1 = "))
+        side2 = float(input("Side 2 = "))
+        return perimeter_trapezoid(base1, base2, side1, side2)
+    elif type.startswith('pol'):
+        sides = float(input("# of sides = "))
+        side = float(input("Side = "))
+        return perimeter_polygon(sides, side)
+    elif type.startswith('pen'):
+        side = float(input("Side = "))
+        return perimeter_pentagon(side)
+    elif type.startswith('hex'):
+        side = float(input("Side = "))
+        return perimeter_hexagon(side)
+    elif type.startswith('hep'):
+        side = float(input("Side = "))
+        return perimeter_heptagon(side)
+    elif type.startswith('oct'):
+        side = float(input("Side = "))
+        return perimeter_octagon(side)
+    elif type.startswith('non'):
+        side = float(input("Side = "))
+        return perimeter_nonagon(side)
+    elif type.startswith('dec'):
+        side = float(input("Side = "))
+        return perimeter_decagon(side)
+    else:
+        return "Unsupported shape type."
+
+def volume(type):
+    type = type.lower()
+    if type.startswith('cub'):
+        side = float(input("Side = "))
+        return volume_cube(side)
+    elif type.startswith('rec'):
+        length = float(input("Length = "))
+        width = float(input("Width = "))
+        height = float(input("Height = "))
+        return volume_rectangular_prism(length, width, height)
+    elif type.startswith('cyl'):
+        radius = float(input("Radius = "))
+        height = float(input("Height = "))
+        return volume_cylinder(radius, height)
+    elif type.startswith('con'):
+        radius = float(input("Radius = "))
+        height = float(input("Height = "))
+        return volume_cone(radius, height)
+    elif type.startswith('sph'):
+        radius = float(input("Radius = "))
+        return volume_sphere(radius)
+    elif type.startswith('ell'):
+        axis1 = float(input("Axis 1 = "))
+        axis2 = float(input("Axis 2 = "))
+        axis3 = float(input("Axis 3 = "))
+        return volume_ellipsoid(axis1, axis2, axis3)
+    elif type.startswith('pri'):
+        shape_type = input("Enter the base shape type: ")
+        base_area = area(shape_type)
+        height = float(input("Height = "))
+        return volume_prism(base_area, height)
+    elif type.startswith('tet'):
+        side = float(input("Side = "))
+        return volume_tetrahedron(side)
+    elif type.startswith('oct'):
+        side = float(input("Side = "))
+        return volume_octahedron(side)
+    elif type.startswith('dod'):
+        side = float(input("Side = "))
+        return volume_dodecahedron(side)
+    elif type.startswith('ico'):
+        side = float(input("Side = "))
+        return volume_icosahedron(side)
+    else:
+        return "Unsupported shape type."
+
+def surface_area(type):
+    type = type.lower()
+    if type.startswith('cub'):
+        side = float(input("Side = "))
+        return surface_area_cube(side)
+    elif type.startswith('rec'):
+        length = float(input("Length = "))
+        width = float(input("Width = "))
+        height = float(input("Height = "))
+        return surface_area_rectangular_prism(length, width, height)
+    elif type.startswith('cyl'):
+        radius = float(input("Radius = "))
+        height = float(input("Height = "))
+        return surface_area_cylinder(radius, height)
+    elif type.startswith('con'):
+        radius = float(input("Radius = "))
+        height = float(input("Height = "))
+        return surface_area_cone(radius, height)
+    elif type.startswith('sph'):
+        radius = float(input("Radius = "))
+        return surface_area_sphere(radius)
+    elif type.startswith('ell'):
+        axis1 = float(input("Axis 1 = "))
+        axis2 = float(input("Axis 2 = "))
+        axis3 = float(input("Axis 3 = "))
+        return surface_area_ellipsoid(axis1, axis2, axis3)
+    elif type.startswith('pri'):
+        shape_type = input("Enter the base shape type: ")
+        base_area = area(shape_type)
+        base_perimeter = perimeter(shape_type)
+        height = float(input("Height = "))
+        return surface_area_prism(base_area, base_perimeter, height)
+    elif type.startswith('tet'):
+        side = float(input("Side = "))
+        return surface_area_tetrahedron(side)
+    elif type.startswith('oct'):
+        side = float(input("Side = "))
+        return surface_area_octahedron(side)
+    elif type.startswith('dod'):
+        side = float(input("Side = "))
+        return surface_area_dodecahedron(side)
+    elif type.startswith('ico'):
+        side = float(input("Side = "))
+        return surface_area_icosahedron(side)
+    else:
+        return "Unsupported shape type."

@@ -24,7 +24,7 @@ from services.cas import (
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
-from services.geoFormulas import Area, Perimeter, Volume, SurfaceArea
+from services.geometry import area, perimeter, volume, surface_area
 from services import vectorCalc as vm
 from services import triangleSolver as triangle
 from services import irrationals as irr
@@ -243,13 +243,13 @@ while True:
             if func.startswith('1'): print("Output:\n" + str(irr.gauss_legendre(int(input("How many decimal places would you like? ")) + 1)))
             elif func.startswith('2'): print("Output:\n" + str(irr.taylorE(int(input("How many decimal places would you like? ")))))
     elif func.startswith('3'):
-        print("Area: " + str(Area.area(input("What shape would you like to find the area of? "))))
+        print("Area: " + str(area(input("What shape would you like to find the area of? "))))
     elif func.startswith('4'):
-        print("Perimeter: " + str(Perimeter.perimeter(input("What shape would you like to find the perimeter of? "))))
+        print("Perimeter: " + str(perimeter(input("What shape would you like to find the perimeter of? "))))
     elif func.startswith('5'):
-        print("Volume: " + str(Volume.vol(input("What solid would you like to find the volume of? "))))
+        print("Volume: " + str(volume(input("What solid would you like to find the volume of? "))))
     elif func.startswith('6'):
-        print("Surface Area: " + str(SurfaceArea.sa(input("What solid would you like to find the surface area of? "))))
+        print("Surface Area: " + str(surface_area(input("What solid would you like to find the surface area of? "))))
     elif func.startswith('7'):
         func = "<<#TRIANGLE SOLVER#>>"
         triangle.triangle()
