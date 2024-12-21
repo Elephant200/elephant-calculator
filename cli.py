@@ -25,8 +25,8 @@ from services.vector import Vector
 from services.matrix import Matrix
 from services import triangleSolver as triangle
 from services import irrationals as irr
-from services import pythagGen as pythag
-from services import primeGen as prime
+from services import pythagorean as pythag
+from services import primes as prime
 from services import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... DONE")
