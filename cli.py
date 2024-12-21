@@ -21,7 +21,8 @@ clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
 from services.geometry import area, perimeter, volume, surface_area
-from services import vectorCalc as vm
+from services.vector import Vector
+from services.matrix import Matrix
 from services import triangleSolver as triangle
 from services import irrationals as irr
 from services import pythagGen as pythag
@@ -102,23 +103,23 @@ while True:
         clear()
         print(elephant)
         if func.startswith('1'):
-            print("Output:\n" + str(vm.add(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() + Matrix.input_matrix()))
         elif func.startswith('2'):
-            print("Output:\n" + str(vm.subtract(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() - Matrix.input_matrix()))
         elif func.startswith('3'):
-            print("Output:\n" + str(vm.multiplyVM(vm.inputVector(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() * Vector.input_vector()))
         elif func.startswith('4'):
-            print("Output:\n" + str(vm.multiplyMM(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() * Matrix.input_matrix()))
         elif func.startswith('5'):
-            print("Output:\n" + str(vm.pow(vm.inputMatrix(), int(input("To what power would you like to bring this matrix?")))))
+            print("Output:\n" + str(Matrix.input_matrix() **(int(input("To what power would you like to bring this matrix? ")))))
         elif func.startswith('6'):
-            print("Output:\n" + str(vm.det(vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix().determinant()))
         elif func.startswith('7'):
-            print("Output:\n" + str(vm.inverse(vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix().inverse()))
         elif func.startswith('8'):
-            print("Output:\n" + str(vm.cross(vm.inputVector(), vm.inputVector())))
+            print("Output:\n" + str(Vector.input_vector().cross(Vector.input_vector())))
         elif func.startswith('9'):
-            print("Output:\n" + str(vm.dot(vm.inputVector(), vm.inputVector())))
+            print("Output:\n" + str(Vector.input_vector().dot(Vector.input_vector())))
         #input()
     elif func.startswith('2'):
         func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n\n7. Cosine\n8. Tangent\n9. Inverse Trig Functions\n0. Legacy Algorithms (not recommended)\n").lower()
