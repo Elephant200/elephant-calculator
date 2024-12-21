@@ -1,3 +1,5 @@
+from math import sqrt
+
 class Vector:
 	def __init__(self, elements):
 		self.elements = elements
@@ -49,8 +51,9 @@ class Vector:
 	def input_vector():
 		while True:
 			try:
-				print("Enter vector elements separated by spaces:")
-				elements = list(map(float, input().replace(',',' ').replace('  ',' ').split()))
+				print("Enter vector elements separated by spaces: ")
+				elements = input().replace(',',' ').replace('  ',' ').split()
+				elements = [eval(x) for x in elements]
 				break
 			except:
 				print("Invalid vector, please try again.")

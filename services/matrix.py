@@ -1,3 +1,4 @@
+from math import sqrt
 import copy
 from .vector import Vector
 
@@ -127,7 +128,7 @@ class Matrix:
 			while True:
 				row = input(f"Row {i}: ").replace(',','').split(' ')
 				try:
-					row = [float(row[x]) for x in range(cols)]
+					row = [eval(row[x]) for x in range(cols)]
 					if len(row) != cols:
 						raise ValueError("Length of row does not match matrix width.")
 					break

@@ -65,6 +65,16 @@ def input_triangle():
     Returns:
         dict: The solved triangle's sides and angles.
     """
+    diagram = r"""
+              C
+             / \
+            /   \
+         c /     \ b
+          /       \
+         /_________\
+        A     a     B
+    """
+    print(diagram)
     print("Enter the known values. Leave unknowns blank.")
 
     a = input("Side a: ")
@@ -74,12 +84,12 @@ def input_triangle():
     B = input("Angle B (degrees): ")
     C = input("Angle C (degrees): ")
 
-    a = float(a) if a else None
-    b = float(b) if b else None
-    c = float(c) if c else None
-    A = float(A) if A else None
-    B = float(B) if B else None
-    C = float(C) if C else None
+    a = eval(a) if a else None
+    b = eval(b) if b else None
+    c = eval(c) if c else None
+    A = eval(A) if A else None
+    B = eval(B) if B else None
+    C = eval(C) if C else None
 
     try:
         result = solve_triangle(a, b, c, A, B, C)
