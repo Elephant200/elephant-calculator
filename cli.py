@@ -16,11 +16,7 @@ import sys
 from time import sleep, time
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy...\n - Loading files... ")
-from services.cas import (
-    factor_expression, expand_expression, simplify_expression,
-    derivative, indefinite_integral, definite_integral,
-    solve_single_variable, solve_multivariable, solve_differential
-)
+from services.cas import cas_cli
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
@@ -91,103 +87,7 @@ if input("Would you like to read the reviews? (y/n) ").startswith('y'):
 
 func = ''
 
-def cas_cli():
-    elephant = r"""            
-            __     __
-           /  \~~~/  \
-     ,----(     ..    )
-    /      \__     __/
-   /|         (\  |(
-  ^ \   /___\  /\ |   
-     |__|   |__|-"    
-"""
-    while True:
-        clear()
-        print("The Elephant CAS (Command Line Interface)")
-        print(elephant)
-        print("\nPlease enter the task. (type QUIT to exit)")
-        print("1. Factor")
-        print("2. Expand")
-        print("3. Simplify")
-        print("4. Derivative")
-        print("5. Indefinite Integrals")
-        print("6. Definite Integrals")
-        print("7. Solve Single-Variable Equation")
-        print("8. Solve Multi-Variable Equations")
-        print("9. Solve Differential Equation")
-        task = input()
 
-        if task.upper().startswith('Q'):
-            print("Goodbye!")
-            break
-
-        if task == '1':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Factor\nPlease input your expression: ")
-            input("Result: " + factor_expression(expression))
-
-        elif task == '2':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Expand\nPlease input your expression: ")
-            input("Result: " + expand_expression(expression))
-
-        elif task == '3':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Simplify\nPlease input your expression: ")
-            input("Result: " + simplify_expression(expression))
-
-        elif task == '4':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Derivative\nPlease input your expression: ")
-            input("Result: " + derivative(expression))
-
-        elif task == '5':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Indefinite Integrals\nPlease input your expression: ")
-            variable = input("What variable would you like to integrate with respect to? ")
-            input("Result: " + indefinite_integral(expression, variable))
-
-        elif task == '6':
-            clear()
-            print(elephant)
-            expression = input("\nTask: Definite Integrals\nPlease input your expression: ")
-            variable = input("What variable would you like to integrate over? ")
-            lower_limit = input("Lower limit: ")
-            upper_limit = input("Upper limit: ")
-            input("Result: " + definite_integral(expression, variable, lower_limit, upper_limit))
-
-        elif task == '7':
-            clear()
-            print(elephant)
-            equation = input("\nTask: Solve Single-Variable Equation\nWrite your equation (e.g., x^2=4): ")
-            variable = input("In what variable will your equation be? ")
-            input("Result: " + solve_single_variable(equation, variable))
-
-        elif task == '8':
-            clear()
-            print(elephant)
-            num_eqs = int(input("\nTask: Solve Multi-Variable Equations\nHow many equations will you input? "))
-            equations = []
-            for i in range(num_eqs):
-                equations.append(input(f"Equation {i+1}: "))
-            variables = input("What variables will your equation have? Separate with commas: ")
-            input("Result: " + solve_multivariable(equations, variables))
-
-        elif task == '9':
-            clear()
-            print(elephant)
-            equation = input("\nTask: Solve Differential Equation\nPlease enter your differential equation (e.g., y'+y=0): ")
-            input("Result: " + solve_differential(equation))
-
-        else:
-            clear()
-            print(elephant)
-            input("Invalid selection. Please try again.")
 
 while True:
     if func != "<<#TRIANGLE SOLVER#>>" and func != "<<#CAS#>>": input("\nPress Enter to continue.")
