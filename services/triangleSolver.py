@@ -1,148 +1,95 @@
-from math import sqrt, pi, sin, cos, acos
-import os
+from math import sin, cos, tan, radians, degrees, sqrt, asin, acos, atan
 
-elephant = r"""            __     __
-           /  \~~~/  \
-     ,----(     ..    )
-    /      \__     __/
-   /|         (\  |(
-  ^ \   /___\  /\ |   
-     |__|   |__|-"    
-"""
+def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
+    """
+    Solves a triangle given sufficient inputs using the law of sines or law of cosines.
 
-clear = lambda : os.system('clear')
+    Parameters:
+        a, b, c (float): Sides of the triangle.
+        A, B, C (float): Angles of the triangle (in degrees).
 
-def diagram():
-    print("""Diagram (not to scale):
-        B
-        /\\
-       /  \\
-    c /    \\ a
-     /      \\
-    /        \\
-  A ---------- C
-         b""")
+    Returns:
+        dict: A dictionary containing all sides and angles of the triangle.
 
-def triangle():
-    print("""Here is a diagram of the triangle (not to scale):
-        B
-        /\\
-       /  \\
-    c /    \\ a
-     /      \\
-    /        \\
-  A ---------- C
-         b""")
-    type = input("Which congruence theorem would you like to use? (SSS, SAS, AAS, ASA)\n").upper()
-    while type not in ["SSS", "SAS", "AAS", "ASA"]:
-        type = input("Invalid congruence theorem. Please try again.\nWhich congruence theorem would you like to use? (SSS, SAS, AAS, ASA)\n").upper()
-    clear()
-    print(elephant)
-    diagram()
-    eval("" + type + "()")
+    Raises:
+        ValueError: If insufficient or inconsistent inputs are provided.
+    """
+    if sum(1 for x in [a, b, c, A, B, C] if x is not None) < 3:
+        raise ValueError("At least three parameters (including one side) are required to solve the triangle.")
 
-def SSS():
-    a = float(eval(input("a = ")))
-    b = float(eval(input("b = ")))
-    c = float(eval(input("c = ")))
-    clear()
-    print(elephant)
-    diagram()
-    A = round(acos((b*b + c*c - a*a) / (2*b*c)) * 180 / pi, 10)
-    B = round(acos((a*a + c*c - b*b) / (2*a*c)) * 180 / pi, 10)
-    C = round(acos((a*a + b*b - c*c) / (2*a*b)) * 180 / pi, 10)
-    input("A = %s deg\nB = %s deg\nC = %s deg\na = %s\nb = %s\nc = %s\nPress enter to continue." % (A, B, C, a, b, c))
-def SAS():
-    center = input("Which point will your angle be about? (A, B, C)").upper()
-    while center not in list("ABC"): center = input("Invalid point. Please try again.\nWhich point will your angle be about? (A, B, C)").upper()
-    if center == "A":
-        A = float(eval(input("A = ")))
-        b = float(eval(input("b = ")))
-        c = float(eval(input("c = ")))
-        a = round(sqrt(b*b + c*c - 2*b*c*cos(A / 180 * pi)), 10)
-        B = round(acos((a*a + c*c - b*b) / (2*a*c)) * 180 / pi, 10)
-        C = round(acos((a*a + b*b - c*c) / (2*a*b)) * 180 / pi, 10)
-    elif center == "B":
-        B = float(eval(input("B = ")))
-        a = float(eval(input("a = ")))
-        c = float(eval(input("c = ")))
-        b = round(sqrt(a*a + c*c - 2*a*c*cos(B / 180 * pi)), 10)
-        A = round(acos((b*b + c*c - a*a) / (2*b*c)) * 180 / pi, 10)
-        C = round(acos((a*a + b*b - c*c) / (2*a*b)) * 180 / pi, 10)
-    elif center == "C":
-        C = float(eval(input("C = ")))
-        a = float(eval(input("a = ")))
-        b = float(eval(input("b = ")))
-        c = round(sqrt(b*b + a*a - 2*b*a*cos(C / 180 * pi)), 10)
-        B = round(acos((a*a + c*c - b*b) / (2*a*c)) * 180 / pi, 10)
-        A = round(acos((b*b + c*c - a*a) / (2*b*c)) * 180 / pi, 10)
-    clear()
-    print(elephant)
-    diagram()
-    input("A = %s\nB = %s\nC = %s\na = %s\nb = %s\nc = %s\nPress enter to continue." % (A, B, C, a, b, c))
-def AAS():
-    print("Please input 2 of the below angles. ")
-    try: 
-        A = float(eval(input("A = ")))
-        try:
-            B = float(eval(input("B = ")))
-            C = 180 - A - B
-        except:
-            C = float(eval(input("C = ")))
-            B = 180 - A - C
-    except: 
-        B = float(eval(input("B = ")))
-        C = float(eval(input("C = ")))
-        A = 180 - B - C
-    center = input("Which side will you input? (a, b, c)").lower()
-    while center not in list("abc"): center = input("Invalid point. Please try again.\nWhich point will your angle be about? (a, b, c)").lower()
-    if center == "a":
-        a = float(eval(input("a = ")))
-        b = round(a*sin(B*pi/180)/sin(A*pi/180),10)
-        c = round(a*sin(C*pi/180)/sin(A*pi/180),10)
-    elif center == "b":
-        b = float(eval(input("b = ")))
-        a = round(b*sin(A*pi/180)/sin(B*pi/180),10)
-        c = round(b*sin(C*pi/180)/sin(B*pi/180),10)
-    elif center == "c":
-        c = float(eval(input("c = ")))
-        a = round(c*sin(A*pi/180)/sin(C*pi/180),10)
-        b = round(c*sin(B*pi/180)/sin(C*pi/180),10)
-    clear()
-    print(elephant)
-    diagram()
-    input("A = %s\nB = %s\nC = %s\na = %s\nb = %s\nc = %s\nPress enter to continue." % (A, B, C, a, b, c))
-            
-def ASA():
-    AAS()
+    if A: A = radians(A)
+    if B: B = radians(B)
+    if C: C = radians(C)
 
-"""
-if input("Is this a right triangle? (y/n)").lower().startswith('y'):
-            print(\"\"\"
- A
- |\\
- | \\
- |  \\
-b|   \\ c              
- |    \\
- |     \\
- C------B
-     a\"\"\")
-            self.type = "RIGHT"
-            self.a, self.b, self.c, self.A, self.B, self.C = None, None, None, None, None, None
-            while self.type not in ["HL", "LL", "AL", "AH"]:
-                self.type = input("Which congruence theorem will you be using? (HL, LL, AL, AH) ").upper()
-            if self.type == "HL":
-                self.a = float(eval(input("a = ")))
-                self.c = float(eval(input("c = ")))
-            elif self.type == "LL":
-                self.a = float(eval(input("a = ")))
-                self.b = float(eval(input("b = ")))
-            elif self.type == "AL":
-                self.A = float(eval(input("A = ")))
-                self.a = float(eval(input("a = ")))
-            elif self.type == "AH":
-                self.A = float(eval(input("A = ")))
-                self.c = float(eval(input("c = ")))
-            return
-"""
+    # Use the law of sines or law of cosines based on available data
+    if a and b and c:
+        A = acos((b**2 + c**2 - a**2) / (2 * b * c))
+        B = acos((a**2 + c**2 - b**2) / (2 * a * c))
+        C = acos((a**2 + b**2 - c**2) / (2 * a * b))
+    elif a and b and A:
+        B = asin(b * sin(A) / a)
+        C = radians(180) - A - B
+        c = a * sin(C) / sin(A)
+    elif a and c and A:
+        C = asin(c * sin(A) / a)
+        B = radians(180) - A - C
+        b = a * sin(B) / sin(A)
+    elif b and c and B:
+        C = asin(c * sin(B) / b)
+        A = radians(180) - B - C
+        a = b * sin(A) / sin(B)
+    elif a and c and C:
+        A = asin(a * sin(C) / c)
+        B = radians(180) - A - C
+        b = a * sin(B) / sin(A)
+    elif a and b and C:
+        A = asin(a * sin(C) / c)
+        B = radians(180) - A - C
+        c = a * sin(C) / sin(A)
+    else:
+        raise ValueError("Insufficient or inconsistent data to solve the triangle.")
+
+    return {
+        'a': a,
+        'b': b,
+        'c': c,
+        'A': degrees(A),
+        'B': degrees(B),
+        'C': degrees(C)
+    }
+
+def input_triangle():
+    """
+    Interactively solves a triangle based on user input.
+
+    Returns:
+        dict: The solved triangle's sides and angles.
+    """
+    print("Enter the known values. Leave unknowns blank.")
+
+    a = input("Side a: ")
+    b = input("Side b: ")
+    c = input("Side c: ")
+    A = input("Angle A (degrees): ")
+    B = input("Angle B (degrees): ")
+    C = input("Angle C (degrees): ")
+
+    a = float(a) if a else None
+    b = float(b) if b else None
+    c = float(c) if c else None
+    A = float(A) if A else None
+    B = float(B) if B else None
+    C = float(C) if C else None
+
+    try:
+        result = solve_triangle(a, b, c, A, B, C)
+        print("\nSolved Triangle:")
+        for key, value in result.items():
+            print(f"{key}: {value:.2f}")
+        return result
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+if __name__ == "__main__":
+    input_triangle()

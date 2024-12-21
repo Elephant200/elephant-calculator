@@ -165,7 +165,7 @@ while True:
         print("Surface Area: " + str(surface_area(input("What solid would you like to find the surface area of? "))))
     elif func.startswith('7'):
         func = "<<#TRIANGLE SOLVER#>>"
-        triangle.triangle()
+        triangle.triangle_solver()
     elif func.startswith('8'):
         if input("Would you like to generate\n1. Primitive Pythagorean Triples\n2. Any Pythagorean Triple\n").startswith('1'): pythag.generatePrimitive(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
         else: pythag.generate(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
