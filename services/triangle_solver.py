@@ -1,5 +1,5 @@
 from math import sin, cos, tan, radians, degrees, sqrt, asin, acos, atan
-from ..utils.validators import parse_input
+from utils.validators import parse_input
 
 def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
 	"""
@@ -132,7 +132,7 @@ def input_triangle():
 		print("\nSolved Triangle:")
 		for key, value in result.items():
 			print(f"{key}: {value:.2f}")
-			input("Press enter to continue.")
+		input("Press enter to continue.")
 		return result
 	except ValueError as e:
 		print(f"Error: {e}")

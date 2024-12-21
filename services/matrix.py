@@ -1,7 +1,7 @@
 from math import sqrt
 import copy
 from .vector import Vector
-from ..utils.validators import parse_input
+from utils.validators import parse_input
 
 class Matrix:
 	def __init__(self, elements):

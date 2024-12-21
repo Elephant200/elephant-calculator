@@ -1,5 +1,5 @@
 from math import sqrt
-from ..utils.validators import parse_input
+from utils.validators import parse_input
 
 class Vector:
 	def __init__(self, elements):
