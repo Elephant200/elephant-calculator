@@ -122,7 +122,7 @@ while True:
             print("Output:\n" + str(Vector.input_vector().dot(Vector.input_vector())))
         #input()
     elif func.startswith('2'):
-        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n\n7. Cosine\n8. Tangent\n9. Inverse Trig Functions\n0. Legacy Algorithms (not recommended)\n").lower()
+        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n7. Cosine\n8. Tangent\n9. Inverse Trig Functions\n0. Legacy Algorithms (not recommended)\n").lower()
         clear()
         print(elephant)
         if func.startswith('1'):
@@ -167,13 +167,13 @@ while True:
         func = "<<#TRIANGLE SOLVER#>>"
         triangle.triangle()
     elif func.startswith('8'):
-        if input("Would you like to generate\n1. Primitive Pythagorean Triples\n2. Any Pythagorean Triple\n").startswith('1'): pythag.generatePrimitive(int(input("What is the maximum hypotenuse length you would like to allow? ")))
-        else: pythag.generate(int(input("What is the maximum hypotenuse length you would like to allow? ")))
+        if input("Would you like to generate\n1. Primitive Pythagorean Triples\n2. Any Pythagorean Triple\n").startswith('1'): pythag.generatePrimitive(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
+        else: pythag.generate(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
     elif func.startswith('9'):
         func = input("Would you like to\n1. Determine if a number is prime\n2. Calculate the nth prime number\n3. Generate the first n prime numbers\n4. Find the prime factorization of a number\n")
         if func.startswith('1'): print(prime.isPrime(int(input("Number to test: "))))
         elif func.startswith('2'): print(prime.nthPrime(int(input("n = "))))
-        elif func.startswith('3'): print(prime.firstPrimes(int(input("n = "))))
+        elif func.startswith('3'): prime.firstPrimes(int(input("n = ")), printIt = True)
         elif func.startswith('4'): print(prime.strPrimeFacs(int(input("n = "))))
     elif func.startswith('0'):
         func = "<<#CAS#>>"
