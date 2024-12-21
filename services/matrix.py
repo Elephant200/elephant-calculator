@@ -1,6 +1,7 @@
 from math import sqrt
 import copy
 from .vector import Vector
+from ..utils.validators import parse_input
 
 class Matrix:
 	def __init__(self, elements):
@@ -128,7 +129,7 @@ class Matrix:
 			while True:
 				row = input(f"Row {i}: ").replace(',','').split(' ')
 				try:
-					row = [eval(row[x]) for x in range(cols)]
+					row = [parse_input(row[x]) for x in range(cols)]
 					if len(row) != cols:
 						raise ValueError("Length of row does not match matrix width.")
 					break

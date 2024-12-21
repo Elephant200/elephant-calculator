@@ -1,4 +1,5 @@
 from math import sqrt
+from ..utils.validators import parse_input
 
 class Vector:
 	def __init__(self, elements):
@@ -53,7 +54,7 @@ class Vector:
 			try:
 				print("Enter vector elements separated by spaces: ")
 				elements = input().replace(',',' ').replace('  ',' ').split()
-				elements = [eval(x) for x in elements]
+				elements = [parse_input(x) for x in elements]
 				break
 			except:
 				print("Invalid vector, please try again.")
