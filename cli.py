@@ -16,16 +16,17 @@ import sys
 from time import sleep, time
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy...\n - Loading files... ")
-from services import cas
+from services.cas import cas_cli
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... ")
 from inputimeout import inputimeout
-from services.geoFormulas import Area, Perimeter, Volume, SurfaceArea
-from services import vectorCalc as vm
-from services import triangleSolver as triangle
+from services.geometry import area, perimeter, volume, surface_area
+from services.vector import Vector
+from services.matrix import Matrix
+from services import triangle_solver as triangle
 from services import irrationals as irr
-from services import pythagGen as pythag
-from services import primeGen as prime
+from services import pythagorean as pythag
+from services import primes as prime
 from services import cas
 clear()
 print(" - Loading os... DONE\n - Loading sys... DONE\n - Loading time... DONE\n - Loading sympy... DONE\n - Loading files... DONE")
@@ -87,6 +88,8 @@ if input("Would you like to read the reviews? (y/n) ").startswith('y'):
 
 func = ''
 
+
+
 while True:
     if func != "<<#TRIANGLE SOLVER#>>" and func != "<<#CAS#>>": input("\nPress Enter to continue.")
     clear()
@@ -100,26 +103,26 @@ while True:
         clear()
         print(elephant)
         if func.startswith('1'):
-            print("Output:\n" + str(vm.add(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() + Matrix.input_matrix()))
         elif func.startswith('2'):
-            print("Output:\n" + str(vm.subtract(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() - Matrix.input_matrix()))
         elif func.startswith('3'):
-            print("Output:\n" + str(vm.multiplyVM(vm.inputVector(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() * Vector.input_vector()))
         elif func.startswith('4'):
-            print("Output:\n" + str(vm.multiplyMM(vm.inputMatrix(), vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix() * Matrix.input_matrix()))
         elif func.startswith('5'):
-            print("Output:\n" + str(vm.pow(vm.inputMatrix(), int(input("To what power would you like to bring this matrix?")))))
+            print("Output:\n" + str(Matrix.input_matrix() **(int(input("To what power would you like to bring this matrix? ")))))
         elif func.startswith('6'):
-            print("Output:\n" + str(vm.det(vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix().determinant()))
         elif func.startswith('7'):
-            print("Output:\n" + str(vm.inverse(vm.inputMatrix())))
+            print("Output:\n" + str(Matrix.input_matrix().inverse()))
         elif func.startswith('8'):
-            print("Output:\n" + str(vm.cross(vm.inputVector(), vm.inputVector())))
+            print("Output:\n" + str(Vector.input_vector().cross(Vector.input_vector())))
         elif func.startswith('9'):
-            print("Output:\n" + str(vm.dot(vm.inputVector(), vm.inputVector())))
+            print("Output:\n" + str(Vector.input_vector().dot(Vector.input_vector())))
         #input()
     elif func.startswith('2'):
-        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n7. Legacy Algorithms\n").lower()
+        func = input("What function would you like to use?\n1. Square Root Calculator\n2. nth Root Calculator\n3. Power of a Number Calculator\n4. Digits of pi\n5. Digits of e\n6. Sine\n7. Cosine\n8. Tangent\n9. Inverse Trig Functions\n0. Legacy Algorithms (not recommended)\n").lower()
         clear()
         print(elephant)
         if func.startswith('1'):
@@ -134,35 +137,47 @@ while True:
             print("Output:\n" + str(irr.advancedE(int(int(input("How many decimal places would you like? "))))))
         elif func.startswith('6'): #sin
             print("Output:\n" + str(irr.sin(float(input("What angle (in degrees) would you like to find the sine of? ")), int(input("How many decimal places would you like? ")), False)))
-        elif func.startswith('7'):
+        elif func.startswith('7'): #cos
+            print("Output:\n" + str(irr.cos(float(input("What angle (in degrees) would you like to find the cosine of? ")), int(input("How many decimal places would you like? ")), False)))
+        elif func.startswith('8'): #tan
+            print("Output:\n" + str(irr.tan(float(input("What angle (in degrees) would you like to find the tangent of? ")), int(input("How many decimal places would you like? ")), False)))
+        elif func.startswith('9'): #inverse
+            subfunc = input("1. arcsin\n2. arccos\n3. arctan")
+            if subfunc.startswith('1'):
+                print("Output:\n" + str(irr.arcsin(float(input("What would you like to find the inverse sine of? ")), int(input("How many decimal places would you like? ")), True)))
+            if subfunc.startswith('2'):
+                print("Output:\n" + str(irr.arccos(float(input("What would you like to find the inverse cosine of? ")), int(input("How many decimal places would you like? ")), True)))
+            if subfunc.startswith('3'):
+                print("Output:\n" + str(irr.arctan(float(input("What would you like to find the inverse tangent of? ")), int(input("How many decimal places would you like? ")), True)))
+        elif func.startswith('0'):
             clear()
             print(elephant)
             func = input("What legacy function would you like to use?\n1. Gauss-Legendre Algorithm (PI)\n2. Taylor Series for E\n")
             if func.startswith('1'): print("Output:\n" + str(irr.gauss_legendre(int(input("How many decimal places would you like? ")) + 1)))
             elif func.startswith('2'): print("Output:\n" + str(irr.taylorE(int(input("How many decimal places would you like? ")))))
     elif func.startswith('3'):
-        print("Area: " + str(Area.area(input("What shape would you like to find the area of? "))))
+        print("Area: " + str(area(input("What shape would you like to find the area of? "))))
     elif func.startswith('4'):
-        print("Perimeter: " + str(Perimeter.perimeter(input("What shape would you like to find the perimeter of? "))))
+        print("Perimeter: " + str(perimeter(input("What shape would you like to find the perimeter of? "))))
     elif func.startswith('5'):
-        print("Volume: " + str(Volume.vol(input("What solid would you like to find the volume of? "))))
+        print("Volume: " + str(volume(input("What solid would you like to find the volume of? "))))
     elif func.startswith('6'):
-        print("Surface Area: " + str(SurfaceArea.sa(input("What solid would you like to find the surface area of? "))))
+        print("Surface Area: " + str(surface_area(input("What solid would you like to find the surface area of? "))))
     elif func.startswith('7'):
         func = "<<#TRIANGLE SOLVER#>>"
-        triangle.triangle()
+        triangle.input_triangle()
     elif func.startswith('8'):
-        if input("Would you like to generate\n1. Primitive Pythagorean Triples\n2. Any Pythagorean Triple\n").startswith('1'): pythag.generatePrimitive(int(input("What is the maximum hypotenuse length you would like to allow? ")))
-        else: pythag.generate(int(input("What is the maximum hypotenuse length you would like to allow? ")))
+        if input("Would you like to generate\n1. Primitive Pythagorean Triples\n2. Any Pythagorean Triple\n").startswith('1'): pythag.generatePrimitive(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
+        else: pythag.generate(int(input("What is the maximum hypotenuse length you would like to allow? ")), printIt = True)
     elif func.startswith('9'):
         func = input("Would you like to\n1. Determine if a number is prime\n2. Calculate the nth prime number\n3. Generate the first n prime numbers\n4. Find the prime factorization of a number\n")
         if func.startswith('1'): print(prime.isPrime(int(input("Number to test: "))))
         elif func.startswith('2'): print(prime.nthPrime(int(input("n = "))))
-        elif func.startswith('3'): print(prime.firstPrimes(int(input("n = "))))
+        elif func.startswith('3'): prime.firstPrimes(int(input("n = ")), printIt = True)
         elif func.startswith('4'): print(prime.strPrimeFacs(int(input("n = "))))
     elif func.startswith('0'):
         func = "<<#CAS#>>"
-        cas.hub()
+        cas_cli()
     elif func.startswith('admin'):
         if input("Password: ") == "elephantus":
             print("Sucess! Admin mode entered. ")
