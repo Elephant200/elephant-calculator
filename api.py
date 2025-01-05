@@ -10,3 +10,4 @@ app.include_router(geometry.router, prefix="/geometry", tags=["Geometry"])
 app.include_router(triangle_solver.router, prefix="/triangles", tags=["Triangle Solver"])
 app.include_router(irrationals.router, prefix="/irrationals", tags=["High-Precision"])
 app.include_router(cas.router, prefix="/cas", tags=["CAS"])
+
