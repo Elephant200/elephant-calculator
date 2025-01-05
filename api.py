@@ -10,3 +10,13 @@ app.include_router(geometry.router, prefix="/geometry", tags=["Geometry"])
 app.include_router(triangle_solver.router, prefix="/triangles", tags=["Triangle Solver"])
 app.include_router(irrationals.router, prefix="/irrationals", tags=["High-Precision"])
 app.include_router(cas.router, prefix="/cas", tags=["CAS"])
+
+# For testing purposes
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "api:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True
+    )
