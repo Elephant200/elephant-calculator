@@ -175,7 +175,7 @@ Each endpoint corresponds to a feature in your calculator. The endpoints are gro
    source .venv/bin/activate
    ```
    
-   *On Windows:
+   * On Windows:
    ```cmd
    .venv\Scripts\activate
    ```
