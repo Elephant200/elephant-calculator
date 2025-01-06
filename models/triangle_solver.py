@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 class TriangleRequest(BaseModel):
     a: float = Field(None, description="Length of side a (optional).")
@@ -20,9 +20,19 @@ class TriangleRequest(BaseModel):
             raise ValueError(f"{field.name} (angle) must be in the range (0, 180) degrees.")
         return v
 
-    @field_validator(mode="before")
+    @model_validator(mode="after")
     def validate_sufficient_inputs(cls, values):
-        provided = sum(1 for v in values.values() if v is not None)
-        if provided < 3:
+        """
+        Ensure at least three inputs, including one side, are provided.
+        """
+        sides = [values.get("a"), values.get("b"), values.get("c")]
+        angles = [values.get("A"), values.get("B"), values.get("C")]
+
+        # Count the number of non-None values
+        provided_sides = sum(1 for side in sides if side is not None)
+        provided_angles = sum(1 for angle in angles if angle is not None)
+
+        if provided_sides + provided_angles < 3 or provided_sides < 1:
             raise ValueError("At least three parameters, including one side, must be provided.")
+
         return values

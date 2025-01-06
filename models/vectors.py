@@ -10,7 +10,7 @@ class VectorOperation(BaseModel):
             raise ValueError(f"{field.name} must be a non-empty list of numeric values.")
         return vector
 
-    @field_validator(mode="after")
+    @field_validator("vector1", "vector2", mode="after")
     def validate_matching_dimensions(cls, values):
         if len(values.vector1) != len(values.vector2):
             raise ValueError("vector1 and vector2 must have the same dimensions.")
