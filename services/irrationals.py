@@ -53,6 +53,9 @@ def pi(precision=100):
     if precision <= 50: return gauss_legendre(precision)
     return chudnovsky(precision // 8)
 
+def e(precision=100):
+    return advancedE(precision)
+
 
 def gauss_legendre(precision=100):
     getcontext().prec = precision + 10

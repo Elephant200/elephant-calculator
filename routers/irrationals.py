@@ -67,7 +67,7 @@ def compute_e(precision: int = Query(DEFAULT_PRECISION, description="Precision f
     """
     Compute the value of e with specified precision.
     """
-    return str(e(precision=precision))
+    return str(advancedE(precision=precision))
 
 
 @router.post("/sin", response_model=str)
