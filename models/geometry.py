@@ -1,10 +1,10 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, field_validator
 import math
 
 class Circle(BaseModel):
-    radius: float
+    radius: float = Field(..., description="The radius of the circle.")
 
-    @validator("radius")
+    @field_validator("radius")
     def validate_radius(cls, v):
         if v <= 0:
             raise ValueError("Radius must be greater than zero.")
@@ -12,9 +12,9 @@ class Circle(BaseModel):
 
 
 class SemiCircle(BaseModel):
-    radius: float
+    radius: float = Field(..., description="The radius of the semicircle.")
 
-    @validator("radius")
+    @field_validator("radius")
     def validate_radius(cls, v):
         if v <= 0:
             raise ValueError("Radius must be greater than zero.")
@@ -22,27 +22,28 @@ class SemiCircle(BaseModel):
 
 
 class Ellipse(BaseModel):
-    semi_major: float
-    semi_minor: float
+    semi_major: float = Field(..., description="The semi-major axis of the ellipse.")
+    semi_minor: float = Field(..., description="The semi-minor axis of the ellipse.")
 
-    @validator("semi_major", "semi_minor")
+    @field_validator("semi_major", "semi_minor")
     def validate_axes(cls, v):
         if v <= 0:
             raise ValueError("Axes must be greater than zero.")
         return v
 
-    @validator("semi_minor")
-    def minor_less_than_major(cls, v, values):
-        if "semi_major" in values and v > values["semi_major"]:
+    @field_validator("semi_minor")
+    def validate_minor_less_than_major(cls, v, values):
+        semi_major = values.get("semi_major")
+        if semi_major and v > semi_major:
             raise ValueError("Semi-minor axis must be less than or equal to semi-major axis.")
         return v
 
 
 class Rectangle(BaseModel):
-    length: float
-    width: float
+    length: float = Field(..., description="The length of the rectangle.")
+    width: float = Field(..., description="The width of the rectangle.")
 
-    @validator("length", "width")
+    @field_validator("length", "width")
     def validate_dimensions(cls, v):
         if v <= 0:
             raise ValueError("Length and width must be greater than zero.")
@@ -50,9 +51,9 @@ class Rectangle(BaseModel):
 
 
 class Square(BaseModel):
-    side: float
+    side: float = Field(..., description="The side length of the square.")
 
-    @validator("side")
+    @field_validator("side")
     def validate_side(cls, v):
         if v <= 0:
             raise ValueError("Side length must be greater than zero.")
@@ -60,17 +61,17 @@ class Square(BaseModel):
 
 
 class Parallelogram(BaseModel):
-    side1: float
-    side2: float
-    theta: float
+    side1: float = Field(..., description="The length of the first side.")
+    side2: float = Field(..., description="The length of the second side.")
+    theta: float = Field(..., description="The angle (in degrees) between the two sides.")
 
-    @validator("side1", "side2")
+    @field_validator("side1", "side2")
     def validate_sides(cls, v):
         if v <= 0:
             raise ValueError("Sides must be greater than zero.")
         return v
 
-    @validator("theta")
+    @field_validator("theta")
     def validate_theta(cls, v):
         if v <= 0 or v >= 180:
             raise ValueError("Theta must be in the range (0, 180) degrees.")
@@ -78,10 +79,10 @@ class Parallelogram(BaseModel):
 
 
 class Rhombus(BaseModel):
-    diagonal1: float
-    diagonal2: float
+    diagonal1: float = Field(..., description="The length of the first diagonal.")
+    diagonal2: float = Field(..., description="The length of the second diagonal.")
 
-    @validator("diagonal1", "diagonal2")
+    @field_validator("diagonal1", "diagonal2")
     def validate_diagonals(cls, v):
         if v <= 0:
             raise ValueError("Diagonals must be greater than zero.")
@@ -89,28 +90,28 @@ class Rhombus(BaseModel):
 
 
 class Trapezoid(BaseModel):
-    base1: float
-    base2: float
-    height: float
+    base1: float = Field(..., description="The length of the first base.")
+    base2: float = Field(..., description="The length of the second base.")
+    height: float = Field(..., description="The height of the trapezoid.")
 
-    @validator("base1", "base2", "height")
-    def validate_trapezoid_dimensions(cls, v):
+    @field_validator("base1", "base2", "height")
+    def validate_dimensions(cls, v):
         if v <= 0:
             raise ValueError("Base lengths and height must be greater than zero.")
         return v
 
 
 class Polygon(BaseModel):
-    sides: int
-    side_length: float
+    sides: int = Field(..., description="The number of sides of the polygon.")
+    side_length: float = Field(..., description="The length of each side.")
 
-    @validator("sides")
+    @field_validator("sides")
     def validate_sides(cls, v):
         if v < 3:
             raise ValueError("A polygon must have at least 3 sides.")
         return v
 
-    @validator("side_length")
+    @field_validator("side_length")
     def validate_side_length(cls, v):
         if v <= 0:
             raise ValueError("Side length must be greater than zero.")
@@ -118,17 +119,17 @@ class Polygon(BaseModel):
 
 
 class TriangleHeron(BaseModel):
-    side1: float
-    side2: float
-    side3: float
+    side1: float = Field(..., description="The length of the first side.")
+    side2: float = Field(..., description="The length of the second side.")
+    side3: float = Field(..., description="The length of the third side.")
 
-    @validator("side1", "side2", "side3")
+    @field_validator("side1", "side2", "side3")
     def validate_sides(cls, v):
         if v <= 0:
             raise ValueError("Sides must be greater than zero.")
         return v
 
-    @validator("side3")
+    @field_validator("side3")
     def validate_triangle_inequality(cls, v, values):
         a, b = values.get("side1"), values.get("side2")
         if a and b and (a + b <= v or a + v <= b or b + v <= a):
@@ -137,17 +138,17 @@ class TriangleHeron(BaseModel):
 
 
 class TriangleSAS(BaseModel):
-    side1: float
-    side2: float
-    angle: float
+    side1: float = Field(..., description="The length of the first side.")
+    side2: float = Field(..., description="The length of the second side.")
+    angle: float = Field(..., description="The included angle (in degrees).")
 
-    @validator("side1", "side2")
+    @field_validator("side1", "side2")
     def validate_sides(cls, v):
         if v <= 0:
             raise ValueError("Sides must be greater than zero.")
         return v
 
-    @validator("angle")
+    @field_validator("angle")
     def validate_angle(cls, v):
         if v <= 0 or v >= 180:
             raise ValueError("Angle must be in the range (0, 180) degrees.")
@@ -155,10 +156,10 @@ class TriangleSAS(BaseModel):
 
 
 class TriangleBaseHeight(BaseModel):
-    base: float
-    height: float
+    base: float = Field(..., description="The base length of the triangle.")
+    height: float = Field(..., description="The height of the triangle.")
 
-    @validator("base", "height")
+    @field_validator("base", "height")
     def validate_base_and_height(cls, v):
         if v <= 0:
             raise ValueError("Base and height must be greater than zero.")
@@ -166,9 +167,9 @@ class TriangleBaseHeight(BaseModel):
 
 
 class Cube(BaseModel):
-    side: float
+    side: float = Field(..., description="The side length of the cube.")
 
-    @validator("side")
+    @field_validator("side")
     def validate_side(cls, v):
         if v <= 0:
             raise ValueError("Side length must be greater than zero.")
@@ -176,11 +177,11 @@ class Cube(BaseModel):
 
 
 class RectangularPrism(BaseModel):
-    length: float
-    width: float
-    height: float
+    length: float = Field(..., description="The length of the rectangular prism.")
+    width: float = Field(..., description="The width of the rectangular prism.")
+    height: float = Field(..., description="The height of the rectangular prism.")
 
-    @validator("length", "width", "height")
+    @field_validator("length", "width", "height")
     def validate_dimensions(cls, v):
         if v <= 0:
             raise ValueError("Length, width, and height must be greater than zero.")
@@ -188,18 +189,18 @@ class RectangularPrism(BaseModel):
 
 
 class Prism(BaseModel):
-    base_area: float
-    base_perimeter: float = None
-    height: float
+    base_area: float = Field(..., description="The base area of the prism.")
+    base_perimeter: float = Field(None, description="The base perimeter of the prism (optional).")
+    height: float = Field(..., description="The height of the prism.")
 
-    @validator("base_area", "height")
-    def validate_area_and_height(cls, v):
+    @field_validator("base_area", "height")
+    def validate_base_area_and_height(cls, v):
         if v <= 0:
             raise ValueError("Base area and height must be greater than zero.")
         return v
 
-    @validator("base_perimeter", always=True)
-    def validate_perimeter(cls, v):
+    @field_validator("base_perimeter", mode="before")
+    def validate_base_perimeter(cls, v):
         if v is not None and v <= 0:
             raise ValueError("Base perimeter must be greater than zero if provided.")
         return v

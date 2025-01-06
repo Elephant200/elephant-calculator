@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query
-from models.irrationals import ArithmeticOperation, UnaryOperation, TrigonometricOperation, RootOperation
+from models.irrationals import *
 from services.irrationals import *
 
 router = APIRouter()
@@ -10,6 +10,13 @@ DEFAULT_PRECISION = 100
 def add_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Add two numbers with specified precision.
+
+    Args:
+        data (ArithmeticOperation): Contains two operands as strings to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The result of the addition as a string.
     """
     return str(add(data.operand1, data.operand2, precision=precision))
 
@@ -18,6 +25,13 @@ def add_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECIS
 def subtract_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Subtract two numbers with specified precision.
+
+    Args:
+        data (ArithmeticOperation): Contains two operands as strings to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The result of the subtraction as a string.
     """
     return str(subtract(data.operand1, data.operand2, precision=precision))
 
@@ -26,6 +40,13 @@ def subtract_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_P
 def multiply_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Multiply two numbers with specified precision.
+
+    Args:
+        data (ArithmeticOperation): Contains two operands as strings to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The result of the multiplication as a string.
     """
     return str(multiply(data.operand1, data.operand2, precision=precision))
 
@@ -34,6 +55,13 @@ def multiply_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_P
 def divide_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Divide two numbers with specified precision.
+
+    Args:
+        data (ArithmeticOperation): Contains two operands as strings to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The result of the division as a string.
     """
     return str(divide(data.operand1, data.operand2, precision=precision))
 
@@ -42,6 +70,13 @@ def divide_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRE
 def sqrt_number(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the square root of a number with specified precision.
+
+    Args:
+        data (UnaryOperation): Contains the operand as a string to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The square root of the operand as a string.
     """
     return str(sqrt(data.operand, precision=precision))
 
@@ -50,6 +85,13 @@ def sqrt_number(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, 
 def power_number(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Raise a number to a power with specified precision.
+
+    Args:
+        data (ArithmeticOperation): Contains the base and exponent as strings to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The result of the exponentiation as a string.
     """
     return str(power(data.operand1, int(data.operand2), precision=precision))
 
@@ -58,6 +100,12 @@ def power_number(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECI
 def compute_pi(precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the value of π with specified precision.
+
+    Args:
+        precision (int, optional): The precision for the calculation. Defaults to 100.
+
+    Returns:
+        str: The value of π as a string.
     """
     return str(pi(precision=precision))
 
@@ -66,14 +114,27 @@ def compute_pi(precision: int = Query(DEFAULT_PRECISION, description="Precision 
 def compute_e(precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the value of e with specified precision.
+
+    Args:
+        precision (int, optional): The precision for the calculation. Defaults to 100.
+
+    Returns:
+        str: The value of e as a string.
     """
-    return str(advancedE(precision=precision))
+    return str(e(precision=precision))
 
 
 @router.post("/sin", response_model=str)
 def compute_sin(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the sine of an angle with specified precision.
+
+    Args:
+        data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The sine of the angle as a string.
     """
     return str(sin(data.angle, precision=precision, rad=data.radians))
 
@@ -82,6 +143,13 @@ def compute_sin(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
 def compute_cos(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the cosine of an angle with specified precision.
+
+    Args:
+        data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The cosine of the angle as a string.
     """
     return str(cos(data.angle, precision=precision, rad=data.radians))
 
@@ -90,6 +158,13 @@ def compute_cos(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
 def compute_tan(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the tangent of an angle with specified precision.
+
+    Args:
+        data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The tangent of the angle as a string.
     """
     return str(tan(data.angle, precision=precision, rad=data.radians))
 
@@ -98,21 +173,12 @@ def compute_tan(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
 def compute_arcsin(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
     """
     Compute the arcsine of a number with specified precision.
+
+    Args:
+        data (UnaryOperation): Contains the operand as a string to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The arcsine of the operand as a string.
     """
     return str(arcsin(data.operand, precision=precision))
-
-
-@router.post("/arccos", response_model=str)
-def compute_arccos(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
-    """
-    Compute the arccosine of a number with specified precision.
-    """
-    return str(arccos(data.operand, precision=precision))
-
-
-@router.post("/arctan", response_model=str)
-def compute_arctan(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
-    """
-    Compute the arctangent of a number with specified precision.
-    """
-    return str(arctan(data.operand, precision=precision))

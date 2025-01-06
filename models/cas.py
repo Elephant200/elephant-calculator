@@ -1,10 +1,10 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator, Field
 from sympy import sympify, Symbol
 
 class ExpressionRequest(BaseModel):
-    expression: str
+    expression: str = Field(..., description="The algebraic expression to process.")
 
-    @validator("expression")
+    @field_validator("expression")
     def validate_expression(cls, v):
         try:
             sympify(v)  # Validate if the expression is mathematically valid
@@ -14,10 +14,10 @@ class ExpressionRequest(BaseModel):
 
 
 class IntegralRequest(BaseModel):
-    expression: str
-    variable: str
+    expression: str = Field(..., description="The algebraic expression to integrate.")
+    variable: str = Field(..., description="The variable with respect to which integration is performed.")
 
-    @validator("expression")
+    @field_validator("expression")
     def validate_expression(cls, v):
         try:
             sympify(v)
@@ -25,7 +25,7 @@ class IntegralRequest(BaseModel):
             raise ValueError(f"Invalid mathematical expression: {v}. Error: {e}")
         return v
 
-    @validator("variable")
+    @field_validator("variable")
     def validate_variable(cls, v):
         if not v.isalpha():
             raise ValueError(f"Variable must be a single letter. Received: {v}")
@@ -33,12 +33,12 @@ class IntegralRequest(BaseModel):
 
 
 class DefiniteIntegralRequest(BaseModel):
-    expression: str
-    variable: str
-    lower_limit: str
-    upper_limit: str
+    expression: str = Field(..., description="The algebraic expression to integrate.")
+    variable: str = Field(..., description="The variable with respect to which integration is performed.")
+    lower_limit: str = Field(..., description="The lower limit of the definite integral.")
+    upper_limit: str = Field(..., description="The upper limit of the definite integral.")
 
-    @validator("expression")
+    @field_validator("expression")
     def validate_expression(cls, v):
         try:
             sympify(v)
@@ -46,13 +46,13 @@ class DefiniteIntegralRequest(BaseModel):
             raise ValueError(f"Invalid mathematical expression: {v}. Error: {e}")
         return v
 
-    @validator("variable")
+    @field_validator("variable")
     def validate_variable(cls, v):
         if not v.isalpha():
             raise ValueError(f"Variable must be a single letter. Received: {v}")
         return v
 
-    @validator("lower_limit", "upper_limit")
+    @field_validator("lower_limit", "upper_limit")
     def validate_limits(cls, v):
         try:
             sympify(v)  # Ensure limits can be evaluated
@@ -62,10 +62,10 @@ class DefiniteIntegralRequest(BaseModel):
 
 
 class SingleVariableEquationRequest(BaseModel):
-    equation: str
-    variable: str
+    equation: str = Field(..., description="The equation to solve, with '=' separating the left and right sides.")
+    variable: str = Field(..., description="The variable to solve for.")
 
-    @validator("equation")
+    @field_validator("equation")
     def validate_equation(cls, v):
         try:
             left, right = v.split("=")
@@ -75,7 +75,7 @@ class SingleVariableEquationRequest(BaseModel):
             raise ValueError(f"Invalid equation format: {v}. Error: {e}")
         return v
 
-    @validator("variable")
+    @field_validator("variable")
     def validate_variable(cls, v):
         if not v.isalpha():
             raise ValueError(f"Variable must be a single letter. Received: {v}")
@@ -83,34 +83,36 @@ class SingleVariableEquationRequest(BaseModel):
 
 
 class MultiVariableEquationsRequest(BaseModel):
-    equations: list[str]
-    variables: str
+    equations: list[str] = Field(..., description="A list of equations to solve.")
+    variables: str = Field(..., description="A comma-separated list of variables to solve for.")
 
-    @validator("equations", each_item=True)
-    def validate_equations(cls, v):
-        try:
-            left, right = v.split("=")
-            sympify(left.strip())
-            sympify(right.strip())
-        except Exception as e:
-            raise ValueError(f"Invalid equation format: {v}. Error: {e}")
-        return v
+    @field_validator("equations")
+    def validate_equations(cls, equations):
+        for equation in equations:
+            try:
+                left, right = equation.split("=")
+                sympify(left.strip())
+                sympify(right.strip())
+            except Exception as e:
+                raise ValueError(f"Invalid equation format: {equation}. Error: {e}")
+        return equations
 
-    @validator("variables")
-    def validate_variables(cls, v):
-        vars_list = v.split(",")
-        if not all(var.strip().isalpha() for var in vars_list):
-            raise ValueError(f"All variables must be single letters. Received: {v}")
-        return v
+    @field_validator("variables")
+    def validate_variables(cls, variables):
+        vars_list = variables.split(",")
+        if not all(var.isalpha() for var in vars_list):
+            raise ValueError(f"All variables must be single letters. Received: {variables}")
+        return variables
 
 
 class DifferentialEquationRequest(BaseModel):
-    equation: str
+    equation: str = Field(..., description="The first-order differential equation to solve.")
 
-    @validator("equation")
+    @field_validator("equation")
     def validate_differential_equation(cls, v):
         try:
             sympify(v)  # Ensure the differential equation is mathematically valid
         except Exception as e:
             raise ValueError(f"Invalid differential equation: {v}. Error: {e}")
         return v
+    

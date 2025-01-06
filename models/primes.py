@@ -1,9 +1,9 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, field_validator
 
 class PrimeCheck(BaseModel):
-    number: int
+    number: int = Field(..., description="The number to check for primality.")
 
-    @validator("number")
+    @field_validator("number")
     def validate_positive_integer(cls, v):
         if v <= 1:
             raise ValueError("Number must be greater than 1 to check for primality.")
@@ -11,9 +11,9 @@ class PrimeCheck(BaseModel):
 
 
 class PrimeNth(BaseModel):
-    n: int
+    n: int = Field(..., description="The position of the prime number to find.")
 
-    @validator("n")
+    @field_validator("n")
     def validate_positive_index(cls, v):
         if v <= 0:
             raise ValueError("The value of n must be a positive integer.")
@@ -21,9 +21,9 @@ class PrimeNth(BaseModel):
 
 
 class PrimeList(BaseModel):
-    count: int
+    count: int = Field(..., description="The number of primes to generate.")
 
-    @validator("count")
+    @field_validator("count")
     def validate_positive_count(cls, v):
         if v <= 0:
             raise ValueError("The count must be a positive integer.")
@@ -31,9 +31,9 @@ class PrimeList(BaseModel):
 
 
 class PrimeFactorization(BaseModel):
-    number: int
+    number: int = Field(..., description="The number to factorize into primes.")
 
-    @validator("number")
+    @field_validator("number")
     def validate_positive_integer(cls, v):
         if v <= 1:
             raise ValueError("Number must be greater than 1 for factorization.")

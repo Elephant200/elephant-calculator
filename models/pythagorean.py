@@ -1,7 +1,7 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 class PythagoreanTriplesRequest(BaseModel):
-    max_hypotenuse: int
+    max_hypotenuse: int = Field(..., description="The maximum hypotenuse length for generating triples.")
 
     @field_validator("max_hypotenuse")
     def validate_positive_hypotenuse(cls, v):
