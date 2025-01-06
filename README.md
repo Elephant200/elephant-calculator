@@ -124,8 +124,8 @@ Each endpoint corresponds to a feature in your calculator. The endpoints are gro
 - `POST /divide`: Divide two numbers with precision.
 - `POST /sqrt`: Compute the square root of a number with precision.
 - `POST /power`: Raise a number to a power with precision.
-- `POST /pi`: Compute digits of π with precision.
-- `POST /e`: Compute digits of e with precision.
+- `GET  /pi`: Compute digits of π with precision.
+- `GET  /e`: Compute digits of e with precision.
 - `POST /sin`: Compute the sine of an angle with precision.
 - `POST /cos`: Compute the cosine of an angle with precision.
 - `POST /tan`: Compute the tangent of an angle with precision.
