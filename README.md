@@ -75,34 +75,74 @@
 ---
 
 ## API Endpoints ##
-- `api/vectors`:
-  - `POST /add`: Add two vectors.
-  - `POST /dot`: Calculate the dot product.
-  - `POST /cross`: Compute the cross product.
-  - `POST /scale`: Scale a vector by a scalar.
+Each endpoint corresponds to a feature in your calculator. The endpoints are grouped by functionality.
 
-- `api/matrices`:
-  - `POST /add`: Add two matrices.
-  - `POST /multiply`: Multiply two matrices.
-  - `POST /determinant`: Calculate the determinant of a matrix.
-  - `POST /transpose`: Compute the transpose of a matrix.
+### Vectors (`/api/vectors`)
+- `POST /add`: Add two vectors.
+- `POST /subtract`: Subtract two vectors.
+- `POST /dot`: Calculate the dot product of two vectors.
+- `POST /cross`: Compute the cross product of two vectors.
+- `POST /scale`: Scale a vector by a scalar.
 
-- `api/geometry`:
-  - `POST /area`: Calculate area for various shapes.
-  - `POST /volume`: Calculate volume for various solids.
-  - `POST /perimeter`: Calculate perimeter for various shapes.
+### Matrices (`/api/matrices`)
+- `POST /add`: Add two matrices.
+- `POST /subtract`: Subtract two matrices.
+- `POST /multiply`: Multiply two matrices.
+- `POST /vector-multiply`: Multiply a matrix by a vector.
+- `POST /scale`: Scale a matrix by a scalar.
+- `POST /determinant`: Calculate the determinant of a matrix.
+- `POST /inverse`: Compute the inverse of a matrix.
+- `POST /transpose`: Compute the transpose of a matrix.
+- `POST /exponentiate`: Raise a matrix to a power.
 
-- `api/triangles`:
-  - `POST /solve`: Solve a triangle with given sides/angles.
+### Geometry (`/api/geometry`)
+- `POST /area`: Calculate the area of various 2D shapes.
+  - Shapes supported: Circle, rectangle, square, triangle (multiple methods), ellipse, polygon, and more.
+- `POST /perimeter`: Calculate the perimeter of various 2D shapes.
+  - Shapes supported: Circle, rectangle, square, triangle, polygon, and more.
+- `POST /volume`: Calculate the volume of various 3D solids.
+  - Solids supported: Cube, sphere, cylinder, cone, ellipsoid, prism, and more.
+- `POST /surface-area`: Calculate the surface area of various 3D solids.
 
-- `api/primes`:
-  - `POST /is_prime`: Check if a number is prime.
-  - `POST /nth_prime`: Find the nth prime number.
-  - `POST /factorization`: Perform prime factorization.
+### Triangle Solver (`/api/triangles`)
+- `POST /solve`: Solve a triangle given sides and/or angles using the Law of Sines or Law of Cosines.
 
-- `api/irrationals`:
-  - `POST /sqrt`: Compute square root with precision.
-  - `POST /power`: Compute power of a number.
+### Pythagorean Triples (`/api/pythagorean`)
+- `POST /generate`: Generate all Pythagorean triples up to a maximum hypotenuse.
+- `POST /generate-primitive`: Generate primitive Pythagorean triples up to a maximum hypotenuse.
+
+### Prime Numbers (`/api/primes`)
+- `POST /is_prime`: Check if a number is prime.
+- `POST /nth_prime`: Find the nth prime number.
+- `POST /first_primes`: Generate the first n prime numbers.
+- `POST /factorization`: Perform prime factorization of a number.
+
+### High-Precision Calculations (`/api/irrationals`)
+- `POST /add`: Add two numbers with precision.
+- `POST /subtract`: Subtract two numbers with precision.
+- `POST /multiply`: Multiply two numbers with precision.
+- `POST /divide`: Divide two numbers with precision.
+- `POST /sqrt`: Compute the square root of a number with precision.
+- `POST /power`: Raise a number to a power with precision.
+- `POST /pi`: Compute digits of π with precision.
+- `POST /e`: Compute digits of e with precision.
+- `POST /sin`: Compute the sine of an angle with precision.
+- `POST /cos`: Compute the cosine of an angle with precision.
+- `POST /tan`: Compute the tangent of an angle with precision.
+- `POST /arcsin`: Compute the arcsine of a value with precision.
+- `POST /arccos`: Compute the arccosine of a value with precision.
+- `POST /arctan`: Compute the arctangent of a value with precision.
+
+### Computer Algebra System (CAS) (`/api/cas`)
+- `POST /factor`: Factor an algebraic expression.
+- `POST /expand`: Expand an algebraic expression.
+- `POST /simplify`: Simplify an algebraic expression.
+- `POST /differentiate`: Compute the derivative of an expression.
+- `POST /integrate`: Compute the indefinite integral of an expression.
+- `POST /definite-integral`: Compute the definite integral of an expression over a range.
+- `POST /solve-equation`: Solve a single-variable equation.
+- `POST /solve-multivariable`: Solve a system of equations with multiple variables.
+- `POST /solve-differential`: Solve a first-order differential equation.
 
 ---
 
