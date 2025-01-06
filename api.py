@@ -4,19 +4,25 @@ from routers import vectors, matrices, primes, geometry, triangle_solver, irrati
 
 app = FastAPI(title="The Elephant Calculator API")
 
-app.include_router(vectors.router, prefix="/vectors", tags=["Vectors"])
-app.include_router(matrices.router, prefix="/matrices", tags=["Matrices"])
-app.include_router(primes.router, prefix="/primes", tags=["Prime Numbers"])
-app.include_router(geometry.router, prefix="/geometry", tags=["Geometry"])
-app.include_router(triangle_solver.router, prefix="/triangles", tags=["Triangle Solver"])
-app.include_router(irrationals.router, prefix="/irrationals", tags=["High-Precision"])
-app.include_router(cas.router, prefix="/cas", tags=["CAS"])
+api_prefix = "/api"
+app.include_router(vectors.router, prefix=f"{api_prefix}/vectors", tags=["Vectors"])
+app.include_router(matrices.router, prefix=f"{api_prefix}/matrices", tags=["Matrices"])
+app.include_router(primes.router, prefix=f"{api_prefix}/primes", tags=["Prime Numbers"])
+app.include_router(geometry.router, prefix=f"{api_prefix}/geometry", tags=["Geometry"])
+app.include_router(triangle_solver.router, prefix=f"{api_prefix}/triangles", tags=["Triangle Solver"])
+app.include_router(irrationals.router, prefix=f"{api_prefix}/irrationals", tags=["High-Precision"])
+app.include_router(cas.router, prefix=f"{api_prefix}/cas", tags=["CAS"])
 
 @app.exception_handler(Exception)
-async def value_error_handler(request: Request, exc: Exception):
+async def global_exception_handler(request: Request, exc: Exception):
+    status_code = 400 if isinstance(exc, ValueError) else 500
     return JSONResponse(
-        status_code=400,
-        content={"detail": f"Error: {exc}"}
+        status_code=status_code,
+        content={
+            "detail": str(exc),
+            "error_type": exc.__class__.__name__,
+            "path": str(request.url)
+        },
     )
 
 # For testing purposes
