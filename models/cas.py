@@ -99,7 +99,7 @@ class MultiVariableEquationsRequest(BaseModel):
     @validator("variables")
     def validate_variables(cls, v):
         vars_list = v.split(",")
-        if not all(var.isalpha() for var in vars_list):
+        if not all(var.strip().isalpha() for var in vars_list):
             raise ValueError(f"All variables must be single letters. Received: {v}")
         return v
 
