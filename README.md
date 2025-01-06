@@ -108,8 +108,7 @@ Each endpoint corresponds to a feature in your calculator. The endpoints are gro
 - `POST /solve`: Solve a triangle given sides and/or angles using the Law of Sines or Law of Cosines.
 
 ### Pythagorean Triples (`/api/pythagorean`)
-- `POST /generate`: Generate all Pythagorean triples up to a maximum hypotenuse.
-- `POST /generate-primitive`: Generate primitive Pythagorean triples up to a maximum hypotenuse.
+- `POST /generate`: Generate all Pythagorean triples up to a maximum hypotenuse. Can generate primitive with `?primitive=true`
 
 ### Prime Numbers (`/api/primes`)
 - `POST /is_prime`: Check if a number is prime.
@@ -193,6 +192,12 @@ Each endpoint corresponds to a feature in your calculator. The endpoints are gro
 
    * Access the API at http://127.0.0.1:8000/docs for interactive API documentation.
    * Integrate the endpoints into your frontend or CLI applications for advanced calculations.
+   * To run the command-line interface version of the project, run cli.py:
+   ```bash
+   python cli.py
+   ```
+
+---
 
 ## Contributing
 
@@ -201,6 +206,8 @@ Each endpoint corresponds to a feature in your calculator. The endpoints are gro
    1. Fork the repository.
    2. Create a new branch for your changes.
    3. Submit a pull request for review.
+
+---
 
 ## About the Programmer
    Elephant200 began developing this calculator in May 2024 with a vision to create a comprehensive and powerful tool for mathematical operations. The Elephant Calculator reflects a blend of precision, performance, and usability.
