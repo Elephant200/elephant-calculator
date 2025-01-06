@@ -2,11 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from routers import vectors, matrices, primes, geometry, triangle_solver, irrationals, cas, pythagorean
 
-app = FastAPI(
-    title="The Elephant Calculator API",
-    docs_url="/api/docs",  # Change Swagger UI docs location
-    redoc_url="/api/redoc"  # Change ReDoc location
-)
+app = FastAPI(title="The Elephant Calculator API", docs_url="/api/docs", redoc_url="/api/redoc")
 
 api_prefix = "/api"
 app.include_router(vectors.router, prefix=f"{api_prefix}/vectors", tags=["Vectors"])
