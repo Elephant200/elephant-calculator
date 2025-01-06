@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from routers import vectors, matrices, primes, geometry, triangle_solver, irrationals, cas
+from routers import vectors, matrices, primes, geometry, triangle_solver, irrationals, cas, pythagorean
 
 app = FastAPI(title="The Elephant Calculator API")
 
@@ -12,6 +12,7 @@ app.include_router(geometry.router, prefix=f"{api_prefix}/geometry", tags=["Geom
 app.include_router(triangle_solver.router, prefix=f"{api_prefix}/triangles", tags=["Triangle Solver"])
 app.include_router(irrationals.router, prefix=f"{api_prefix}/irrationals", tags=["High-Precision"])
 app.include_router(cas.router, prefix=f"{api_prefix}/cas", tags=["CAS"])
+app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=["Pythagorean Triple Generator"])
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
