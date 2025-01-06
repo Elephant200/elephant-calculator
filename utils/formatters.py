@@ -6,7 +6,9 @@ def format_expression(expression, diff=False):
             expression = expression.replace(f'{i}{j}', f'{i}*{j}')
             for k in range(10):
                 expression = expression.replace(f'{i}^{k}{j}', f'({i}^{k})*{j}')
-    expression = expression.replace('^', '**').replace(')(', ')*(').replace('infinity', 'oo').replace('infty', 'oo').replace(f'e^{x}', f'exp({x})')
+    expression = expression.replace(f'e^x', f'exp(x)')
+    expression = expression.replace('e^', 'exp')
+    expression = expression.replace('^', '**').replace(')(', ')*(').replace('infinity', 'oo').replace('infty', 'oo')
     for i in list("wxyzabcd(fe"):
         for num in range(10):
             expression = expression.replace(f'{num}{i}', f'{num}*{i}')

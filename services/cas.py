@@ -184,3 +184,6 @@ def cas_cli():
             clear()
             print(elephant)
             input("Invalid selection. Please try again.")
+
+if __name__ == "__main__":
+    cas_cli()
