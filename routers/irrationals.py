@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 from models.irrationals import ArithmeticOperation, UnaryOperation, TrigonometricOperation, RootOperation
-from services.irrationals import add, subtract, multiply, divide, sqrt, power, pi, e, sin, cos, tan, arcsin, arccos, arctan
+from services.irrationals import *
 
 router = APIRouter()
 
