@@ -5,3 +5,4 @@ project-structure.txt
 *.log
 *.pyc
 .env
+.pytest_cache
