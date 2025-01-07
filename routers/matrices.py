@@ -79,7 +79,7 @@ def scale_matrix(data: ScalarMatrixOperation):
     return (m * data.scalar).elements
 
 @router.post("/determinant", response_model=float)
-def determinant(data: ScalarMatrixOperation):
+def determinant(data: SingleMatrixOperation):
     """
     Calculate the determinant of a matrix.
 
@@ -93,7 +93,7 @@ def determinant(data: ScalarMatrixOperation):
     return m.determinant()
 
 @router.post("/inverse", response_model=list[list[float]])
-def inverse_matrix(data: ScalarMatrixOperation):
+def inverse_matrix(data: SingleMatrixOperation):
     """
     Compute the inverse of a matrix.
 
@@ -107,7 +107,7 @@ def inverse_matrix(data: ScalarMatrixOperation):
     return m.inverse().elements
 
 @router.post("/transpose", response_model=list[list[float]])
-def transpose_matrix(data: ScalarMatrixOperation):
+def transpose_matrix(data: SingleMatrixOperation):
     """
     Compute the transpose of a matrix.
 
