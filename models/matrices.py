@@ -60,3 +60,17 @@ class VectorMatrixOperation(BaseModel):
         if vector and len(matrix[0]) != len(vector):
             raise ValueError("Matrix column count must match vector length.")
         return matrix
+
+
+class SingleMatrixOperation(BaseModel):
+    matrix: list[list[float]] = Field(..., description="The matrix to operate on.")
+
+    @field_validator("matrix")
+    def validate_matrix(cls, matrix):
+        if not matrix or not all(isinstance(row, list) for row in matrix):
+            raise ValueError("Matrix must be a non-empty list of rows.")
+        if not all(isinstance(x, (int, float)) for row in matrix for x in row):
+            raise ValueError("Matrix elements must be numeric (int or float).")
+        if len({len(row) for row in matrix}) > 1:
+            raise ValueError("All rows in a matrix must have the same length.")
+        return matrix
