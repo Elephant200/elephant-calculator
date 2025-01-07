@@ -90,6 +90,7 @@ def determinant(data: SingleMatrixOperation):
         float: The determinant of the matrix.
     """
     m = Matrix(data.matrix)
+    print("From router function: " + str(m))
     return m.determinant()
 
 @router.post("/inverse", response_model=list[list[float]])
