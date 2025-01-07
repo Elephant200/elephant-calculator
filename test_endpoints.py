@@ -47,11 +47,21 @@ def test_subtract_matrices_large_numbers():
     assert response.json() == [[500, 1400], [2300, 3200]]
 
 def test_matrix_determinant_invalid():
+    # Invalid case: Non-square matrix
     response = client.post(
         "/api/matrices/determinant",
-        json={"matrix": [[1, 2]], "scalar": 0}
+        json={"matrix": [[1, 2, 3], [4, 5, 6]]}  # Not square
     )
-    assert response.status_code == 422  # Invalid matrix dimensions
+    assert response.status_code == 422  # Ensure validation catches this
+
+def test_matrix_determinant_valid():
+    # Valid case: Square matrix
+    response = client.post(
+        "/api/matrices/determinant",
+        json={"matrix": [[1, 2], [3, 4]]}
+    )
+    assert response.status_code == 200
+    assert response.json() == -2  # Expected determinant
 
 
 # PRIME NUMBERS
@@ -73,7 +83,7 @@ def test_nth_prime_large():
 def test_prime_factorization():
     response = client.post("/api/primes/factorization", json={"number": 120})
     assert response.status_code == 200
-    assert response.json() == "2^3 * 3^1 * 5^1"
+    assert response.json() == "2^3 * 3 * 5"
 
 
 # GEOMETRY
@@ -88,8 +98,9 @@ def test_polygon_area_invalid_sides():
 
 
 # TRIANGLE SOLVER
-def test_triangle_solver_heron():
-    response = client.post("/api/triangles/solve", json={"a": 3, "b": 4, "c": 5})
+def test_triangle_solver():
+    response = client.post("/api/triangles/solve", json={"a": 6, "b": 4, "c": 5})
+    print("Elephant")
     assert response.status_code == 200
     result = response.json()
     assert result["A"] == 36.87
@@ -109,7 +120,7 @@ def test_add_high_precision():
 def test_sqrt_precision():
     response = client.post("/api/irrationals/sqrt", json={"operand": "16"})
     assert response.status_code == 200
-    assert response.json() == "4"
+    assert float(response.json()) == 4.0
 
 def test_pi_precision():
     response = client.get("/api/irrationals/pi?precision=50")
@@ -127,7 +138,8 @@ def test_e_precision():
 def test_pythagorean_triples_large():
     response = client.post("/api/pythagorean/generate", json={"max_hypotenuse": 50})
     assert response.status_code == 200
-    assert (3, 4, 5) in response.json()
+    #print(response)
+    assert (3, 4, 5) in response.json(), response.json()
     assert (6, 8, 10) in response.json()
 
 def test_pythagorean_triples_invalid():

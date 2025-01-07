@@ -23,8 +23,8 @@ def print_in_columns(triple, column_width, count, columns):
     if (count + 1) % columns == 0:
         print()
 
-def generate(n, printIt=True): # n is the highest hypotenuse allowed
-    print("Pythagorean Triples:\n")
+def generate(n, printIt=False): # n is the highest hypotenuse allowed
+    if printIt: print("Pythagorean Triples:\n")
     triples = []
     if printIt:
         column_width = calculate_column_width(n)
@@ -44,7 +44,7 @@ def generate(n, printIt=True): # n is the highest hypotenuse allowed
         print()
     return triples
 
-def generatePrimitive(n, printIt=True):
+def generatePrimitive(n, printIt=False):
     print("Primitive Pythagorean Triples:\n")
     triples = []
     if printIt:
@@ -64,3 +64,6 @@ def generatePrimitive(n, printIt=True):
     if printIt and count % columns != 0:
         print()
     return triples
+
+if __name__ == "__main__":
+    print(generate(100))

@@ -63,33 +63,46 @@ def firstPrimes(n, printIt=False):
         print()
     return primes
 
+def isPrime(n: int) -> bool:
+    """
+    Checks if a number is prime.
+    """
+    if n <= 1:
+        return False
+    if n == 2:
+        return True 
+    if n % 2 == 0:
+        return False 
+    for i in range(3, int(n ** 0.5) + 1, 2):  
+        if n % i == 0:
+            return False
+    return True
 
 def nthPrime(n):
     """
     Finds the nth prime using a simple increment and isPrime check.
     """
-    count, test = 0, 1
-    while count < n:
-        test += 1
-        if isPrime(test):
-            count += 1
-    return test
+    primes = []
+    candidate = 2
+    while len(primes) < n:
+        if isPrime(candidate):
+            primes.append(candidate)
+        candidate += 1
+    return primes[-1]
 
 
-def isPrime(num):
+def isPrime(n: int) -> bool:
     """
-    Checks if a number is prime using efficient trial division.
+    Checks if a number is prime.
     """
-    if num <= 1:
+    if n <= 1:
         return False
-    if num <= 3:
-        return True
-    if num % 2 == 0 or num % 3 == 0:
-        return False
-    if num % 6 != 1 and num % 6 != -1:
-        return False
-    for i in range(5, floor(sqrt(num)) + 1, 2):
-        if num % i == 0:
+    if n == 2:
+        return True  # Special case for the only even prime
+    if n % 2 == 0:
+        return False  # Exclude all other even numbers
+    for i in range(3, int(n ** 0.5) + 1, 2):
+        if n % i == 0:
             return False
     return True
 
@@ -109,9 +122,12 @@ def primeFactorize(n):
     return factorList
 
 
-def strPrimeFacs(n):
-    """
-    Formats prime factors as a string.
-    """
-    factorList = primeFactorize(n)
-    return ' x '.join(f"{prime}^{factorList[prime]}" if factorList[prime] > 1 else f"{prime}" for prime in factorList)
+def strPrimeFacs(n: int) -> str:
+    factors = primeFactorize(n)
+    return " * ".join(f"{p}^{e}" if e >= 2 else f"{p}" for p, e in factors.items())
+
+if __name__ == "__main__":
+    print(nthPrime(100))
+
+    for num in range(1, 20):
+        print(f"Is {num} prime? {isPrime(num)}")
