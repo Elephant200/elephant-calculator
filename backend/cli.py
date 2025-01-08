@@ -38,7 +38,8 @@ try:
     for i in range(len(ratings)): ratings[i] = int(ratings[i])
     rating = round(float(sum(ratings)/len(ratings)), 1)
     n = len(ratings)
-except Exception:
+except Exception as e:
+    print("Error: " + str(e))
     rating, n = "unrated", 0
 
 ELEPHANT = r"""                            _
