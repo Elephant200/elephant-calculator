@@ -25,8 +25,8 @@ class TriangleRequest(BaseModel):
         """
         Ensure at least three inputs, including one side, are provided.
         """
-        sides = [values.get("a"), values.get("b"), values.get("c")]
-        angles = [values.get("A"), values.get("B"), values.get("C")]
+        sides = [values.a, values.b, values.c]
+        angles = [values.A, values.B, values.C]
 
         # Count the number of non-None values
         provided_sides = sum(1 for side in sides if side is not None)
