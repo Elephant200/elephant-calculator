@@ -63,8 +63,12 @@ def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
         A = asin(a / c) if c else radians(90)
         C = radians(90) - A
     elif A and abs(degrees(A) - 90) < 1e-6:
-        # Similar logic for right triangle with A = 90 degrees
-        if a and b:
+        # Right triangle where A = 90 degrees
+        if a and C:
+            B = radians(90) - C
+            c = a / cos(C)
+            b = c * sin(C)
+        elif a and b:
             c = sqrt(a**2 + b**2)
         elif a and c:
             b = sqrt(c**2 - a**2)
@@ -111,7 +115,6 @@ def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
         A = asin(a / c) if c else radians(90)
         B = radians(90) - A
     else:
-        # Non-right triangle: use the law of sines or cosines
         if A and B:
             C = radians(180) - A - B
         elif A and C:
@@ -161,6 +164,7 @@ def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
         'B': round(degrees(B), 2) if B else None,
         'C': round(degrees(C), 2) if C else None
     }
+
 
 def input_triangle():
     """
