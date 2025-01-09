@@ -17,7 +17,7 @@ app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    print(f"Exception type: {type(exc)}")  # Debugging output
+    print(f"Exception type (from global handler): {type(exc)}")  # Debugging output
     print(f"{exc}")
     print(f"Request path: {request.url}")
     status_code = 400 if isinstance(exc, ValueError) else 500
