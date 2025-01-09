@@ -1,12 +1,12 @@
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 class TriangleRequest(BaseModel):
-    a: float = Field(None, description="Length of side a (optional).")
-    b: float = Field(None, description="Length of side b (optional).")
-    c: float = Field(None, description="Length of side c (optional).")
-    A: float = Field(None, description="Angle opposite side a, in degrees (optional).")
-    B: float = Field(None, description="Angle opposite side b, in degrees (optional).")
-    C: float = Field(None, description="Angle opposite side c, in degrees (optional).")
+    a: float | None = Field(None, description="Length of side a (optional).")
+    b: float | None = Field(None, description="Length of side b (optional).")
+    c: float | None = Field(None, description="Length of side c (optional).")
+    A: float | None = Field(None, description="Angle opposite side a, in degrees (optional).")
+    B: float | None = Field(None, description="Angle opposite side b, in degrees (optional).")
+    C: float | None = Field(None, description="Angle opposite side c, in degrees (optional).")
 
     @field_validator("a", "b", "c")
     def validate_positive_sides(cls, v, field):

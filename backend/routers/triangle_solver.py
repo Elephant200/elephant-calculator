@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from models.triangle_solver import TriangleRequest
 from services.triangle_solver import solve_triangle
 
@@ -17,4 +17,7 @@ def solve_triangle_endpoint(data: TriangleRequest):
     """
     #print(f"Received: {data}")
     #print(f"Attributes: a={data.a}, b={data.b}, c={data.c}, A={data.A}, B={data.B}, C={data.C}")
-    return solve_triangle(a=data.a, b=data.b, c=data.c, A=data.A, B=data.B, C=data.C)
+    try:
+        return solve_triangle(a=data.a, b=data.b, c=data.c, A=data.A, B=data.B, C=data.C)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
