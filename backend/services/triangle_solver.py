@@ -329,12 +329,12 @@ def solve_triangle(a=None, b=None, c=None, A=None, B=None, C=None):
             raise ValueError("Sides do not satisfy the triangle inequality.")
 
     return {
-        'a': a,
-        'b': b,
-        'c': c,
-        'A': A_deg,
-        'B': B_deg,
-        'C': C_deg
+        'a': round(a, 2),
+        'b': round(b, 2),
+        'c': round(c, 2),
+        'A': round(A_deg, 2),
+        'B': round(B_deg, 2),
+        'C': round(C_deg, 2)
     }
 
 def input_triangle():

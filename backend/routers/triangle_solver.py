@@ -15,6 +15,6 @@ def solve_triangle_endpoint(data: TriangleRequest):
     Returns:
         dict: A dictionary containing all sides and angles of the solved triangle.
     """
-    print(f"Received: {data}")
-    print(f"Attributes: a={data.a}, b={data.b}, c={data.c}, A={data.A}, B={data.B}, C={data.C}")
+    #print(f"Received: {data}")
+    #print(f"Attributes: a={data.a}, b={data.b}, c={data.c}, A={data.A}, B={data.B}, C={data.C}")
     return solve_triangle(a=data.a, b=data.b, c=data.c, A=data.A, B=data.B, C=data.C)

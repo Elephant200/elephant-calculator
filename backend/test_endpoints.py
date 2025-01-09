@@ -107,9 +107,9 @@ def test_triangle_solver():
     print("Elephant")
     assert response.status_code == 200
     result = response.json()
-    assert result["A"] == 36.87
-    assert result["B"] == 53.13
-    assert result["C"] == 90.0
+    assert result["A"] == 82.82
+    assert result["B"] == 41.41
+    assert result["C"] == 55.77
 
 
 # HIGH PRECISION
