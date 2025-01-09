@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from routers import vectors, matrices, primes, geometry, triangle_solver, irrationals, cas, pythagorean
 
@@ -25,6 +26,22 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "detail": str(exc),
             "error_type": exc.__class__.__name__,
+            "path": str(request.url)
+        },
+    )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    errors = exc.errors()
+    if errors and 'ctx' in errors[0] and 'error' in errors[0]['ctx']:
+        message = str(errors[0]['ctx']['error'])
+    else:
+        message = errors[0].get('msg', "Validation error")
+    return JSONResponse(
+        status_code=400,
+        content={
+            "detail": message,
+            "error_type": "ValidationError",
             "path": str(request.url)
         },
     )
