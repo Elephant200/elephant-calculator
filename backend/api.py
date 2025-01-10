@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from routers import vectors, matrices, primes, geometry, triangle_solver, irrationals, cas, pythagorean
@@ -17,9 +17,6 @@ app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    print(f"Exception type (from global handler): {type(exc)}")  # Debugging output
-    print(f"{exc}")
-    print(f"Request path: {request.url}")
     status_code = 400 if isinstance(exc, ValueError) else 500
     error_type = ''.join([' ' + char if char.isupper() else char for char in exc.__class__.__name__]).strip()
     return JSONResponse(
@@ -33,16 +30,34 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    errors = exc.errors()
-    if errors and 'ctx' in errors[0] and 'error' in errors[0]['ctx']:
-        message = str(errors[0]['ctx']['error'])
-    else:
-        message = errors[0].get('msg', "Validation error")
+    message = "; ".join([err.get("msg", "Validation error") for err in exc.errors()])
     return JSONResponse(
         status_code=400,
         content={
             "detail": message,
             "error_type": "Validation Error",
+            "path": str(request.url)
+        },
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "detail": exc.detail,
+            "error_type": f"HTTP {exc.status_code}",
+            "path": str(request.url)
+        },
+    )
+
+@app.exception_handler(404)
+async def not_found_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=404,
+        content={
+            "detail": exc.detail,
+            "error_type": "HTTP 404",
             "path": str(request.url)
         },
     )
