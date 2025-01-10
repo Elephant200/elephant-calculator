@@ -21,11 +21,12 @@ async def global_exception_handler(request: Request, exc: Exception):
     print(f"{exc}")
     print(f"Request path: {request.url}")
     status_code = 400 if isinstance(exc, ValueError) else 500
+    error_type = ''.join([' ' + char if char.isupper() else char for char in exc.__class__.__name__]).strip()
     return JSONResponse(
         status_code=status_code,
         content={
             "detail": str(exc),
-            "error_type": exc.__class__.__name__,
+            "error_type": error_type,
             "path": str(request.url)
         },
     )
@@ -41,7 +42,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         status_code=400,
         content={
             "detail": message,
-            "error_type": "ValidationError",
+            "error_type": "Validation Error",
             "path": str(request.url)
         },
     )

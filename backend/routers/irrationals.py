@@ -18,6 +18,8 @@ def add_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECIS
     Returns:
         str: The result of the addition as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(add(data.operand1, data.operand2, precision=precision))
 
 
@@ -33,6 +35,8 @@ def subtract_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_P
     Returns:
         str: The result of the subtraction as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(subtract(data.operand1, data.operand2, precision=precision))
 
 
@@ -48,6 +52,8 @@ def multiply_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_P
     Returns:
         str: The result of the multiplication as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(multiply(data.operand1, data.operand2, precision=precision))
 
 
@@ -63,6 +69,8 @@ def divide_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRE
     Returns:
         str: The result of the division as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(divide(data.operand1, data.operand2, precision=precision))
 
 
@@ -78,6 +86,8 @@ def sqrt_number(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, 
     Returns:
         str: The square root of the operand as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(sqrt(data.operand, precision=precision))
 
 
@@ -93,6 +103,8 @@ def power_number(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRECI
     Returns:
         str: The result of the exponentiation as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(power(data.operand1, int(data.operand2), precision=precision))
 
 
@@ -107,6 +119,8 @@ def compute_pi(precision: int = Query(DEFAULT_PRECISION, description="Precision 
     Returns:
         str: The value of π as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(pi(precision=precision))
 
 
@@ -121,6 +135,8 @@ def compute_e(precision: int = Query(DEFAULT_PRECISION, description="Precision f
     Returns:
         str: The value of e as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(e(precision=precision))
 
 
@@ -136,6 +152,8 @@ def compute_sin(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
     Returns:
         str: The sine of the angle as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(sin(data.angle, precision=precision, rad=data.radians))
 
 
@@ -151,6 +169,8 @@ def compute_cos(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
     Returns:
         str: The cosine of the angle as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(cos(data.angle, precision=precision, rad=data.radians))
 
 
@@ -166,6 +186,8 @@ def compute_tan(data: TrigonometricOperation, precision: int = Query(DEFAULT_PRE
     Returns:
         str: The tangent of the angle as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(tan(data.angle, precision=precision, rad=data.radians))
 
 
@@ -181,4 +203,6 @@ def compute_arcsin(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISIO
     Returns:
         str: The arcsine of the operand as a string.
     """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
     return str(arcsin(data.operand, precision=precision))
