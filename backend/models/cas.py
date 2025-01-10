@@ -1,5 +1,6 @@
 from pydantic import BaseModel, field_validator, Field
 from sympy import sympify, Symbol
+from utils.formatters import format_expression
 
 class ExpressionRequest(BaseModel):
     expression: str = Field(..., description="The algebraic expression to process.")
@@ -7,7 +8,7 @@ class ExpressionRequest(BaseModel):
     @field_validator("expression")
     def validate_expression(cls, v):
         try:
-            sympify(v)  # Validate if the expression is mathematically valid
+            sympify(format_expression(v))  # Validate if the expression is mathematically valid
         except Exception as e:
             raise ValueError(f"Invalid mathematical expression: {v}. Error: {e}")
         return v
@@ -20,7 +21,7 @@ class IntegralRequest(BaseModel):
     @field_validator("expression")
     def validate_expression(cls, v):
         try:
-            sympify(v)
+            sympify(format_expression(v))
         except Exception as e:
             raise ValueError(f"Invalid mathematical expression: {v}. Error: {e}")
         return v
@@ -41,7 +42,7 @@ class DefiniteIntegralRequest(BaseModel):
     @field_validator("expression")
     def validate_expression(cls, v):
         try:
-            sympify(v)
+            sympify(format_expression(v))
         except Exception as e:
             raise ValueError(f"Invalid mathematical expression: {v}. Error: {e}")
         return v
@@ -55,7 +56,7 @@ class DefiniteIntegralRequest(BaseModel):
     @field_validator("lower_limit", "upper_limit")
     def validate_limits(cls, v):
         try:
-            sympify(v)  # Ensure limits can be evaluated
+            sympify(format_expression(v))  # Ensure limits can be evaluated
         except Exception as e:
             raise ValueError(f"Invalid limit: {v}. Error: {e}")
         return v
@@ -68,7 +69,7 @@ class SingleVariableEquationRequest(BaseModel):
     @field_validator("equation")
     def validate_equation(cls, v):
         try:
-            left, right = v.split("=")
+            left, right = format_expression(v).split("=")
             sympify(left.strip())
             sympify(right.strip())
         except Exception as e:
@@ -90,7 +91,7 @@ class MultiVariableEquationsRequest(BaseModel):
     def validate_equations(cls, equations):
         for equation in equations:
             try:
-                left, right = equation.split("=")
+                left, right = format_expression(equation).split("=")
                 sympify(left.strip())
                 sympify(right.strip())
             except Exception as e:
@@ -111,7 +112,7 @@ class DifferentialEquationRequest(BaseModel):
     @field_validator("equation")
     def validate_differential_equation(cls, v):
         try:
-            sympify(v)  # Ensure the differential equation is mathematically valid
+            sympify(format_expression(v))  # Ensure the differential equation is mathematically valid
         except Exception as e:
             raise ValueError(f"Invalid differential equation: {v}. Error: {e}")
         return v
