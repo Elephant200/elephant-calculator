@@ -22,3 +22,21 @@ def reverse_format(expression):
         for j in ['w','x','y','z','a','b','c','d','(','f','g','h','exp','ln','sin','cos','tan']:
             expression = expression.replace(f'{i}*{j}', f'{i}{j}')
     return expression
+
+def trim_trailing_zeroes(expression):
+    """
+    Trims trailing zeros from a string representation of a decimal number.
+
+    Args:
+        expression: A representation of the number.
+
+    Returns:
+        str: The simplified number string with excess trailing zeros removed.
+    """
+    if type(expression) != str:
+        expression = str(expression)
+    if '.' in expression:
+        integer_part, fractional_part = expression.split('.')
+        fractional_part = fractional_part.rstrip('0')
+        return integer_part if not fractional_part else f"{integer_part}.{fractional_part}"
+    return expression
