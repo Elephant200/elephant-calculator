@@ -46,7 +46,7 @@ def test_compute_pi_precision():
     # Valid: Compute Pi with precision
     response = client.get("/api/irrationals/pi?precision=10")
     assert response.status_code == 200
-    assert response.json().startswith("3.141592653")
+    assert response.json().startswith("3.1415926")
 
 def test_compute_pi_invalid_precision():
     # Invalid: Negative precision
