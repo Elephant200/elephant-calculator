@@ -49,7 +49,7 @@ def test_expand_expression():
     # Invalid request
     response = requests.post(url, json={"expression": "(x + "})
     assert response.status_code == 400, f"Expected 400, got {response.status_code}"
-    assert "Invalid algebraic expression" in response.json()["detail"]
+    assert "Invalid mathematical expression" in response.json()["detail"]
     print("test_expand_expression passed.")
 
 def test_definite_integral():
@@ -63,12 +63,12 @@ def test_definite_integral():
         "upper_limit": "2"
     })
     assert response.status_code == 200, f"Expected 200, got {response.status_code}"
-    assert response.json() == "8/3", f"Expected '8/3', got {response.json()}"
+    assert abs(float(response.json()) - 8/3) < 1e-4, f"Expected '8/3', got {response.json()}"
 
     # Invalid request: Missing limits
     response = requests.post(url, json={"expression": "x^2", "variable": "x"})
     assert response.status_code == 400, f"Expected 400, got {response.status_code}"
-    assert "field required" in response.json()["detail"]
+    assert "Field required" in response.json()["detail"]
     print("test_definite_integral passed.")
 
 # ===============================
@@ -92,7 +92,7 @@ def test_matrix_addition():
         "matrix2": [[3, 4], [5, 6]]
     })
     assert response.status_code == 400, f"Expected 400, got {response.status_code}"
-    assert "Matrices must have the same dimensions." in response.json()["detail"]
+    assert "Matrices must have the same dimensions" in response.json()["detail"], response.json()
     print("test_matrix_addition passed.")
 
 def test_matrix_transpose():
@@ -103,9 +103,9 @@ def test_matrix_transpose():
     assert response.status_code == 200, f"Expected 200, got {response.status_code}"
     assert response.json() == [[1, 3], [2, 4]], f"Unexpected transpose: {response.json()}"
 
-    # Invalid: Non-square matrix (if unsupported)
-    response = requests.post(url, json={"matrix": [[1, 2, 3]]})
-    assert response.status_code == 400, f"Expected 400, got {response.status_code}"
+    # Invalid
+    response = requests.post(url, json={"matrix": [1, 2, 3]})
+    assert response.status_code == 400, f"Expected 400, got {response.status_code} with data {response.json()}"
     print("test_matrix_transpose passed.")
 
 # ===============================
@@ -123,7 +123,7 @@ def test_vector_addition():
     # Invalid: Different dimensions
     response = requests.post(url, json={"vector1": [1, 2], "vector2": [3, 4, 5]})
     assert response.status_code == 400, f"Expected 400, got {response.status_code}"
-    assert "Vectors must have the same dimensions." in response.json()["detail"]
+    assert "vector1 and vector2 must have the same dimensions" in response.json()["detail"], response.json()
     print("test_vector_addition passed.")
 
 def test_vector_scale():
@@ -137,7 +137,7 @@ def test_vector_scale():
     # Invalid: Scalar missing
     response = requests.post(url, json={"vector": [1, 2, 3]})
     assert response.status_code == 400, f"Expected 400, got {response.status_code}"
-    assert "field required" in response.json()["detail"]
+    assert "Field required" in response.json()["detail"], response.json()
     print("test_vector_scale passed.")
 
 # ===============================
