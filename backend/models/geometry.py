@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 import math
 
 class Circle(BaseModel):
@@ -129,12 +129,14 @@ class TriangleHeron(BaseModel):
             raise ValueError("Sides must be greater than zero.")
         return v
 
-    @field_validator("side3")
-    def validate_triangle_inequality(cls, v, values):
-        a, b = values.get("side1"), values.get("side2")
-        if a and b and (a + b <= v or a + v <= b or b + v <= a):
+    @model_validator(mode="after")
+    def validate_triangle_inequality(cls, values):
+        a = values.side1
+        b = values.side2
+        c = values.side3
+        if not (a + b > c and a + c > b and b + c > a):
             raise ValueError("Sides do not satisfy the triangle inequality.")
-        return v
+        return values
 
 
 class TriangleSAS(BaseModel):
