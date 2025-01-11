@@ -145,8 +145,7 @@ def test_vector_scale():
 # ===============================
 
 def main():
-    print("Starting API tests...")
-    #test_parallelogram_area()
+    test_parallelogram_area()
     test_triangle_area_heron()
     test_expand_expression()
     test_definite_integral()
@@ -154,7 +153,8 @@ def main():
     test_matrix_transpose()
     test_vector_addition()
     test_vector_scale()
-    print("All tests passed successfully.")
 
 if __name__ == "__main__":
+    print("Starting API tests...\n")
     main()
+    print("\nAll tests passed successfully.")
