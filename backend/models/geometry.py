@@ -31,12 +31,13 @@ class Ellipse(BaseModel):
             raise ValueError("Axes must be greater than zero.")
         return v
 
-    @field_validator("semi_minor")
-    def validate_minor_less_than_major(cls, v, values):
-        semi_major = values.get("semi_major")
-        if semi_major and v > semi_major:
+    @model_validator(mode="after")
+    def validate_minor_less_than_major(cls, values):
+        semi_major = values.semi_major
+        semi_minor = values.semi_minor
+        if semi_major and semi_minor > semi_major:
             raise ValueError("Semi-minor axis must be less than or equal to semi-major axis.")
-        return v
+        return values
 
 
 class Rectangle(BaseModel):
