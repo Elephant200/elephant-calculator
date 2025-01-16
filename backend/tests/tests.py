@@ -40,7 +40,7 @@ def parse_connection_error(request: PreparedRequest, error: ConnectionError):
 
     return parsed_details
 
-def format_details(details: dict) -> str:
+def format_details(details: dict, show_error: bool = True) -> str:
     """
     Formats a dictionary of details into a human-readable string.
 
@@ -52,12 +52,15 @@ def format_details(details: dict) -> str:
     """
     formatted = []    
     for key, value in details.items():
-        if isinstance(value, dict):  # For nested dictionaries (e.g., headers)
-            formatted.append(f"{key.capitalize()}:")
+        if key == "error_message" and not show_error:
+            continue
+        
+        if isinstance(value, dict):
+            formatted.append(f"{key.replace('_', ' ').title()}:")
             for sub_key, sub_value in value.items():
                 formatted.append(f"  {sub_key}: {sub_value}")
-        else:
-            formatted.append(f"{key.capitalize()}: {value}")
+        else: 
+            formatted.append(f"{key.replace('_', ' ').title()}: {value}")
     
     return "\n".join(formatted)
 
@@ -71,5 +74,5 @@ if __name__ == "__main__":
         print("\nAll tests passed successfully.")
     except ConnectionError as e:
         parsed = parse_connection_error(e.request, e)
-        print(f"Connection refused. Request Details: \n{format_details(parsed)}")
+        print(f"Connection refused. Request Details: \n{format_details(parsed, show_error=False)}")
         
