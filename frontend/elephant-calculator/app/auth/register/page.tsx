@@ -9,7 +9,7 @@ export default function Register() {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    login('JaneDoe');
+    login('Elephant200');
     router.push('/');
   };
 

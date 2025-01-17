@@ -9,7 +9,7 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    login('JohnDoe');
+    login('Elephant200');
     router.push('/');
   };
 
