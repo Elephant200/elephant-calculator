@@ -39,7 +39,7 @@ try:
     rating = round(float(sum(ratings)/len(ratings)), 1)
     n = len(ratings)
 except Exception as e:
-    print("Error: " + str(e))
+    #print("Error: " + str(e))
     rating, n = "unrated", 0
 
 ELEPHANT = r"""                            _
@@ -186,9 +186,11 @@ while True:
                 func = input("Please select your command.\n1. Reset ratings\n2. Reset reviews\n3. Bulk add reviews\n")
                 clear()
                 if func.startswith('1'):
+                    if input("Are you sure? Type \"delete ratings\" to confirm.") != "delete ratings": continue
                     with open("reviews/ratings.txt", "w") as f: pass
                     print("Ratings.txt Cleared.")
                 elif func.startswith('2'):
+                    if input("Are you sure? Type \"delete reviews\" to confirm.") != "delete reviews": continue
                     with open("reviews/reviews.txt", "w") as f: pass
                     print("Reviews.txt Cleared.")
                 elif func.startswith('3'):
