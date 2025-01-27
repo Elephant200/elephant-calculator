@@ -167,11 +167,11 @@ def cas_cli():
         elif task == '8':
             clear()
             print(elephant)
-            num_eqs = int(input("\nTask: Solve Multi-Variable Equations\nHow many equations will you input? "))
+            variables = input("\nTask: Solve Multi-Variable Equations\nWhat variables will your equation have? Separate with commas: ")
+            num_eqs = int(input("How many equations will you input? "))
             equations = []
             for i in range(num_eqs):
                 equations.append(input(f"Equation {i+1}: "))
-            variables = input("What variables will your equation have? Separate with commas: ")
             input("Result: " + solve_multivariable(equations, variables))
 
         elif task == '9':
