@@ -8,6 +8,14 @@ channel = "stable-24_05"
 run = ["sh", "-c", "uvicorn undefined:app --host 0.0.0.0 --port 3000"]
 
 [[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
 localPort = 8000
 externalPort = 80
 
@@ -20,4 +28,21 @@ author = 3947996
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "uvicorn backend.api:app --host 0.0.0.0 --port 3000"
+args = "cd backend && uvicorn api:app --host 0.0.0.0 --port 3000"
+
+[[workflows.workflow]]
+name = "Run Backend"
+author = 3947996
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && uvicorn api:app --host 0.0.0.0 --port 3000"
+
+[[workflows.workflow]]
+name = "Run Frontend"
+mode = "sequential"
+author = 3947996
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend/elephant-calculator && npm run dev"
