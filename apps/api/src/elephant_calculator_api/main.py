@@ -1,6 +1,10 @@
+import logging
+
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+
+logger = logging.getLogger("elephant_calculator_api")
 from elephant_calculator_api.routers import (
     cas,
     geometry,
@@ -26,14 +30,26 @@ app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    status_code = 400 if isinstance(exc, ValueError) else 500
-    error_type = ''.join([' ' + char if char.isupper() else char for char in exc.__class__.__name__]).strip()
+    # ValueErrors are the calculator's way of signalling bad input, so they
+    # carry a helpful message and map to 400. Anything else is unexpected:
+    # log the real error but return a generic message so internals don't leak.
+    if isinstance(exc, ValueError):
+        return JSONResponse(
+            status_code=400,
+            content={
+                "detail": str(exc),
+                "error_type": "Value Error",
+                "path": str(request.url),
+            },
+        )
+
+    logger.exception("Unhandled error while processing %s", request.url)
     return JSONResponse(
-        status_code=status_code,
+        status_code=500,
         content={
-            "detail": str(exc),
-            "error_type": error_type,
-            "path": str(request.url)
+            "detail": "An internal error occurred while processing the request.",
+            "error_type": "Internal Server Error",
+            "path": str(request.url),
         },
     )
 
