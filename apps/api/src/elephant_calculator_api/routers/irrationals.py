@@ -210,3 +210,39 @@ def compute_arcsin(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISIO
     if precision < 1:
         raise ValueError("Precision must be positive.")
     return trim_trailing_zeroes(arcsin(data.operand, precision=precision))
+
+
+@router.post("/arccos", response_model=str)
+def compute_arccos(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
+    """
+    Compute the arccosine of a number with specified precision.
+
+    Args:
+        data (UnaryOperation): Contains the operand as a string to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The arccosine of the operand (in radians) as a string.
+    """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
+    if abs(Decimal(data.operand)) > 1:
+        raise ValueError("arccos input must be between -1 and 1.")
+    return trim_trailing_zeroes(arccos(data.operand, precision=precision))
+
+
+@router.post("/arctan", response_model=str)
+def compute_arctan(data: UnaryOperation, precision: int = Query(DEFAULT_PRECISION, description="Precision for the calculation")):
+    """
+    Compute the arctangent of a number with specified precision.
+
+    Args:
+        data (UnaryOperation): Contains the operand as a string to preserve precision.
+        precision (int, optional): The precision for the operation. Defaults to 100.
+
+    Returns:
+        str: The arctangent of the operand (in radians) as a string.
+    """
+    if precision < 1:
+        raise ValueError("Precision must be positive.")
+    return trim_trailing_zeroes(arctan(data.operand, precision=precision))
