@@ -2,9 +2,13 @@ import Link from "next/link";
 import { CATEGORIES, ALL_OPERATIONS } from "../lib/tools";
 
 export default function Home() {
+  const totalCategories = CATEGORIES.length;
+  const largestCategory = CATEGORIES.reduce((max, cat) =>
+    cat.operations.length > max.operations.length ? cat : max
+  );
+
   return (
     <div className="mx-auto max-w-[1180px] px-5 sm:px-8">
-      {/* ---- Hero ---- */}
       <section className="pt-16 sm:pt-24 pb-14">
         <div
           className="eyebrow rise-in"
@@ -17,7 +21,7 @@ export default function Home() {
           style={{
             fontSize: "clamp(44px, 8vw, 96px)",
             lineHeight: 0.98,
-            letterSpacing: "-0.03em",
+            letterSpacing: 0,
             animationDelay: "60ms",
           }}
         >
@@ -35,8 +39,16 @@ export default function Home() {
           engine.
         </p>
         <div
+          className="mt-8 grid max-w-[760px] grid-cols-1 gap-3 sm:grid-cols-3 rise-in"
+          style={{ animationDelay: "190ms" }}
+        >
+          <Metric value={ALL_OPERATIONS.length} label="tools" />
+          <Metric value={totalCategories} label="domains" />
+          <Metric value={largestCategory.operations.length} label={largestCategory.label} />
+        </div>
+        <div
           className="mt-9 flex flex-wrap items-center gap-4 rise-in"
-          style={{ animationDelay: "220ms" }}
+          style={{ animationDelay: "260ms" }}
         >
           <Link href="/calculator" className="btn btn-accent">
             Open the workspace →
@@ -52,7 +64,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---- Capability grid ---- */}
       <section className="pb-24">
         <div className="flex items-baseline justify-between mb-5">
           <h2
@@ -68,7 +79,7 @@ export default function Home() {
             <Link
               key={cat.id}
               href="/calculator"
-              className="panel p-5 group rise-in transition-transform hover:-translate-y-1"
+              className="panel p-5 group rise-in transition-transform hover:-translate-y-1 tool-shell"
               style={{ animationDelay: `${120 + i * 55}ms` }}
             >
               <div className="flex items-start justify-between">
@@ -91,6 +102,17 @@ export default function Home() {
               <p className="mt-2 text-[15px] text-[var(--text-soft)]">
                 {cat.tagline}
               </p>
+              <div className="mt-4 h-1.5 rounded-full bg-[var(--surface-sunk)] overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-[var(--accent)]"
+                  style={{
+                    width: `${Math.max(
+                      18,
+                      (cat.operations.length / largestCategory.operations.length) * 100
+                    )}%`,
+                  }}
+                />
+              </div>
               <div className="mt-4 font-mono text-[12px] text-[var(--muted)] flex flex-wrap gap-x-3 gap-y-1">
                 {cat.operations.slice(0, 4).map((o) => (
                   <span key={o.id}>{o.label}</span>
@@ -105,6 +127,19 @@ export default function Home() {
           ))}
         </div>
       </section>
+    </div>
+  );
+}
+
+function Metric({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="metric-tile">
+      <div className="font-mono text-[24px] leading-none text-[var(--text)]">
+        {value}
+      </div>
+      <div className="mt-1 font-mono text-[11px] uppercase text-[var(--muted)]">
+        {label}
+      </div>
     </div>
   );
 }

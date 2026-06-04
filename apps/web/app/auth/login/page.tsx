@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useAuth } from '../../../context/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Login() {
   const { login } = useAuth();
@@ -9,40 +9,40 @@ export default function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    login('Elephant200');
-    router.push('/');
+    login("Elephant200");
+    router.push("/");
   };
 
   return (
-    <div className="flex items-center justify-center h-full" style={{ paddingTop: '4rem' }}>
-      <div className="w-full max-w-sm p-6 bg-white border rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-5 py-12">
+      <div className="panel tool-shell w-full max-w-sm p-6">
+        <h1 className="font-display mb-6 text-center text-2xl font-bold">Login</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium">
+            <label htmlFor="username" className="field-label">
               Username
             </label>
             <input
               type="text"
               id="username"
-              className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm"
+              className="text-input"
               placeholder="Enter your username"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium">
+            <label htmlFor="password" className="field-label">
               Password
             </label>
             <input
               type="password"
               id="password"
-              className="mt-1 w-full px-4 py-2 border rounded-md shadow-sm"
+              className="text-input"
               placeholder="Enter your password"
             />
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-black rounded-md hover:opacity-90 transition"
+            className="btn btn-accent w-full"
           >
             Login
           </button>

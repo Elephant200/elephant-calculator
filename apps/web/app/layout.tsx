@@ -30,7 +30,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "The Elephant Calculator",
   description:
-    "A precision computing instrument on the savannah — vectors, matrices, geometry, primes, high-precision arithmetic, and a computer algebra system.",
+    "A precision calculator for vectors, matrices, geometry, primes, high-precision arithmetic, and computer algebra.",
 };
 
 export default function RootLayout({

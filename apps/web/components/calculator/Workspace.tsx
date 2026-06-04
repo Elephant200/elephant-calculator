@@ -157,7 +157,7 @@ export default function Workspace() {
           <OperationHeader op={op} category={activeCat} />
 
           <form
-            className="panel p-5 sm:p-7 mt-4"
+            className="panel tool-shell p-5 sm:p-7 mt-4"
             onSubmit={(e) => {
               e.preventDefault();
               compute();
@@ -243,7 +243,7 @@ export default function Workspace() {
             </div>
           </form>
 
-          <ResultPanel error={error} result={result} />
+          <ResultPanel error={error} result={result} op={op} category={activeCat} />
 
           {history.length > 0 && (
             <HistoryTape
@@ -291,13 +291,16 @@ function Rail({
     <aside className="lg:sticky lg:top-[84px] lg:self-start lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto thin-scroll -mx-1 px-1">
       <input
         className="text-input mb-3"
-        placeholder="Search tools…"
+        placeholder="Search tools..."
         value={search}
         onChange={(e) => onSearch(e.target.value)}
         spellCheck={false}
       />
       {q ? (
         <nav className="flex flex-col gap-0.5">
+          <div className="soft-chip mb-2 w-fit">
+            {matches.length} match{matches.length === 1 ? "" : "es"}
+          </div>
           {matches.length === 0 && (
             <p className="font-mono text-[12px] text-[var(--muted)] px-2 py-3">
               No tools match “{search}”.
@@ -338,7 +341,8 @@ function Rail({
               <button
                 type="button"
                 onClick={() => onSelect(cat.operations[0], cat)}
-                className="w-full text-left px-3 py-2 rounded-md transition-colors"
+                className="category-button w-full text-left px-3 py-2 rounded-md transition-colors"
+                data-active={active}
                 style={{
                   background: active ? "var(--surface)" : "transparent",
                   border: active
@@ -346,8 +350,13 @@ function Rail({
                     : "1px solid transparent",
                 }}
               >
-                <div className="font-display font-bold text-[15px]">
-                  {cat.label}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="font-display font-bold text-[15px]">
+                    {cat.label}
+                  </div>
+                  <span className="font-mono text-[11px] text-[var(--muted)]">
+                    {cat.operations.length}
+                  </span>
                 </div>
                 <div className="text-[12px] text-[var(--muted)] leading-tight">
                   {cat.tagline}
@@ -401,6 +410,14 @@ function OperationHeader({
         {op.label}
       </h1>
       <p className="mt-2 text-[var(--text-soft)] max-w-[60ch]">{op.blurb}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <span className="soft-chip">{op.method ?? "POST"}</span>
+        <span className="soft-chip">{op.endpoint}</span>
+        <span className="soft-chip">{op.resultLabel ?? op.result}</span>
+        <span className="soft-chip">
+          {category.operations.length} in {category.label}
+        </span>
+      </div>
     </div>
   );
 }
@@ -408,9 +425,13 @@ function OperationHeader({
 function ResultPanel({
   error,
   result,
+  op,
+  category,
 }: {
   error: { type: string; message: string } | null;
   result: ResultEntry | null;
+  op: Operation;
+  category: Category;
 }) {
   if (error) {
     return (
@@ -434,6 +455,14 @@ function ResultPanel({
   if (result) {
     return (
       <div className="panel p-5 sm:p-7 mt-5">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[var(--rule-soft)] pb-3">
+          <span className="soft-chip">
+            {result.categoryLabel} · {result.opLabel}
+          </span>
+          <span className="font-mono text-[12px] text-[var(--muted)]">
+            {result.summary}
+          </span>
+        </div>
         <ResultView
           kind={result.kind}
           value={result.value}
@@ -446,10 +475,14 @@ function ResultPanel({
   return (
     <div
       className="mt-5 p-7 rounded-md text-center"
-      style={{ border: "1px dashed var(--rule)" }}
+      style={{
+        border: "1px dashed var(--rule)",
+        background: "color-mix(in srgb, var(--surface) 46%, transparent)",
+      }}
     >
+      <div className="mx-auto mb-3 h-10 w-10 rounded-full border border-[var(--rule)] bg-[var(--surface-sunk)]" />
       <p className="font-mono text-[13px] text-[var(--muted)]">
-        Enter values and press Compute to see the result.
+        {category.label} · {op.label}
       </p>
     </div>
   );
