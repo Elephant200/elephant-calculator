@@ -318,27 +318,6 @@ def calculate_perimeter_decagon(data: Square):
     """
     return perimeter_decagon(data.side)
 
-
-@router.post("/perimeter/hexagon", response_model=float)
-def calculate_perimeter_hexagon(data: Square):
-    return perimeter_hexagon(data.side)
-
-@router.post("/perimeter/heptagon", response_model=float)
-def calculate_perimeter_heptagon(data: Square):
-    return perimeter_heptagon(data.side)
-
-@router.post("/perimeter/octagon", response_model=float)
-def calculate_perimeter_octagon(data: Square):
-    return perimeter_octagon(data.side)
-
-@router.post("/perimeter/nonagon", response_model=float)
-def calculate_perimeter_nonagon(data: Square):
-    return perimeter_nonagon(data.side)
-
-@router.post("/perimeter/decagon", response_model=float)
-def calculate_perimeter_decagon(data: Square):
-    return perimeter_decagon(data.side)
-
 # VOLUME CALCULATIONS
 @router.post("/volume/cube", response_model=float)
 def calculate_volume_cube(data: Cube):

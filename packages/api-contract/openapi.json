@@ -1,0 +1,4787 @@
+{
+  "components": {
+    "schemas": {
+      "ArithmeticOperation": {
+        "properties": {
+          "operand1": {
+            "description": "The first operand as a string to preserve precision.",
+            "title": "Operand1",
+            "type": "string"
+          },
+          "operand2": {
+            "description": "The second operand as a string to preserve precision.",
+            "title": "Operand2",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operand1",
+          "operand2"
+        ],
+        "title": "ArithmeticOperation",
+        "type": "object"
+      },
+      "Circle": {
+        "properties": {
+          "radius": {
+            "description": "The radius of the circle.",
+            "title": "Radius",
+            "type": "number"
+          }
+        },
+        "required": [
+          "radius"
+        ],
+        "title": "Circle",
+        "type": "object"
+      },
+      "Cube": {
+        "properties": {
+          "side": {
+            "description": "The side length of the cube.",
+            "title": "Side",
+            "type": "number"
+          }
+        },
+        "required": [
+          "side"
+        ],
+        "title": "Cube",
+        "type": "object"
+      },
+      "DefiniteIntegralRequest": {
+        "properties": {
+          "expression": {
+            "description": "The algebraic expression to integrate.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "lower_limit": {
+            "description": "The lower limit of the definite integral.",
+            "title": "Lower Limit",
+            "type": "string"
+          },
+          "upper_limit": {
+            "description": "The upper limit of the definite integral.",
+            "title": "Upper Limit",
+            "type": "string"
+          },
+          "variable": {
+            "description": "The variable with respect to which integration is performed.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variable",
+          "lower_limit",
+          "upper_limit"
+        ],
+        "title": "DefiniteIntegralRequest",
+        "type": "object"
+      },
+      "DifferentialEquationRequest": {
+        "properties": {
+          "equation": {
+            "description": "The first-order differential equation to solve.",
+            "title": "Equation",
+            "type": "string"
+          }
+        },
+        "required": [
+          "equation"
+        ],
+        "title": "DifferentialEquationRequest",
+        "type": "object"
+      },
+      "Ellipse": {
+        "properties": {
+          "semi_major": {
+            "description": "The semi-major axis of the ellipse.",
+            "title": "Semi Major",
+            "type": "number"
+          },
+          "semi_minor": {
+            "description": "The semi-minor axis of the ellipse.",
+            "title": "Semi Minor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "semi_major",
+          "semi_minor"
+        ],
+        "title": "Ellipse",
+        "type": "object"
+      },
+      "ExpressionRequest": {
+        "properties": {
+          "expression": {
+            "description": "The algebraic expression to process.",
+            "title": "Expression",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression"
+        ],
+        "title": "ExpressionRequest",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "IntegralRequest": {
+        "properties": {
+          "expression": {
+            "description": "The algebraic expression to integrate.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "variable": {
+            "description": "The variable with respect to which integration is performed.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variable"
+        ],
+        "title": "IntegralRequest",
+        "type": "object"
+      },
+      "MatrixOperation": {
+        "properties": {
+          "matrix1": {
+            "description": "The first matrix for the operation.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix1",
+            "type": "array"
+          },
+          "matrix2": {
+            "description": "The second matrix for the operation.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix2",
+            "type": "array"
+          }
+        },
+        "required": [
+          "matrix1",
+          "matrix2"
+        ],
+        "title": "MatrixOperation",
+        "type": "object"
+      },
+      "MultiVariableEquationsRequest": {
+        "properties": {
+          "equations": {
+            "description": "A list of equations to solve.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Equations",
+            "type": "array"
+          },
+          "variables": {
+            "description": "A comma-separated list of variables to solve for.",
+            "title": "Variables",
+            "type": "string"
+          }
+        },
+        "required": [
+          "equations",
+          "variables"
+        ],
+        "title": "MultiVariableEquationsRequest",
+        "type": "object"
+      },
+      "Parallelogram": {
+        "properties": {
+          "side1": {
+            "description": "The length of the first side.",
+            "title": "Side1",
+            "type": "number"
+          },
+          "side2": {
+            "description": "The length of the second side.",
+            "title": "Side2",
+            "type": "number"
+          },
+          "theta": {
+            "description": "The angle (in degrees) between the two sides.",
+            "title": "Theta",
+            "type": "number"
+          }
+        },
+        "required": [
+          "side1",
+          "side2",
+          "theta"
+        ],
+        "title": "Parallelogram",
+        "type": "object"
+      },
+      "Polygon": {
+        "properties": {
+          "side_length": {
+            "description": "The length of each side.",
+            "title": "Side Length",
+            "type": "number"
+          },
+          "sides": {
+            "description": "The number of sides of the polygon.",
+            "title": "Sides",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sides",
+          "side_length"
+        ],
+        "title": "Polygon",
+        "type": "object"
+      },
+      "PrimeCheck": {
+        "properties": {
+          "number": {
+            "description": "The number to check for primality.",
+            "title": "Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "number"
+        ],
+        "title": "PrimeCheck",
+        "type": "object"
+      },
+      "PrimeFactorization": {
+        "properties": {
+          "number": {
+            "description": "The number to factorize into primes.",
+            "title": "Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "number"
+        ],
+        "title": "PrimeFactorization",
+        "type": "object"
+      },
+      "PrimeList": {
+        "properties": {
+          "count": {
+            "description": "The number of primes to generate.",
+            "title": "Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "count"
+        ],
+        "title": "PrimeList",
+        "type": "object"
+      },
+      "PrimeNth": {
+        "properties": {
+          "n": {
+            "description": "The position of the prime number to find.",
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n"
+        ],
+        "title": "PrimeNth",
+        "type": "object"
+      },
+      "Prism": {
+        "properties": {
+          "base_area": {
+            "description": "The base area of the prism.",
+            "title": "Base Area",
+            "type": "number"
+          },
+          "base_perimeter": {
+            "description": "The base perimeter of the prism (optional).",
+            "title": "Base Perimeter",
+            "type": "number"
+          },
+          "height": {
+            "description": "The height of the prism.",
+            "title": "Height",
+            "type": "number"
+          }
+        },
+        "required": [
+          "base_area",
+          "height"
+        ],
+        "title": "Prism",
+        "type": "object"
+      },
+      "PythagoreanTriplesRequest": {
+        "properties": {
+          "max_hypotenuse": {
+            "description": "The maximum hypotenuse length for generating triples.",
+            "title": "Max Hypotenuse",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_hypotenuse"
+        ],
+        "title": "PythagoreanTriplesRequest",
+        "type": "object"
+      },
+      "Rectangle": {
+        "properties": {
+          "length": {
+            "description": "The length of the rectangle.",
+            "title": "Length",
+            "type": "number"
+          },
+          "width": {
+            "description": "The width of the rectangle.",
+            "title": "Width",
+            "type": "number"
+          }
+        },
+        "required": [
+          "length",
+          "width"
+        ],
+        "title": "Rectangle",
+        "type": "object"
+      },
+      "RectangularPrism": {
+        "properties": {
+          "height": {
+            "description": "The height of the rectangular prism.",
+            "title": "Height",
+            "type": "number"
+          },
+          "length": {
+            "description": "The length of the rectangular prism.",
+            "title": "Length",
+            "type": "number"
+          },
+          "width": {
+            "description": "The width of the rectangular prism.",
+            "title": "Width",
+            "type": "number"
+          }
+        },
+        "required": [
+          "length",
+          "width",
+          "height"
+        ],
+        "title": "RectangularPrism",
+        "type": "object"
+      },
+      "Rhombus": {
+        "properties": {
+          "diagonal1": {
+            "description": "The length of the first diagonal.",
+            "title": "Diagonal1",
+            "type": "number"
+          },
+          "diagonal2": {
+            "description": "The length of the second diagonal.",
+            "title": "Diagonal2",
+            "type": "number"
+          }
+        },
+        "required": [
+          "diagonal1",
+          "diagonal2"
+        ],
+        "title": "Rhombus",
+        "type": "object"
+      },
+      "ScalarMatrixOperation": {
+        "properties": {
+          "matrix": {
+            "description": "The matrix to scale or operate on.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix",
+            "type": "array"
+          },
+          "scalar": {
+            "description": "The scalar value for scaling the matrix.",
+            "title": "Scalar",
+            "type": "number"
+          }
+        },
+        "required": [
+          "matrix",
+          "scalar"
+        ],
+        "title": "ScalarMatrixOperation",
+        "type": "object"
+      },
+      "ScalarVectorOperation": {
+        "properties": {
+          "scalar": {
+            "description": "The scalar value for scaling the vector.",
+            "title": "Scalar",
+            "type": "number"
+          },
+          "vector": {
+            "description": "The vector to scale.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Vector",
+            "type": "array"
+          }
+        },
+        "required": [
+          "vector",
+          "scalar"
+        ],
+        "title": "ScalarVectorOperation",
+        "type": "object"
+      },
+      "SemiCircle": {
+        "properties": {
+          "radius": {
+            "description": "The radius of the semicircle.",
+            "title": "Radius",
+            "type": "number"
+          }
+        },
+        "required": [
+          "radius"
+        ],
+        "title": "SemiCircle",
+        "type": "object"
+      },
+      "SingleMatrixOperation": {
+        "properties": {
+          "matrix": {
+            "description": "The matrix to operate on.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix",
+            "type": "array"
+          }
+        },
+        "required": [
+          "matrix"
+        ],
+        "title": "SingleMatrixOperation",
+        "type": "object"
+      },
+      "SingleVariableEquationRequest": {
+        "properties": {
+          "equation": {
+            "description": "The equation to solve, with '=' separating the left and right sides.",
+            "title": "Equation",
+            "type": "string"
+          },
+          "variable": {
+            "description": "The variable to solve for.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "equation",
+          "variable"
+        ],
+        "title": "SingleVariableEquationRequest",
+        "type": "object"
+      },
+      "Square": {
+        "properties": {
+          "side": {
+            "description": "The side length of the square.",
+            "title": "Side",
+            "type": "number"
+          }
+        },
+        "required": [
+          "side"
+        ],
+        "title": "Square",
+        "type": "object"
+      },
+      "Trapezoid": {
+        "properties": {
+          "base1": {
+            "description": "The length of the first base.",
+            "title": "Base1",
+            "type": "number"
+          },
+          "base2": {
+            "description": "The length of the second base.",
+            "title": "Base2",
+            "type": "number"
+          },
+          "height": {
+            "description": "The height of the trapezoid.",
+            "title": "Height",
+            "type": "number"
+          }
+        },
+        "required": [
+          "base1",
+          "base2",
+          "height"
+        ],
+        "title": "Trapezoid",
+        "type": "object"
+      },
+      "TriangleBaseHeight": {
+        "properties": {
+          "base": {
+            "description": "The base length of the triangle.",
+            "title": "Base",
+            "type": "number"
+          },
+          "height": {
+            "description": "The height of the triangle.",
+            "title": "Height",
+            "type": "number"
+          }
+        },
+        "required": [
+          "base",
+          "height"
+        ],
+        "title": "TriangleBaseHeight",
+        "type": "object"
+      },
+      "TriangleHeron": {
+        "properties": {
+          "side1": {
+            "description": "The length of the first side.",
+            "title": "Side1",
+            "type": "number"
+          },
+          "side2": {
+            "description": "The length of the second side.",
+            "title": "Side2",
+            "type": "number"
+          },
+          "side3": {
+            "description": "The length of the third side.",
+            "title": "Side3",
+            "type": "number"
+          }
+        },
+        "required": [
+          "side1",
+          "side2",
+          "side3"
+        ],
+        "title": "TriangleHeron",
+        "type": "object"
+      },
+      "TriangleRequest": {
+        "properties": {
+          "A": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Angle opposite side a, in degrees (optional).",
+            "title": "A"
+          },
+          "B": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Angle opposite side b, in degrees (optional).",
+            "title": "B"
+          },
+          "C": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Angle opposite side c, in degrees (optional).",
+            "title": "C"
+          },
+          "a": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Length of side a (optional).",
+            "title": "A"
+          },
+          "b": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Length of side b (optional).",
+            "title": "B"
+          },
+          "c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Length of side c (optional).",
+            "title": "C"
+          }
+        },
+        "title": "TriangleRequest",
+        "type": "object"
+      },
+      "TriangleSAS": {
+        "properties": {
+          "angle": {
+            "description": "The included angle (in degrees).",
+            "title": "Angle",
+            "type": "number"
+          },
+          "side1": {
+            "description": "The length of the first side.",
+            "title": "Side1",
+            "type": "number"
+          },
+          "side2": {
+            "description": "The length of the second side.",
+            "title": "Side2",
+            "type": "number"
+          }
+        },
+        "required": [
+          "side1",
+          "side2",
+          "angle"
+        ],
+        "title": "TriangleSAS",
+        "type": "object"
+      },
+      "TrigonometricOperation": {
+        "properties": {
+          "angle": {
+            "description": "The angle for the trigonometric operation.",
+            "title": "Angle",
+            "type": "string"
+          },
+          "radians": {
+            "default": true,
+            "description": "Whether the angle is in radians. Defaults to True.",
+            "title": "Radians",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "angle"
+        ],
+        "title": "TrigonometricOperation",
+        "type": "object"
+      },
+      "UnaryOperation": {
+        "properties": {
+          "operand": {
+            "description": "The operand for the operation as a string to preserve precision.",
+            "title": "Operand",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operand"
+        ],
+        "title": "UnaryOperation",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VectorMatrixOperation": {
+        "properties": {
+          "matrix": {
+            "description": "The matrix to multiply with the vector.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix",
+            "type": "array"
+          },
+          "vector": {
+            "description": "The vector to multiply with the matrix.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Vector",
+            "type": "array"
+          }
+        },
+        "required": [
+          "vector",
+          "matrix"
+        ],
+        "title": "VectorMatrixOperation",
+        "type": "object"
+      },
+      "VectorOperation": {
+        "properties": {
+          "vector1": {
+            "description": "The first vector for the operation.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Vector1",
+            "type": "array"
+          },
+          "vector2": {
+            "description": "The second vector for the operation.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Vector2",
+            "type": "array"
+          }
+        },
+        "required": [
+          "vector1",
+          "vector2"
+        ],
+        "title": "VectorOperation",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "The Elephant Calculator API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/cas/definite-integral": {
+      "post": {
+        "description": "Compute the definite integral of an expression over a range.\n\nArgs:\n    data (DefiniteIntegralRequest): The input expression, variable, and limits for integration.\n\nReturns:\n    str: The definite integral of the expression over the specified range.",
+        "operationId": "definite_integral_endpoint_api_cas_definite_integral_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DefiniteIntegralRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Definite Integral Endpoint Api Cas Definite Integral Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Definite Integral Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/differentiate": {
+      "post": {
+        "description": "Compute the derivative of an expression.\n\nArgs:\n    data (ExpressionRequest): The input expression to differentiate.\n\nReturns:\n    str: The derivative of the expression.",
+        "operationId": "derivative_endpoint_api_cas_differentiate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpressionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Derivative Endpoint Api Cas Differentiate Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Derivative Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/expand": {
+      "post": {
+        "description": "Expand an algebraic expression.\n\nArgs:\n    data (ExpressionRequest): The input expression to be expanded.\n\nReturns:\n    str: The expanded form of the expression.",
+        "operationId": "expand_expression_endpoint_api_cas_expand_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpressionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Expand Expression Endpoint Api Cas Expand Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Expand Expression Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/factor": {
+      "post": {
+        "description": "Factor an algebraic expression.\n\nArgs:\n    data (ExpressionRequest): The input expression to be factored.\n\nReturns:\n    str: The factored form of the expression.",
+        "operationId": "factor_expression_endpoint_api_cas_factor_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpressionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Factor Expression Endpoint Api Cas Factor Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Factor Expression Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/integrate": {
+      "post": {
+        "description": "Compute the indefinite integral of an expression.\n\nArgs:\n    data (IntegralRequest): The input expression and variable for integration.\n\nReturns:\n    str: The indefinite integral of the expression.",
+        "operationId": "indefinite_integral_endpoint_api_cas_integrate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegralRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Indefinite Integral Endpoint Api Cas Integrate Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Indefinite Integral Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/simplify": {
+      "post": {
+        "description": "Simplify an algebraic expression.\n\nArgs:\n    data (ExpressionRequest): The input expression to be simplified.\n\nReturns:\n    str: The simplified form of the expression.",
+        "operationId": "simplify_expression_endpoint_api_cas_simplify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpressionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Simplify Expression Endpoint Api Cas Simplify Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Simplify Expression Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/solve-differential": {
+      "post": {
+        "description": "Solve a first-order differential equation.\n\nArgs:\n    data (DifferentialEquationRequest): The input differential equation to solve.\n\nReturns:\n    str: The solution to the differential equation.",
+        "operationId": "solve_differential_endpoint_api_cas_solve_differential_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DifferentialEquationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Solve Differential Endpoint Api Cas Solve Differential Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Solve Differential Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/solve-equation": {
+      "post": {
+        "description": "Solve a single-variable equation.\n\nArgs:\n    data (SingleVariableEquationRequest): The input equation and variable to solve for.\n\nReturns:\n    str: The solution of the equation for the specified variable.",
+        "operationId": "solve_single_variable_endpoint_api_cas_solve_equation_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleVariableEquationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Solve Single Variable Endpoint Api Cas Solve Equation Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Solve Single Variable Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/cas/solve-multivariable": {
+      "post": {
+        "description": "Solve a system of multivariable equations.\n\nArgs:\n    data (MultiVariableEquationsRequest): The input equations and variables to solve for.\n\nReturns:\n    str: The solutions to the system of equations.",
+        "operationId": "solve_multivariable_endpoint_api_cas_solve_multivariable_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiVariableEquationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Solve Multivariable Endpoint Api Cas Solve Multivariable Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Solve Multivariable Endpoint",
+        "tags": [
+          "CAS"
+        ]
+      }
+    },
+    "/api/geometry/area/circle": {
+      "post": {
+        "description": "Calculate the area of a circle.\n\nArgs:\n    data (Circle): Contains the radius of the circle.\n\nReturns:\n    float: The area of the circle.",
+        "operationId": "calculate_area_circle_api_geometry_area_circle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Circle Api Geometry Area Circle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Circle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/ellipse": {
+      "post": {
+        "description": "Calculate the area of an ellipse.\n\nArgs:\n    data (Ellipse): Contains the semi-major and semi-minor axes of the ellipse.\n\nReturns:\n    float: The area of the ellipse.",
+        "operationId": "calculate_area_ellipse_api_geometry_area_ellipse_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ellipse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Ellipse Api Geometry Area Ellipse Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Ellipse",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/parallelogram": {
+      "post": {
+        "description": "Calculate the area of a parallelogram.\n\nArgs:\n    data (Parallelogram): Contains the two side lengths and the angle between them (in degrees).\n\nReturns:\n    float: The area of the parallelogram.",
+        "operationId": "calculate_area_parallelogram_api_geometry_area_parallelogram_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Parallelogram"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Parallelogram Api Geometry Area Parallelogram Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Parallelogram",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/polygon": {
+      "post": {
+        "description": "Calculate the area of a regular polygon.\n\nArgs:\n    data (Polygon): Contains the number of sides and the length of each side.\n\nReturns:\n    float: The area of the polygon.",
+        "operationId": "calculate_area_polygon_api_geometry_area_polygon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Polygon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Polygon Api Geometry Area Polygon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Polygon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/rectangle": {
+      "post": {
+        "description": "Calculate the area of a rectangle.\n\nArgs:\n    data (Rectangle): Contains the length and width of the rectangle.\n\nReturns:\n    float: The area of the rectangle.",
+        "operationId": "calculate_area_rectangle_api_geometry_area_rectangle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rectangle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Rectangle Api Geometry Area Rectangle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Rectangle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/rhombus": {
+      "post": {
+        "description": "Calculate the area of a rhombus.\n\nArgs:\n    data (Rhombus): Contains the lengths of the diagonals of the rhombus.\n\nReturns:\n    float: The area of the rhombus.",
+        "operationId": "calculate_area_rhombus_api_geometry_area_rhombus_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rhombus"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Rhombus Api Geometry Area Rhombus Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Rhombus",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/semi_circle": {
+      "post": {
+        "description": "Calculate the area of a semicircle.\n\nArgs:\n    data (SemiCircle): Contains the radius of the semicircle.\n\nReturns:\n    float: The area of the semicircle.",
+        "operationId": "calculate_area_semi_circle_api_geometry_area_semi_circle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SemiCircle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Semi Circle Api Geometry Area Semi Circle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Semi Circle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/square": {
+      "post": {
+        "description": "Calculate the area of a square.\n\nArgs:\n    data (Square): Contains the side length of the square.\n\nReturns:\n    float: The area of the square.",
+        "operationId": "calculate_area_square_api_geometry_area_square_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Square Api Geometry Area Square Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Square",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/trapezoid": {
+      "post": {
+        "description": "Calculate the area of a trapezoid.\n\nArgs:\n    data (Trapezoid): Contains the lengths of the two bases and the height of the trapezoid.\n\nReturns:\n    float: The area of the trapezoid.",
+        "operationId": "calculate_area_trapezoid_api_geometry_area_trapezoid_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trapezoid"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Trapezoid Api Geometry Area Trapezoid Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Trapezoid",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/triangle/base_height": {
+      "post": {
+        "description": "Calculate the area of a triangle using its base and height.\n\nArgs:\n    data (TriangleBaseHeight): Contains the base length and height of the triangle.\n\nReturns:\n    float: The area of the triangle.",
+        "operationId": "calculate_area_triangle_base_height_api_geometry_area_triangle_base_height_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriangleBaseHeight"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Triangle Base Height Api Geometry Area Triangle Base Height Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Triangle Base Height",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/triangle/heron": {
+      "post": {
+        "description": "Calculate the area of a triangle using Heron's formula.\n\nArgs:\n    data (TriangleHeron): Contains the lengths of the three sides of the triangle.\n\nReturns:\n    float: The area of the triangle.",
+        "operationId": "calculate_area_triangle_heron_api_geometry_area_triangle_heron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriangleHeron"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Triangle Heron Api Geometry Area Triangle Heron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Triangle Heron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/area/triangle/sas": {
+      "post": {
+        "description": "Calculate the area of a triangle using the SAS method.\n\nArgs:\n    data (TriangleSAS): Contains two side lengths and the angle between them (in degrees).\n\nReturns:\n    float: The area of the triangle.",
+        "operationId": "calculate_area_triangle_sas_api_geometry_area_triangle_sas_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriangleSAS"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Area Triangle Sas Api Geometry Area Triangle Sas Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Area Triangle Sas",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/circle": {
+      "post": {
+        "description": "Calculate the perimeter of a circle (circumference).\n\nArgs:\n    data (Circle): Contains the radius of the circle.\n\nReturns:\n    float: The perimeter of the circle.",
+        "operationId": "calculate_perimeter_circle_api_geometry_perimeter_circle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Circle Api Geometry Perimeter Circle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Circle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/decagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular decagon.\n\nArgs:\n    data (Square): Contains the side length of the decagon.\n\nReturns:\n    float: The perimeter of the decagon.",
+        "operationId": "calculate_perimeter_decagon_api_geometry_perimeter_decagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Decagon Api Geometry Perimeter Decagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Decagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/heptagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular heptagon.\n\nArgs:\n    data (Square): Contains the side length of the heptagon.\n\nReturns:\n    float: The perimeter of the heptagon.",
+        "operationId": "calculate_perimeter_heptagon_api_geometry_perimeter_heptagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Heptagon Api Geometry Perimeter Heptagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Heptagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/hexagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular hexagon.\n\nArgs:\n    data (Square): Contains the side length of the hexagon.\n\nReturns:\n    float: The perimeter of the hexagon.",
+        "operationId": "calculate_perimeter_hexagon_api_geometry_perimeter_hexagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Hexagon Api Geometry Perimeter Hexagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Hexagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/nonagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular nonagon.\n\nArgs:\n    data (Square): Contains the side length of the nonagon.\n\nReturns:\n    float: The perimeter of the nonagon.",
+        "operationId": "calculate_perimeter_nonagon_api_geometry_perimeter_nonagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Nonagon Api Geometry Perimeter Nonagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Nonagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/octagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular octagon.\n\nArgs:\n    data (Square): Contains the side length of the octagon.\n\nReturns:\n    float: The perimeter of the octagon.",
+        "operationId": "calculate_perimeter_octagon_api_geometry_perimeter_octagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Octagon Api Geometry Perimeter Octagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Octagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/pentagon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular pentagon.\n\nArgs:\n    data (Square): Contains the side length of the pentagon.\n\nReturns:\n    float: The perimeter of the pentagon.",
+        "operationId": "calculate_perimeter_pentagon_api_geometry_perimeter_pentagon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Pentagon Api Geometry Perimeter Pentagon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Pentagon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/polygon": {
+      "post": {
+        "description": "Calculate the perimeter of a regular polygon.\n\nArgs:\n    data (Polygon): Contains the number of sides and the length of each side.\n\nReturns:\n    float: The perimeter of the polygon.",
+        "operationId": "calculate_perimeter_polygon_api_geometry_perimeter_polygon_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Polygon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Polygon Api Geometry Perimeter Polygon Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Polygon",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/rectangle": {
+      "post": {
+        "description": "Calculate the perimeter of a rectangle.\n\nArgs:\n    data (Rectangle): Contains the length and width of the rectangle.\n\nReturns:\n    float: The perimeter of the rectangle.",
+        "operationId": "calculate_perimeter_rectangle_api_geometry_perimeter_rectangle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rectangle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Rectangle Api Geometry Perimeter Rectangle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Rectangle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/square": {
+      "post": {
+        "description": "Calculate the perimeter of a square.\n\nArgs:\n    data (Square): Contains the side length of the square.\n\nReturns:\n    float: The perimeter of the square.",
+        "operationId": "calculate_perimeter_square_api_geometry_perimeter_square_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Square"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Square Api Geometry Perimeter Square Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Square",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/trapezoid": {
+      "post": {
+        "description": "Calculate the perimeter of a trapezoid.\n\nArgs:\n    data (Trapezoid): Contains the lengths of the two bases and the two non-parallel sides.\n\nReturns:\n    float: The perimeter of the trapezoid.",
+        "operationId": "calculate_perimeter_trapezoid_api_geometry_perimeter_trapezoid_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trapezoid"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Trapezoid Api Geometry Perimeter Trapezoid Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Trapezoid",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/perimeter/triangle": {
+      "post": {
+        "description": "Calculate the perimeter of a triangle.\n\nArgs:\n    data (TriangleHeron): Contains the lengths of the three sides of the triangle.\n\nReturns:\n    float: The perimeter of the triangle.",
+        "operationId": "calculate_perimeter_triangle_api_geometry_perimeter_triangle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriangleHeron"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Perimeter Triangle Api Geometry Perimeter Triangle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Perimeter Triangle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/cone": {
+      "post": {
+        "description": "Calculate the surface area of a cone.\n\nArgs:\n    data (Circle): Contains the radius of the base and height of the cone.\n\nReturns:\n    float: The surface area of the cone.",
+        "operationId": "calculate_surface_area_cone_api_geometry_surface_area_cone_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Cone Api Geometry Surface Area Cone Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Cone",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/cube": {
+      "post": {
+        "description": "Calculate the surface area of a cube.\n\nArgs:\n    data (Cube): Contains the side length of the cube.\n\nReturns:\n    float: The surface area of the cube.",
+        "operationId": "calculate_surface_area_cube_api_geometry_surface_area_cube_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Cube Api Geometry Surface Area Cube Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Cube",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/cylinder": {
+      "post": {
+        "description": "Calculate the surface area of a cylinder.\n\nArgs:\n    data (Circle): Contains the radius of the base and height of the cylinder.\n\nReturns:\n    float: The surface area of the cylinder.",
+        "operationId": "calculate_surface_area_cylinder_api_geometry_surface_area_cylinder_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Cylinder Api Geometry Surface Area Cylinder Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Cylinder",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/dodecahedron": {
+      "post": {
+        "description": "Calculate the surface area of a regular dodecahedron.\n\nArgs:\n    data (Cube): Contains the side length of the dodecahedron.\n\nReturns:\n    float: The surface area of the dodecahedron.",
+        "operationId": "calculate_surface_area_dodecahedron_api_geometry_surface_area_dodecahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Dodecahedron Api Geometry Surface Area Dodecahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Dodecahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/ellipsoid": {
+      "post": {
+        "description": "Calculate the surface area of an ellipsoid.\n\nArgs:\n    data (Ellipse): Contains the three axes (semi-major, semi-minor, and a third axis).\n\nReturns:\n    float: The surface area of the ellipsoid.",
+        "operationId": "calculate_surface_area_ellipsoid_api_geometry_surface_area_ellipsoid_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ellipse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Ellipsoid Api Geometry Surface Area Ellipsoid Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Ellipsoid",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/icosahedron": {
+      "post": {
+        "description": "Calculate the surface area of a regular icosahedron.\n\nArgs:\n    data (Cube): Contains the side length of the icosahedron.\n\nReturns:\n    float: The surface area of the icosahedron.",
+        "operationId": "calculate_surface_area_icosahedron_api_geometry_surface_area_icosahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Icosahedron Api Geometry Surface Area Icosahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Icosahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/octahedron": {
+      "post": {
+        "description": "Calculate the surface area of a regular octahedron.\n\nArgs:\n    data (Cube): Contains the side length of the octahedron.\n\nReturns:\n    float: The surface area of the octahedron.",
+        "operationId": "calculate_surface_area_octahedron_api_geometry_surface_area_octahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Octahedron Api Geometry Surface Area Octahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Octahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/prism": {
+      "post": {
+        "description": "Calculate the surface area of a prism.\n\nArgs:\n    data (Prism): Contains the base area, base perimeter, and height of the prism.\n\nReturns:\n    float: The surface area of the prism.",
+        "operationId": "calculate_surface_area_prism_api_geometry_surface_area_prism_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Prism"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Prism Api Geometry Surface Area Prism Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Prism",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/rectangular_prism": {
+      "post": {
+        "description": "Calculate the surface area of a rectangular prism.\n\nArgs:\n    data (RectangularPrism): Contains the length, width, and height of the prism.\n\nReturns:\n    float: The surface area of the rectangular prism.",
+        "operationId": "calculate_surface_area_rectangular_prism_api_geometry_surface_area_rectangular_prism_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RectangularPrism"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Rectangular Prism Api Geometry Surface Area Rectangular Prism Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Rectangular Prism",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/sphere": {
+      "post": {
+        "description": "Calculate the surface area of a sphere.\n\nArgs:\n    data (Circle): Contains the radius of the sphere.\n\nReturns:\n    float: The surface area of the sphere.",
+        "operationId": "calculate_surface_area_sphere_api_geometry_surface_area_sphere_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Sphere Api Geometry Surface Area Sphere Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Sphere",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/surface_area/tetrahedron": {
+      "post": {
+        "description": "Calculate the surface area of a regular tetrahedron.\n\nArgs:\n    data (Cube): Contains the side length of the tetrahedron.\n\nReturns:\n    float: The surface area of the tetrahedron.",
+        "operationId": "calculate_surface_area_tetrahedron_api_geometry_surface_area_tetrahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Surface Area Tetrahedron Api Geometry Surface Area Tetrahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Surface Area Tetrahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/cone": {
+      "post": {
+        "description": "Calculate the volume of a cone.\n\nArgs:\n    data (Circle): Contains the radius of the base and height of the cone.\n\nReturns:\n    float: The volume of the cone.",
+        "operationId": "calculate_volume_cone_api_geometry_volume_cone_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Cone Api Geometry Volume Cone Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Cone",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/cube": {
+      "post": {
+        "description": "Calculate the volume of a cube.\n\nArgs:\n    data (Cube): Contains the side length of the cube.\n\nReturns:\n    float: The volume of the cube.",
+        "operationId": "calculate_volume_cube_api_geometry_volume_cube_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Cube Api Geometry Volume Cube Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Cube",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/cylinder": {
+      "post": {
+        "description": "Calculate the volume of a cylinder.\n\nArgs:\n    data (Circle): Contains the radius of the base and height of the cylinder.\n\nReturns:\n    float: The volume of the cylinder.",
+        "operationId": "calculate_volume_cylinder_api_geometry_volume_cylinder_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Cylinder Api Geometry Volume Cylinder Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Cylinder",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/dodecahedron": {
+      "post": {
+        "description": "Calculate the volume of a regular dodecahedron.\n\nArgs:\n    data (Cube): Contains the side length of the dodecahedron.\n\nReturns:\n    float: The volume of the dodecahedron.",
+        "operationId": "calculate_volume_dodecahedron_api_geometry_volume_dodecahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Dodecahedron Api Geometry Volume Dodecahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Dodecahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/ellipsoid": {
+      "post": {
+        "description": "Calculate the volume of an ellipsoid.\n\nArgs:\n    data (Ellipse): Contains the three axes (semi-major, semi-minor, and a third axis).\n\nReturns:\n    float: The volume of the ellipsoid.",
+        "operationId": "calculate_volume_ellipsoid_api_geometry_volume_ellipsoid_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ellipse"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Ellipsoid Api Geometry Volume Ellipsoid Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Ellipsoid",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/icosahedron": {
+      "post": {
+        "description": "Calculate the volume of a regular icosahedron.\n\nArgs:\n    data (Cube): Contains the side length of the icosahedron.\n\nReturns:\n    float: The volume of the icosahedron.",
+        "operationId": "calculate_volume_icosahedron_api_geometry_volume_icosahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Icosahedron Api Geometry Volume Icosahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Icosahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/octahedron": {
+      "post": {
+        "description": "Calculate the volume of a regular octahedron.\n\nArgs:\n    data (Cube): Contains the side length of the octahedron.\n\nReturns:\n    float: The volume of the octahedron.",
+        "operationId": "calculate_volume_octahedron_api_geometry_volume_octahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Octahedron Api Geometry Volume Octahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Octahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/prism": {
+      "post": {
+        "description": "Calculate the volume of a prism.\n\nArgs:\n    data (Prism): Contains the base area and height of the prism.\n\nReturns:\n    float: The volume of the prism.",
+        "operationId": "calculate_volume_prism_api_geometry_volume_prism_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Prism"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Prism Api Geometry Volume Prism Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Prism",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/rectangular_prism": {
+      "post": {
+        "description": "Calculate the volume of a rectangular prism.\n\nArgs:\n    data (RectangularPrism): Contains the length, width, and height of the prism.\n\nReturns:\n    float: The volume of the rectangular prism.",
+        "operationId": "calculate_volume_rectangular_prism_api_geometry_volume_rectangular_prism_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RectangularPrism"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Rectangular Prism Api Geometry Volume Rectangular Prism Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Rectangular Prism",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/sphere": {
+      "post": {
+        "description": "Calculate the volume of a sphere.\n\nArgs:\n    data (Circle): Contains the radius of the sphere.\n\nReturns:\n    float: The volume of the sphere.",
+        "operationId": "calculate_volume_sphere_api_geometry_volume_sphere_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Circle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Sphere Api Geometry Volume Sphere Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Sphere",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/volume/tetrahedron": {
+      "post": {
+        "description": "Calculate the volume of a regular tetrahedron.\n\nArgs:\n    data (Cube): Contains the side length of the tetrahedron.\n\nReturns:\n    float: The volume of the tetrahedron.",
+        "operationId": "calculate_volume_tetrahedron_api_geometry_volume_tetrahedron_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cube"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Calculate Volume Tetrahedron Api Geometry Volume Tetrahedron Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Volume Tetrahedron",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/irrationals/add": {
+      "post": {
+        "description": "Add two numbers with specified precision.\n\nArgs:\n    data (ArithmeticOperation): Contains two operands as strings to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The result of the addition as a string.",
+        "operationId": "add_numbers_api_irrationals_add_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArithmeticOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Add Numbers Api Irrationals Add Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Numbers",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/arcsin": {
+      "post": {
+        "description": "Compute the arcsine of a number with specified precision.\n\nArgs:\n    data (UnaryOperation): Contains the operand as a string to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The arcsine of the operand as a string.",
+        "operationId": "compute_arcsin_api_irrationals_arcsin_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnaryOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Arcsin Api Irrationals Arcsin Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Arcsin",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/cos": {
+      "post": {
+        "description": "Compute the cosine of an angle with specified precision.\n\nArgs:\n    data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The cosine of the angle as a string.",
+        "operationId": "compute_cos_api_irrationals_cos_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrigonometricOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Cos Api Irrationals Cos Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Cos",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/divide": {
+      "post": {
+        "description": "Divide two numbers with specified precision.\n\nArgs:\n    data (ArithmeticOperation): Contains two operands as strings to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The result of the division as a string.",
+        "operationId": "divide_numbers_api_irrationals_divide_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArithmeticOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Divide Numbers Api Irrationals Divide Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Divide Numbers",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/e": {
+      "get": {
+        "description": "Compute the value of e with specified precision.\n\nArgs:\n    precision (int, optional): The precision for the calculation. Defaults to 100.\n\nReturns:\n    str: The value of e as a string.",
+        "operationId": "compute_e_api_irrationals_e_get",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute E Api Irrationals E Get",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute E",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/multiply": {
+      "post": {
+        "description": "Multiply two numbers with specified precision.\n\nArgs:\n    data (ArithmeticOperation): Contains two operands as strings to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The result of the multiplication as a string.",
+        "operationId": "multiply_numbers_api_irrationals_multiply_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArithmeticOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Multiply Numbers Api Irrationals Multiply Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Multiply Numbers",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/pi": {
+      "get": {
+        "description": "Compute the value of \u03c0 with specified precision.\n\nArgs:\n    precision (int, optional): The precision for the calculation. Defaults to 100.\n\nReturns:\n    str: The value of \u03c0 as a string.",
+        "operationId": "compute_pi_api_irrationals_pi_get",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Pi Api Irrationals Pi Get",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Pi",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/power": {
+      "post": {
+        "description": "Raise a number to a power with specified precision.\n\nArgs:\n    data (ArithmeticOperation): Contains the base and exponent as strings to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The result of the exponentiation as a string.",
+        "operationId": "power_number_api_irrationals_power_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArithmeticOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Power Number Api Irrationals Power Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Power Number",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/sin": {
+      "post": {
+        "description": "Compute the sine of an angle with specified precision.\n\nArgs:\n    data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The sine of the angle as a string.",
+        "operationId": "compute_sin_api_irrationals_sin_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrigonometricOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Sin Api Irrationals Sin Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Sin",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/sqrt": {
+      "post": {
+        "description": "Compute the square root of a number with specified precision.\n\nArgs:\n    data (UnaryOperation): Contains the operand as a string to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The square root of the operand as a string.",
+        "operationId": "sqrt_number_api_irrationals_sqrt_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnaryOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sqrt Number Api Irrationals Sqrt Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sqrt Number",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/subtract": {
+      "post": {
+        "description": "Subtract two numbers with specified precision.\n\nArgs:\n    data (ArithmeticOperation): Contains two operands as strings to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The result of the subtraction as a string.",
+        "operationId": "subtract_numbers_api_irrationals_subtract_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArithmeticOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Subtract Numbers Api Irrationals Subtract Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Subtract Numbers",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/tan": {
+      "post": {
+        "description": "Compute the tangent of an angle with specified precision.\n\nArgs:\n    data (TrigonometricOperation): Contains the angle (in radians or degrees) and whether the angle is in radians.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The tangent of the angle as a string.",
+        "operationId": "compute_tan_api_irrationals_tan_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrigonometricOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Tan Api Irrationals Tan Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Tan",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/matrices/add": {
+      "post": {
+        "description": "Add two matrices.\n\nArgs:\n    data (MatrixOperation): Contains two matrices for addition.\n\nReturns:\n    list[list[float]]: The resulting matrix after addition.",
+        "operationId": "add_matrices_api_matrices_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Add Matrices Api Matrices Add Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Matrices",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/determinant": {
+      "post": {
+        "description": "Calculate the determinant of a matrix.\n\nArgs:\n    data (ScalarMatrixOperation): Contains the matrix for which to calculate the determinant.\n\nReturns:\n    float: The determinant of the matrix.",
+        "operationId": "determinant_api_matrices_determinant_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Determinant Api Matrices Determinant Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Determinant",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/inverse": {
+      "post": {
+        "description": "Compute the inverse of a matrix.\n\nArgs:\n    data (ScalarMatrixOperation): Contains the matrix to be inverted.\n\nReturns:\n    list[list[float]]: The inverse of the matrix.",
+        "operationId": "inverse_matrix_api_matrices_inverse_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Inverse Matrix Api Matrices Inverse Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Inverse Matrix",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/multiply/matrix": {
+      "post": {
+        "description": "Multiply two matrices.\n\nArgs:\n    data (MatrixOperation): Contains two matrices for multiplication.\n\nReturns:\n    list[list[float]]: The resulting matrix after multiplication.",
+        "operationId": "multiply_matrices_api_matrices_multiply_matrix_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Multiply Matrices Api Matrices Multiply Matrix Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Multiply Matrices",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/multiply/vector": {
+      "post": {
+        "description": "Multiply a matrix with a vector.\n\nArgs:\n    data (VectorMatrixOperation): Contains a matrix and a vector for multiplication.\n\nReturns:\n    list[float]: The resulting vector after multiplication.",
+        "operationId": "vector_matrix_multiply_api_matrices_multiply_vector_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Vector Matrix Multiply Api Matrices Multiply Vector Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vector Matrix Multiply",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/scale": {
+      "post": {
+        "description": "Scale a matrix by a scalar value.\n\nArgs:\n    data (ScalarMatrixOperation): Contains a matrix and a scalar for scaling.\n\nReturns:\n    list[list[float]]: The resulting matrix after scaling.",
+        "operationId": "scale_matrix_api_matrices_scale_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalarMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Scale Matrix Api Matrices Scale Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Scale Matrix",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/subtract": {
+      "post": {
+        "description": "Subtract one matrix from another.\n\nArgs:\n    data (MatrixOperation): Contains two matrices for subtraction.\n\nReturns:\n    list[list[float]]: The resulting matrix after subtraction.",
+        "operationId": "subtract_matrices_api_matrices_subtract_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Subtract Matrices Api Matrices Subtract Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Subtract Matrices",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/transpose": {
+      "post": {
+        "description": "Compute the transpose of a matrix.\n\nArgs:\n    data (ScalarMatrixOperation): Contains the matrix to be transposed.\n\nReturns:\n    list[list[float]]: The transposed matrix.",
+        "operationId": "transpose_matrix_api_matrices_transpose_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Transpose Matrix Api Matrices Transpose Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Transpose Matrix",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/primes/factorization": {
+      "post": {
+        "description": "Perform prime factorization of a number.\n\nArgs:\n    data (PrimeFactorization): Contains the number to factorize.\n\nReturns:\n    str: A string representation of the prime factors.",
+        "operationId": "prime_factorization_api_primes_factorization_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimeFactorization"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Prime Factorization Api Primes Factorization Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Prime Factorization",
+        "tags": [
+          "Prime Numbers"
+        ]
+      }
+    },
+    "/api/primes/is_prime": {
+      "post": {
+        "description": "Check if a number is prime.\n\nArgs:\n    data (PrimeCheck): Contains the number to check for primality.\n\nReturns:\n    bool: True if the number is prime, otherwise False.",
+        "operationId": "check_prime_api_primes_is_prime_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimeCheck"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Check Prime Api Primes Is Prime Post",
+                  "type": "boolean"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Check Prime",
+        "tags": [
+          "Prime Numbers"
+        ]
+      }
+    },
+    "/api/primes/list_primes": {
+      "post": {
+        "description": "Generate a list of the first n prime numbers.\n\nArgs:\n    data (PrimeList): Contains the number of primes to generate.\n\nReturns:\n    list[int]: A list of the first n prime numbers.",
+        "operationId": "generate_prime_list_api_primes_list_primes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimeList"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "title": "Response Generate Prime List Api Primes List Primes Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Generate Prime List",
+        "tags": [
+          "Prime Numbers"
+        ]
+      }
+    },
+    "/api/primes/nth_prime": {
+      "post": {
+        "description": "Find the nth prime number.\n\nArgs:\n    data (PrimeNth): Contains the position of the prime number to find.\n\nReturns:\n    int: The nth prime number.",
+        "operationId": "find_nth_prime_api_primes_nth_prime_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimeNth"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Find Nth Prime Api Primes Nth Prime Post",
+                  "type": "integer"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Find Nth Prime",
+        "tags": [
+          "Prime Numbers"
+        ]
+      }
+    },
+    "/api/pythagorean/generate": {
+      "post": {
+        "description": "Generate Pythagorean triples up to a maximum hypotenuse.\n\nArgs:\n    data (PythagoreanTriplesRequest): Contains the maximum hypotenuse length.\n    primitive (bool, optional): Whether to generate only primitive triples. Defaults to False.\n\nReturns:\n    list[tuple[int, int, int]]: A list of Pythagorean triples as (a, b, c).",
+        "operationId": "generate_pythagorean_triples_api_pythagorean_generate_post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "primitive",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Primitive",
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PythagoreanTriplesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "prefixItems": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ],
+                    "type": "array"
+                  },
+                  "title": "Response Generate Pythagorean Triples Api Pythagorean Generate Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Generate Pythagorean Triples",
+        "tags": [
+          "Pythagorean Triple Generator"
+        ]
+      }
+    },
+    "/api/triangles/solve": {
+      "post": {
+        "description": "Solve a triangle given sufficient inputs.\n\nArgs:\n    data (TriangleRequest): Contains side lengths (a, b, c) and/or angles (A, B, C).\n\nReturns:\n    dict: A dictionary containing all sides and angles of the solved triangle.",
+        "operationId": "solve_triangle_endpoint_api_triangles_solve_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriangleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Solve Triangle Endpoint Api Triangles Solve Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Solve Triangle Endpoint",
+        "tags": [
+          "Triangle Solver"
+        ]
+      }
+    },
+    "/api/vectors/add": {
+      "post": {
+        "description": "Add two vectors.\n\nArgs:\n    data (VectorOperation): Contains two vectors to add.\n\nReturns:\n    list[float]: The resulting vector after addition.",
+        "operationId": "add_vectors_api_vectors_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Add Vectors Api Vectors Add Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Vectors",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/cross": {
+      "post": {
+        "description": "Compute the cross product of two 3D vectors.\n\nArgs:\n    data (VectorOperation): Contains two 3D vectors for cross product computation.\n\nReturns:\n    list[float]: The resulting vector after cross product.\n\nRaises:\n    ValueError: If the vectors are not 3D.",
+        "operationId": "cross_product_api_vectors_cross_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Cross Product Api Vectors Cross Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cross Product",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/dot": {
+      "post": {
+        "description": "Compute the dot product of two vectors.\n\nArgs:\n    data (VectorOperation): Contains two vectors for dot product computation.\n\nReturns:\n    float: The dot product of the two vectors.",
+        "operationId": "dot_product_api_vectors_dot_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Dot Product Api Vectors Dot Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Dot Product",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/scale": {
+      "post": {
+        "description": "Scale a vector by a scalar.\n\nArgs:\n    data (ScalarVectorOperation): Contains a vector and a scalar for scaling.\n\nReturns:\n    list[float]: The resulting vector after scaling.",
+        "operationId": "scale_vector_api_vectors_scale_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalarVectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Scale Vector Api Vectors Scale Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Scale Vector",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/subtract": {
+      "post": {
+        "description": "Subtract one vector from another.\n\nArgs:\n    data (VectorOperation): Contains two vectors for subtraction.\n\nReturns:\n    list[float]: The resulting vector after subtraction.",
+        "operationId": "subtract_vectors_api_vectors_subtract_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Subtract Vectors Api Vectors Subtract Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Subtract Vectors",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    }
+  }
+}

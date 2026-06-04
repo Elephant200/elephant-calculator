@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "generate": "openapi-typescript openapi.json -o src/index.d.ts",
+    "generate": "cp ../../apps/api/openapi.json openapi.json && openapi-typescript openapi.json -o src/index.d.ts",
     "build": "pnpm run generate",
     "lint": "test -f src/index.d.ts",
     "test": "test -f openapi.json && test -f src/index.d.ts"
