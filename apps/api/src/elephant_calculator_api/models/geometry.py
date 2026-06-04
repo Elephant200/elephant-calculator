@@ -3,11 +3,20 @@ import math
 
 class Circle(BaseModel):
     radius: float = Field(..., description="The radius of the circle.")
+    height: float | None = Field(
+        None, description="The height (used by cylinder/cone volume and surface area)."
+    )
 
     @field_validator("radius")
     def validate_radius(cls, v):
         if v <= 0:
             raise ValueError("Radius must be greater than zero.")
+        return v
+
+    @field_validator("height")
+    def validate_height(cls, v):
+        if v is not None and v <= 0:
+            raise ValueError("Height must be greater than zero.")
         return v
 
 

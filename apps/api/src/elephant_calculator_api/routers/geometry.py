@@ -356,6 +356,8 @@ def calculate_volume_cylinder(data: Circle):
     Returns:
         float: The volume of the cylinder.
     """
+    if data.height is None:
+        raise ValueError("Height is required to compute a cylinder's volume.")
     return volume_cylinder(data.radius, data.height)
 
 @router.post("/volume/cone", response_model=float)
@@ -369,6 +371,8 @@ def calculate_volume_cone(data: Circle):
     Returns:
         float: The volume of the cone.
     """
+    if data.height is None:
+        raise ValueError("Height is required to compute a cone's volume.")
     return volume_cone(data.radius, data.height)
 
 @router.post("/volume/sphere", response_model=float)
@@ -501,6 +505,8 @@ def calculate_surface_area_cylinder(data: Circle):
     Returns:
         float: The surface area of the cylinder.
     """
+    if data.height is None:
+        raise ValueError("Height is required to compute a cylinder's surface area.")
     return surface_area_cylinder(data.radius, data.height)
 
 @router.post("/surface_area/cone", response_model=float)
@@ -514,6 +520,8 @@ def calculate_surface_area_cone(data: Circle):
     Returns:
         float: The surface area of the cone.
     """
+    if data.height is None:
+        raise ValueError("Height is required to compute a cone's surface area.")
     return surface_area_cone(data.radius, data.height)
 
 @router.post("/surface_area/sphere", response_model=float)
