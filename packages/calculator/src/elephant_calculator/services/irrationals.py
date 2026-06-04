@@ -152,8 +152,9 @@ def advancedE(n):
 def sin(n, precision=100, rad=True):
     getcontext().prec = precision + 10
     PI = pi(precision + 10)
+    n = Decimal(n)
     if not rad:
-        n = (Decimal(n) % Decimal(360)) * PI / Decimal(180)
+        n = (n % Decimal(360)) * PI / Decimal(180)
     n = n % (Decimal(2) * PI)
 
     epsilon = Decimal(10)**(-precision - 10)
@@ -172,8 +173,9 @@ def sin(n, precision=100, rad=True):
 def cos(n, precision=100, rad=True):
     getcontext().prec = precision + 10
     PI = pi(precision + 10)
+    n = Decimal(n)
     if not rad:
-        n = (Decimal(n) % Decimal(360)) * PI / Decimal(180)
+        n = (n % Decimal(360)) * PI / Decimal(180)
     n = n % (Decimal(2) * PI)
 
     epsilon = Decimal(10)**(-precision - 10)
