@@ -22,7 +22,7 @@ import { FieldInput } from "./FieldInputs";
 import { ResultView } from "./ResultView";
 
 interface ResultEntry {
-  id: number;
+  id: string;
   opId: string;
   opLabel: string;
   categoryLabel: string;
@@ -33,6 +33,9 @@ interface ResultEntry {
 }
 
 let entrySeq = 0;
+// Unique across page reloads so localStorage-restored entries never collide
+// with freshly computed ones (which previously both started at 1).
+const nextEntryId = () => `${Date.now()}-${++entrySeq}`;
 
 export default function Workspace() {
   const [activeCat, setActiveCat] = useState<Category>(CATEGORIES[0]);
@@ -117,7 +120,7 @@ export default function Workspace() {
         query: request.query,
       });
       const entry: ResultEntry = {
-        id: ++entrySeq,
+        id: nextEntryId(),
         opId: op.id,
         opLabel: op.label,
         categoryLabel: activeCat.label,
