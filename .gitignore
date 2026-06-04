@@ -21,3 +21,4 @@ htmlcov/
 project-structure.txt
 cleanser.py
 file_structure.txt
+.vercel

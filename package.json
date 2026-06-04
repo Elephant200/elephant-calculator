@@ -14,5 +14,10 @@
   },
   "devDependencies": {
     "turbo": "^2.5.4"
+  },
+  "dependencies": {
+    "next": "^15.5.19",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

@@ -58,7 +58,8 @@ The web app provides a full calculator workspace over every API domain
 arithmetic, the CAS, and Pythagorean triples). The browser only talks to the
 Next.js origin: requests to `/api/*` are proxied server-side to FastAPI (see
 `apps/web/next.config.ts`), so no CORS configuration is needed in development.
-Override the backend target with `API_PROXY_TARGET` when deploying.
+For local development, override the backend target with `API_PROXY_TARGET` if
+the FastAPI server is not running at `http://127.0.0.1:8000`.
 
 Run the legacy interactive calculator CLI:
 
@@ -97,3 +98,48 @@ Routes remain under `/api/...`; for example:
 
 Set `ELEPHANT_CORS_ORIGINS` (comma-separated) to enable CORS when serving the
 API directly to a browser on another origin.
+
+## Deploy To Vercel
+
+This repository is configured to deploy as one Vercel project from the
+repository root:
+
+- Next.js serves the web app from `apps/web`.
+- The Python serverless entrypoint is `api/index.py`.
+- Requests to `/api/*` are rewritten to FastAPI.
+- No production environment variables are required for the default same-origin
+  deployment.
+
+The Vercel project settings should match `vercel.json`:
+
+```text
+Framework Preset: Next.js
+Root Directory: .
+Install Command: pnpm install --frozen-lockfile
+Build Command: pnpm --filter @elephant-calculator/web build
+Output Directory: apps/web/.next
+Node.js Version: 24.x
+Production Branch: main
+```
+
+Vercel's Python runtime installs from the root `pyproject.toml`/`uv.lock`, so
+the root Python dependencies intentionally mirror the packages needed by the
+serverless API. Local Python package development still uses the uv workspace
+members under `apps/api` and `packages/calculator`.
+
+To deploy a fresh clone with the Vercel CLI:
+
+```bash
+corepack enable
+corepack prepare pnpm@10.12.1 --activate
+uv sync --all-packages --all-extras
+pnpm install --frozen-lockfile
+pnpm build
+pnpm dlx vercel@latest link
+pnpm dlx vercel@latest deploy --prod
+```
+
+For this hosted project, Vercel is connected to
+`Elephant200/elephant-calculator` with `main` as the production branch, so
+pushing to `main` triggers a production deployment to
+`https://elephant-calculator.vercel.app`.

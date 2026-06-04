@@ -1,16 +1,18 @@
 import type { NextConfig } from "next";
 
-// The browser talks to the Next.js origin only; requests to /api/* are proxied
-// server-side to the FastAPI backend. This keeps the frontend same-origin and
-// sidesteps CORS entirely. Override the target with API_PROXY_TARGET in prod.
-const apiTarget = process.env.API_PROXY_TARGET ?? "http://127.0.0.1:8000";
+// Local Next.js development proxies to the separately-running FastAPI server.
+// On Vercel, /api/* is handled by the Python function configured in vercel.json.
+const apiTarget = process.env.API_PROXY_TARGET;
+const shouldProxyApi = apiTarget || !process.env.VERCEL;
 
 const nextConfig: NextConfig = {
   async rewrites() {
+    if (!shouldProxyApi) return [];
+
     return [
       {
         source: "/api/:path*",
-        destination: `${apiTarget}/api/:path*`,
+        destination: `${apiTarget ?? "http://127.0.0.1:8000"}/api/:path*`,
       },
     ];
   },
