@@ -1,0 +1,23 @@
+[project]
+name = "elephant-calculator-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "elephant-calculator",
+  "fastapi>=0.115.6",
+  "httpx>=0.28.1",
+  "pydantic>=2.10.4",
+  "uvicorn[standard]>=0.34.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+elephant-calculator = { workspace = true }

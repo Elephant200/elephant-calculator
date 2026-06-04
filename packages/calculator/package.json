@@ -1,0 +1,11 @@
+{
+  "name": "@elephant-calculator/calculator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "uv run --package elephant-calculator python -m compileall src",
+    "dev": "uv run --package elephant-calculator elephant-calculator",
+    "lint": "uv run --package elephant-calculator python -m compileall src",
+    "test": "uv run --package elephant-calculator python -c \"from elephant_calculator.cli import main; print(callable(main))\""
+  }
+}

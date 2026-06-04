@@ -1,0 +1,18 @@
+{
+  "name": "elephant-calculator-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:api": "turbo run dev --filter=@elephant-calculator/api",
+    "dev:web": "turbo run dev --filter=@elephant-calculator/web",
+    "generate:api-types": "turbo run generate --filter=@elephant-calculator/api-contract",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@elephant-calculator/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "uv run --package elephant-calculator-api python -m compileall src",
+    "dev": "uv run --package elephant-calculator-api uvicorn elephant_calculator_api.main:app --reload --host 127.0.0.1 --port 8000",
+    "generate": "uv run --package elephant-calculator-api python -m elephant_calculator_api.export_openapi ../../packages/api-contract/openapi.json",
+    "lint": "uv run --package elephant-calculator-api python -m compileall src",
+    "test": "uv run --package elephant-calculator-api pytest tests"
+  }
+}

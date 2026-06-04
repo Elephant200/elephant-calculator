@@ -1,0 +1,22 @@
+{
+  "name": "@elephant-calculator/api-contract",
+  "version": "0.1.0",
+  "private": true,
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts"
+    }
+  },
+  "scripts": {
+    "generate": "openapi-typescript openapi.json -o src/index.d.ts",
+    "build": "pnpm run generate",
+    "lint": "test -f src/index.d.ts",
+    "test": "test -f openapi.json && test -f src/index.d.ts"
+  },
+  "devDependencies": {
+    "@elephant-calculator/api": "workspace:*",
+    "openapi-typescript": "^7.6.1",
+    "typescript": "^5"
+  }
+}

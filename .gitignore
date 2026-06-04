@@ -5,6 +5,16 @@ __pycache__/
 *.pyc
 .env
 .pytest_cache
+.ruff_cache/
+.mypy_cache/
+.turbo/
+node_modules/
+.next/
+out/
+dist/
+coverage/
+htmlcov/
+*.egg-info/
 
 # Miscellaneous
 project-structure.txt
