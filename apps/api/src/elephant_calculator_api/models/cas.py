@@ -111,9 +111,17 @@ class DifferentialEquationRequest(BaseModel):
 
     @field_validator("equation")
     def validate_differential_equation(cls, v):
-        try:
-            sympify(format_expression(v))  # Ensure the differential equation is mathematically valid
-        except Exception as e:
-            raise ValueError(f"Invalid differential equation: {v}. Error: {e}")
+        # The solver splits the equation on '=' and formats each side with
+        # diff=True (so y' becomes a derivative). Validating with a plain
+        # sympify of the whole string would reject every real ODE, so we
+        # only check the overall shape here and let the solver parse it.
+        if v.count("=") != 1:
+            raise ValueError(
+                "A differential equation must contain exactly one '=' (e.g. y' + y = 0)."
+            )
+        left, right = v.split("=")
+        if not left.strip() or not right.strip():
+            raise ValueError("Both sides of the differential equation must be non-empty.")
+        return v
         return v
     
