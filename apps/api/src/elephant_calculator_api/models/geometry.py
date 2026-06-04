@@ -224,7 +224,7 @@ class RectangularPrism(BaseModel):
 
 class Prism(BaseModel):
     base_area: float = Field(..., description="The base area of the prism.")
-    base_perimeter: float = Field(None, description="The base perimeter of the prism (optional).")
+    base_perimeter: float | None = Field(None, description="The base perimeter of the prism (required for surface area).")
     height: float = Field(..., description="The height of the prism.")
 
     @field_validator("base_area", "height")

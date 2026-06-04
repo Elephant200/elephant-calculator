@@ -569,6 +569,8 @@ def calculate_surface_area_prism(data: Prism):
     Returns:
         float: The surface area of the prism.
     """
+    if data.base_perimeter is None:
+        raise ValueError("The base perimeter is required to compute a prism's surface area.")
     return surface_area_prism(data.base_area, data.base_perimeter, data.height)
 
 @router.post("/surface_area/tetrahedron", response_model=float)

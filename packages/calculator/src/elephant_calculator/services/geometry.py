@@ -152,9 +152,6 @@ def surface_area_ellipsoid(axis1, axis2, axis3):
     p = 1.6075
     return 4 * math.pi * ((axis1**p * axis2**p + axis1**p * axis3**p + axis2**p * axis3**p) / 3) ** (1/p)
 
-def surface_area_prism(base_area, base_perimeter, height):
-  return 2*base_area + base_perimeter * height
-
 def surface_area_tetrahedron(side):
     return math.sqrt(3) * side ** 2
 
