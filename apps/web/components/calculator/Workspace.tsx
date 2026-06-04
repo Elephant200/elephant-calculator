@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CATEGORIES,
+  ALL_OPERATIONS,
   type Category,
   type Operation,
   type ResultKind,
@@ -48,6 +49,36 @@ export default function Workspace() {
   );
   const [result, setResult] = useState<ResultEntry | null>(null);
   const [history, setHistory] = useState<ResultEntry[]>([]);
+  const [search, setSearch] = useState("");
+
+  // Restore the tape from a previous visit.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("elephant-history");
+      if (saved) setHistory(JSON.parse(saved));
+    } catch {
+      /* ignore corrupt storage */
+    }
+  }, []);
+  useEffect(() => {
+    try {
+      localStorage.setItem("elephant-history", JSON.stringify(history));
+    } catch {
+      /* storage may be unavailable */
+    }
+  }, [history]);
+
+  // Compute on ⌘/Ctrl+Enter from anywhere on the page.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        compute();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
   function selectOperation(nextOp: Operation, cat: Category) {
     setActiveCat(cat);
@@ -115,6 +146,8 @@ export default function Workspace() {
           activeCat={activeCat}
           activeOpId={op.id}
           onSelect={selectOperation}
+          search={search}
+          onSearch={setSearch}
         />
 
         <div className="min-w-0">
@@ -222,17 +255,78 @@ export default function Workspace() {
   );
 }
 
+const CATEGORY_OF = new Map<string, Category>(
+  CATEGORIES.flatMap((c) => c.operations.map((o) => [o.id, c] as const))
+);
+
 function Rail({
   activeCat,
   activeOpId,
   onSelect,
+  search,
+  onSearch,
 }: {
   activeCat: Category;
   activeOpId: string;
   onSelect: (op: Operation, cat: Category) => void;
+  search: string;
+  onSearch: (v: string) => void;
 }) {
+  const q = search.trim().toLowerCase();
+  const matches = q
+    ? ALL_OPERATIONS.filter((o) => {
+        const cat = CATEGORY_OF.get(o.id)!;
+        return (
+          o.label.toLowerCase().includes(q) ||
+          o.blurb.toLowerCase().includes(q) ||
+          cat.label.toLowerCase().includes(q)
+        );
+      })
+    : [];
+
   return (
     <aside className="lg:sticky lg:top-[84px] lg:self-start lg:max-h-[calc(100vh-104px)] lg:overflow-y-auto thin-scroll -mx-1 px-1">
+      <input
+        className="text-input mb-3"
+        placeholder="Search tools…"
+        value={search}
+        onChange={(e) => onSearch(e.target.value)}
+        spellCheck={false}
+      />
+      {q ? (
+        <nav className="flex flex-col gap-0.5">
+          {matches.length === 0 && (
+            <p className="font-mono text-[12px] text-[var(--muted)] px-2 py-3">
+              No tools match “{search}”.
+            </p>
+          )}
+          {matches.map((o) => {
+            const cat = CATEGORY_OF.get(o.id)!;
+            const on = o.id === activeOpId;
+            return (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => onSelect(o, cat)}
+                className="text-left px-2.5 py-1.5 rounded-md transition-colors"
+                style={{
+                  background: on ? "var(--surface-sunk)" : "transparent",
+                }}
+              >
+                <span
+                  className="font-mono text-[13.5px]"
+                  style={{ color: on ? "var(--accent-deep)" : "var(--text)" }}
+                >
+                  {o.label}
+                </span>
+                <span className="block text-[11px] text-[var(--muted)]">
+                  {cat.label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+      ) : (
       <nav className="flex flex-col gap-1">
         {CATEGORIES.map((cat) => {
           const active = cat.id === activeCat.id;
@@ -282,6 +376,7 @@ function Rail({
           );
         })}
       </nav>
+      )}
     </aside>
   );
 }
