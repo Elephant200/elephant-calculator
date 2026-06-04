@@ -403,7 +403,9 @@ def calculate_volume_ellipsoid(data: Ellipse):
     Returns:
         float: The volume of the ellipsoid.
     """
-    return volume_ellipsoid(data.semi_major, data.semi_minor, data.semi_major)
+    if data.axis3 is None:
+        raise ValueError("The third axis (axis3) is required to compute an ellipsoid's volume.")
+    return volume_ellipsoid(data.semi_major, data.semi_minor, data.axis3)
 
 @router.post("/volume/prism", response_model=float)
 def calculate_volume_prism(data: Prism):
@@ -552,7 +554,9 @@ def calculate_surface_area_ellipsoid(data: Ellipse):
     Returns:
         float: The surface area of the ellipsoid.
     """
-    return surface_area_ellipsoid(data.semi_major, data.semi_minor, data.semi_major)
+    if data.axis3 is None:
+        raise ValueError("The third axis (axis3) is required to compute an ellipsoid's surface area.")
+    return surface_area_ellipsoid(data.semi_major, data.semi_minor, data.axis3)
 
 @router.post("/surface_area/prism", response_model=float)
 def calculate_surface_area_prism(data: Prism):

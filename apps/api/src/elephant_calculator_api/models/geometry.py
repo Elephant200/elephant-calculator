@@ -33,11 +33,21 @@ class SemiCircle(BaseModel):
 class Ellipse(BaseModel):
     semi_major: float = Field(..., description="The semi-major axis of the ellipse.")
     semi_minor: float = Field(..., description="The semi-minor axis of the ellipse.")
+    axis3: float | None = Field(
+        None,
+        description="The third semi-axis (required for ellipsoid volume/surface area).",
+    )
 
     @field_validator("semi_major", "semi_minor")
     def validate_axes(cls, v):
         if v <= 0:
             raise ValueError("Axes must be greater than zero.")
+        return v
+
+    @field_validator("axis3")
+    def validate_axis3(cls, v):
+        if v is not None and v <= 0:
+            raise ValueError("The third axis must be greater than zero.")
         return v
 
     @model_validator(mode="after")
