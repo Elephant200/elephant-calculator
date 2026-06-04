@@ -11,6 +11,7 @@ from elephant_calculator_api.routers import (
     geometry,
     irrationals,
     matrices,
+    multivariable,
     primes,
     pythagorean,
     triangle_solver,
@@ -41,6 +42,7 @@ app.include_router(geometry.router, prefix=f"{api_prefix}/geometry", tags=["Geom
 app.include_router(triangle_solver.router, prefix=f"{api_prefix}/triangles", tags=["Triangle Solver"])
 app.include_router(irrationals.router, prefix=f"{api_prefix}/irrationals", tags=["High-Precision"])
 app.include_router(cas.router, prefix=f"{api_prefix}/cas", tags=["CAS"])
+app.include_router(multivariable.router, prefix=f"{api_prefix}/calculus", tags=["Multivariable Calculus"])
 app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=["Pythagorean Triple Generator"])
 
 @app.exception_handler(Exception)
