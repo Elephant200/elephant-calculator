@@ -53,6 +53,13 @@ Start the Next.js frontend:
 pnpm dev:web
 ```
 
+The web app provides a full calculator workspace over every API domain
+(vectors, matrices, primes, geometry, the triangle solver, high-precision
+arithmetic, the CAS, and Pythagorean triples). The browser only talks to the
+Next.js origin: requests to `/api/*` are proxied server-side to FastAPI (see
+`apps/web/next.config.ts`), so no CORS configuration is needed in development.
+Override the backend target with `API_PROXY_TARGET` when deploying.
+
 Run the legacy interactive calculator CLI:
 
 ```bash
@@ -83,7 +90,10 @@ uv run --package elephant-calculator-api uvicorn elephant_calculator_api.main:ap
 Routes remain under `/api/...`; for example:
 
 - `/api/vectors/add`
-- `/api/matrices/multiply`
-- `/api/geometry/area/circle`
-- `/api/irrationals/add`
-- `/api/cas/expand`
+- `/api/matrices/multiply/matrix`, `/api/matrices/multiply/vector`
+- `/api/geometry/area/circle`, `/api/geometry/volume/ellipsoid`
+- `/api/irrationals/add`, `/api/irrationals/arccos`, `/api/irrationals/arctan`
+- `/api/cas/expand`, `/api/cas/solve-differential`
+
+Set `ELEPHANT_CORS_ORIGINS` (comma-separated) to enable CORS when serving the
+API directly to a browser on another origin.
