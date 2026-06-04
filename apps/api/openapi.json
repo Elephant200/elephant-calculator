@@ -585,9 +585,16 @@
             "type": "number"
           },
           "height": {
-            "description": "The height of the trapezoid.",
-            "title": "Height",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The height of the trapezoid (required for area).",
+            "title": "Height"
           },
           "leg1": {
             "anyOf": [
@@ -616,8 +623,7 @@
         },
         "required": [
           "base1",
-          "base2",
-          "height"
+          "base2"
         ],
         "title": "Trapezoid",
         "type": "object"

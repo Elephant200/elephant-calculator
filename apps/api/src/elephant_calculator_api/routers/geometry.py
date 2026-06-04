@@ -107,6 +107,8 @@ def calculate_area_trapezoid(data: Trapezoid):
     Returns:
         float: The area of the trapezoid.
     """
+    if data.height is None:
+        raise ValueError("Height is required to compute a trapezoid's area.")
     return area_trapezoid(data.base1, data.base2, data.height)
 
 @router.post("/area/polygon", response_model=float)

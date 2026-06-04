@@ -2657,9 +2657,9 @@ export interface components {
             base2: number;
             /**
              * Height
-             * @description The height of the trapezoid.
+             * @description The height of the trapezoid (required for area).
              */
-            height: number;
+            height?: number | null;
             /**
              * Leg1
              * @description The first non-parallel side (required for perimeter).

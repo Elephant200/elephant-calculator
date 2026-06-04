@@ -110,7 +110,9 @@ class Rhombus(BaseModel):
 class Trapezoid(BaseModel):
     base1: float = Field(..., description="The length of the first base.")
     base2: float = Field(..., description="The length of the second base.")
-    height: float = Field(..., description="The height of the trapezoid.")
+    height: float | None = Field(
+        None, description="The height of the trapezoid (required for area)."
+    )
     leg1: float | None = Field(
         None, description="The first non-parallel side (required for perimeter)."
     )
@@ -118,10 +120,16 @@ class Trapezoid(BaseModel):
         None, description="The second non-parallel side (required for perimeter)."
     )
 
-    @field_validator("base1", "base2", "height")
+    @field_validator("base1", "base2")
     def validate_dimensions(cls, v):
         if v <= 0:
-            raise ValueError("Base lengths and height must be greater than zero.")
+            raise ValueError("Base lengths must be greater than zero.")
+        return v
+
+    @field_validator("height")
+    def validate_height(cls, v):
+        if v is not None and v <= 0:
+            raise ValueError("Height must be greater than zero.")
         return v
 
     @field_validator("leg1", "leg2")

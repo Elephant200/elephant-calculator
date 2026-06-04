@@ -51,6 +51,28 @@ def test_trapezoid_perimeter_requires_legs():
     assert r.status_code == 400
 
 
+def test_trapezoid_perimeter_does_not_require_height():
+    # height is only needed for area; the perimeter form omits it.
+    r = client.post(
+        "/api/geometry/perimeter/trapezoid",
+        json={"base1": 8, "base2": 5, "leg1": 4.5, "leg2": 5},
+    )
+    assert r.status_code == 200
+    assert r.json() == pytest.approx(22.5)
+
+
+def test_trapezoid_area_requires_height():
+    ok = client.post(
+        "/api/geometry/area/trapezoid", json={"base1": 8, "base2": 5, "height": 4}
+    )
+    assert ok.status_code == 200
+    assert ok.json() == pytest.approx(26.0)
+    missing = client.post(
+        "/api/geometry/area/trapezoid", json={"base1": 8, "base2": 5}
+    )
+    assert missing.status_code == 400
+
+
 def test_ellipsoid_volume_uses_three_axes():
     r = client.post(
         "/api/geometry/volume/ellipsoid",
