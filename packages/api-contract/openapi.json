@@ -23,6 +23,18 @@
       },
       "Circle": {
         "properties": {
+          "height": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The height (used by cylinder/cone volume and surface area).",
+            "title": "Height"
+          },
           "radius": {
             "description": "The radius of the circle.",
             "title": "Radius",
@@ -97,6 +109,18 @@
       },
       "Ellipse": {
         "properties": {
+          "axis3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The third semi-axis (required for ellipsoid volume/surface area).",
+            "title": "Axis3"
+          },
           "semi_major": {
             "description": "The semi-major axis of the ellipse.",
             "title": "Semi Major",
@@ -327,9 +351,16 @@
             "type": "number"
           },
           "base_perimeter": {
-            "description": "The base perimeter of the prism (optional).",
-            "title": "Base Perimeter",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The base perimeter of the prism (required for surface area).",
+            "title": "Base Perimeter"
           },
           "height": {
             "description": "The height of the prism.",
@@ -557,6 +588,30 @@
             "description": "The height of the trapezoid.",
             "title": "Height",
             "type": "number"
+          },
+          "leg1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The first non-parallel side (required for perimeter).",
+            "title": "Leg1"
+          },
+          "leg2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The second non-parallel side (required for perimeter).",
+            "title": "Leg2"
           }
         },
         "required": [
@@ -3276,6 +3331,63 @@
         ]
       }
     },
+    "/api/irrationals/arccos": {
+      "post": {
+        "description": "Compute the arccosine of a number with specified precision.\n\nArgs:\n    data (UnaryOperation): Contains the operand as a string to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The arccosine of the operand (in radians) as a string.",
+        "operationId": "compute_arccos_api_irrationals_arccos_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnaryOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Arccos Api Irrationals Arccos Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Arccos",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
     "/api/irrationals/arcsin": {
       "post": {
         "description": "Compute the arcsine of a number with specified precision.\n\nArgs:\n    data (UnaryOperation): Contains the operand as a string to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The arcsine of the operand as a string.",
@@ -3328,6 +3440,63 @@
           }
         },
         "summary": "Compute Arcsin",
+        "tags": [
+          "High-Precision"
+        ]
+      }
+    },
+    "/api/irrationals/arctan": {
+      "post": {
+        "description": "Compute the arctangent of a number with specified precision.\n\nArgs:\n    data (UnaryOperation): Contains the operand as a string to preserve precision.\n    precision (int, optional): The precision for the operation. Defaults to 100.\n\nReturns:\n    str: The arctangent of the operand (in radians) as a string.",
+        "operationId": "compute_arctan_api_irrationals_arctan_post",
+        "parameters": [
+          {
+            "description": "Precision for the calculation",
+            "in": "query",
+            "name": "precision",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "description": "Precision for the calculation",
+              "title": "Precision",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnaryOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Arctan Api Irrationals Arctan Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Arctan",
         "tags": [
           "High-Precision"
         ]

@@ -1461,6 +1461,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/irrationals/arccos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compute Arccos
+         * @description Compute the arccosine of a number with specified precision.
+         *
+         *     Args:
+         *         data (UnaryOperation): Contains the operand as a string to preserve precision.
+         *         precision (int, optional): The precision for the operation. Defaults to 100.
+         *
+         *     Returns:
+         *         str: The arccosine of the operand (in radians) as a string.
+         */
+        post: operations["compute_arccos_api_irrationals_arccos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/irrationals/arcsin": {
         parameters: {
             query?: never;
@@ -1482,6 +1509,33 @@ export interface paths {
          *         str: The arcsine of the operand as a string.
          */
         post: operations["compute_arcsin_api_irrationals_arcsin_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/irrationals/arctan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compute Arctan
+         * @description Compute the arctangent of a number with specified precision.
+         *
+         *     Args:
+         *         data (UnaryOperation): Contains the operand as a string to preserve precision.
+         *         precision (int, optional): The precision for the operation. Defaults to 100.
+         *
+         *     Returns:
+         *         str: The arctangent of the operand (in radians) as a string.
+         */
+        post: operations["compute_arctan_api_irrationals_arctan_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2274,6 +2328,11 @@ export interface components {
         /** Circle */
         Circle: {
             /**
+             * Height
+             * @description The height (used by cylinder/cone volume and surface area).
+             */
+            height?: number | null;
+            /**
              * Radius
              * @description The radius of the circle.
              */
@@ -2320,6 +2379,11 @@ export interface components {
         };
         /** Ellipse */
         Ellipse: {
+            /**
+             * Axis3
+             * @description The third semi-axis (required for ellipsoid volume/surface area).
+             */
+            axis3?: number | null;
             /**
              * Semi Major
              * @description The semi-major axis of the ellipse.
@@ -2455,9 +2519,9 @@ export interface components {
             base_area: number;
             /**
              * Base Perimeter
-             * @description The base perimeter of the prism (optional).
+             * @description The base perimeter of the prism (required for surface area).
              */
-            base_perimeter?: number;
+            base_perimeter?: number | null;
             /**
              * Height
              * @description The height of the prism.
@@ -2596,6 +2660,16 @@ export interface components {
              * @description The height of the trapezoid.
              */
             height: number;
+            /**
+             * Leg1
+             * @description The first non-parallel side (required for perimeter).
+             */
+            leg1?: number | null;
+            /**
+             * Leg2
+             * @description The second non-parallel side (required for perimeter).
+             */
+            leg2?: number | null;
         };
         /** TriangleBaseHeight */
         TriangleBaseHeight: {
@@ -4600,7 +4674,79 @@ export interface operations {
             };
         };
     };
+    compute_arccos_api_irrationals_arccos_post: {
+        parameters: {
+            query?: {
+                /** @description Precision for the calculation */
+                precision?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UnaryOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     compute_arcsin_api_irrationals_arcsin_post: {
+        parameters: {
+            query?: {
+                /** @description Precision for the calculation */
+                precision?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UnaryOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    compute_arctan_api_irrationals_arctan_post: {
         parameters: {
             query?: {
                 /** @description Precision for the calculation */
