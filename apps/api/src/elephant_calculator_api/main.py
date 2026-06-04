@@ -1,10 +1,11 @@
 import logging
+import os
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-logger = logging.getLogger("elephant_calculator_api")
 from elephant_calculator_api.routers import (
     cas,
     geometry,
@@ -16,7 +17,21 @@ from elephant_calculator_api.routers import (
     vectors,
 )
 
+logger = logging.getLogger("elephant_calculator_api")
+
 app = FastAPI(title="The Elephant Calculator API", docs_url="/api/docs", redoc_url="/api/redoc")
+
+# Same-origin deployments use the Next.js proxy and need no CORS. To serve the
+# API standalone to a browser on another origin, set ELEPHANT_CORS_ORIGINS to a
+# comma-separated list of allowed origins (e.g. "https://app.example.com").
+_cors_origins = [o.strip() for o in os.environ.get("ELEPHANT_CORS_ORIGINS", "").split(",") if o.strip()]
+if _cors_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_cors_origins,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 api_prefix = "/api"
 app.include_router(vectors.router, prefix=f"{api_prefix}/vectors", tags=["Vectors"])
