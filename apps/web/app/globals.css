@@ -2,40 +2,364 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================================
+   THE ELEPHANT CALCULATOR — Savannah theme
+   -------------------------------------------------------------------------
+   All visual choices funnel through the tokens below. To re-theme:
+     • Colours        → edit the --c-* tokens in :root
+     • Typography     → swap the three next/font families in app/layout.tsx
+                        (they bind to --font-display / --font-text / --font-mono)
+     • Roundness/etc. → --radius and the --shadow-* tokens
+   Components reference only these tokens, never raw values, so a palette
+   change here propagates everywhere.
+   ========================================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  transition: background-color 0.3s, color 0.3s;
+  /* --- Surfaces: sun-bleached sand & bone --- */
+  --c-sand: #ece1cd; /* page background — dry savannah earth */
+  --c-card: #f8f1e3; /* raised panels — bleached bone        */
+  --c-sunk: #e3d6bd; /* inset wells / hover                  */
+
+  /* --- Ink: bark & shade --- */
+  --c-ink: #2c2519; /* primary text — dark acacia bark      */
+  --c-ink-soft: #574d3b;
+  --c-muted: #8a7c63;
+  --c-rule: rgba(44, 37, 25, 0.16);
+  --c-rule-soft: rgba(44, 37, 25, 0.08);
+  --c-grid: rgba(44, 37, 25, 0.05);
+
+  /* --- Accents drawn from the landscape --- */
+  --c-sunset: #c2622e; /* primary — acacia-sunset terracotta  */
+  --c-sunset-deep: #9c4a1f;
+  --c-gold: #d39a32; /* secondary — golden-hour grass       */
+  --c-acacia: #5f6f3a; /* tertiary — green acacia canopy      */
+  --c-waterhole: #36707a; /* info — distant watering hole        */
+  --c-elephant: #79736a; /* neutral grey — the elephant herself */
+
+  /* --- Semantic roles (what components actually call) --- */
+  --bg: var(--c-sand);
+  --surface: var(--c-card);
+  --surface-sunk: var(--c-sunk);
+  --text: var(--c-ink);
+  --text-soft: var(--c-ink-soft);
+  --muted: var(--c-muted);
+  --rule: var(--c-rule);
+  --rule-soft: var(--c-rule-soft);
+  --accent: var(--c-sunset);
+  --accent-deep: var(--c-sunset-deep);
+  --accent-2: var(--c-acacia);
+  --info: var(--c-waterhole);
+
+  --radius: 6px;
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 16px 34px -24px rgba(44, 37, 25, 0.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: 16.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  overflow-x: hidden;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: white;
-  color: black;
-  font-family: sans-serif;
+/* Warm horizon glow — golden-hour sky meeting the ground */
+.savannah-sky {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(
+      120% 80% at 50% -20%,
+      rgba(211, 154, 50, 0.28),
+      transparent 55%
+    ),
+    radial-gradient(
+      90% 60% at 85% 0%,
+      rgba(194, 98, 46, 0.16),
+      transparent 50%
+    );
+}
+
+/* Faint surveyor's grid — this is still a precision instrument */
+.paper-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(var(--c-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(
+    ellipse 130% 95% at 50% 0%,
+    #000 50%,
+    transparent 100%
+  );
 }
 
 main {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  flex: 1; /* Make the main content fill the remaining space */
+  min-height: calc(100vh - 64px);
+}
 
+/* ---- Typography ---- */
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-feature-settings: "ss01", "zero";
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(194, 98, 46, 0.2);
+}
+
+/* ---- Header ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(18px, 4vw, 48px);
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: blur(8px) saturate(125%);
+}
+
+.brandmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+
+.brand-glyph {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--surface);
+  background: var(--accent);
+  border-radius: 9px;
+  box-shadow: 0 2px 0 var(--accent-deep);
+}
+.brand-glyph svg {
+  width: 22px;
+  height: 22px;
+}
+
+.header-link {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  padding: 7px 12px;
+  border-radius: 5px;
+  transition: background 0.18s, color 0.18s;
+}
+.header-link:hover {
+  background: var(--surface-sunk);
+  color: var(--text);
+}
+
+/* ---- Cards / panels ---- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  font-family: var(--font-mono), monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 11px 18px;
+  border-radius: 6px;
+  border: 1px solid var(--c-ink);
+  background: var(--c-ink);
+  color: var(--surface);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.18s;
+  box-shadow: 0 3px 0 rgba(44, 37, 25, 0.22);
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 rgba(44, 37, 25, 0.18);
+}
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(44, 37, 25, 0.24);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn-accent {
+  background: var(--accent);
+  border-color: var(--accent-deep);
+  box-shadow: 0 3px 0 var(--accent-deep);
+  color: #fff;
+}
+.btn-accent:hover {
+  box-shadow: 0 5px 0 var(--accent-deep);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border-color: var(--rule);
+  box-shadow: none;
+}
+.btn-ghost:hover {
+  background: var(--surface-sunk);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ---- Inputs ---- */
+.field-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.text-input {
+  width: 100%;
+  font-family: var(--font-mono), monospace;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.text-input::placeholder {
+  color: color-mix(in srgb, var(--muted) 75%, transparent);
+}
+.text-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(194, 98, 46, 0.15);
+}
+
+.num-cell {
+  width: 100%;
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  text-align: center;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 8px 4px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.num-cell:focus {
+  outline: none;
+  border-color: var(--info);
+  box-shadow: 0 0 0 2px rgba(54, 112, 122, 0.18);
+}
+
+/* ---- Animations ---- */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise-in {
+  animation: riseIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes inkBleed {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+.ink-bleed {
+  animation: inkBleed 0.45s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.thin-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 8px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
