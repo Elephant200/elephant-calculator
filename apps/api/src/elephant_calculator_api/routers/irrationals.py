@@ -1,3 +1,4 @@
+from decimal import Decimal
 from fastapi import APIRouter, Query
 from elephant_calculator_api.models.irrationals import *
 from elephant_calculator.services.irrationals import *
@@ -72,6 +73,8 @@ def divide_numbers(data: ArithmeticOperation, precision: int = Query(DEFAULT_PRE
     """
     if precision < 1:
         raise ValueError("Precision must be positive.")
+    if Decimal(data.operand2) == 0:
+        raise ValueError("Cannot divide by zero.")
     return trim_trailing_zeroes(divide(data.operand1, data.operand2, precision=precision))
 
 
