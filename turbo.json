@@ -3,13 +3,25 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build", "^generate"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": []
+    },
+    "@elephant-calculator/web#build": {
+      "dependsOn": ["^build", "^generate"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "generate": {
+      "dependsOn": ["^generate"],
+      "outputs": []
+    },
+    "@elephant-calculator/api#generate": {
+      "dependsOn": ["^generate"],
+      "outputs": ["openapi.json"]
+    },
+    "@elephant-calculator/api-contract#generate": {
       "dependsOn": ["^generate"],
       "outputs": ["openapi.json", "src/index.d.ts"]
     },
