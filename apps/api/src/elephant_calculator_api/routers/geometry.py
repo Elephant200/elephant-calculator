@@ -238,7 +238,11 @@ def calculate_perimeter_trapezoid(data: Trapezoid):
     Returns:
         float: The perimeter of the trapezoid.
     """
-    return perimeter_trapezoid(data.base1, data.base2, data.height, data.height)
+    if data.leg1 is None or data.leg2 is None:
+        raise ValueError(
+            "Both non-parallel sides (leg1 and leg2) are required to compute a trapezoid's perimeter."
+        )
+    return perimeter_trapezoid(data.base1, data.base2, data.leg1, data.leg2)
 
 @router.post("/perimeter/pentagon", response_model=float)
 def calculate_perimeter_pentagon(data: Square):
