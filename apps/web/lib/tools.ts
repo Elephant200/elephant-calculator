@@ -43,7 +43,9 @@ export type ResultKind =
   | "matrix"
   | "intlist"
   | "triples"
-  | "triangle";
+  | "triangle"
+  | "exprvector" // list of symbolic expression strings (e.g. gradient, curl)
+  | "exprmatrix"; // grid of symbolic expression strings (e.g. hessian, jacobian)
 
 export interface Operation {
   id: string;
@@ -97,6 +99,13 @@ const mat = (name: string, label: string, initial: number[][]): Field => ({
   label,
   type: "matrix",
   initial,
+});
+const tlist = (name: string, label: string, initial: string[], help?: string): Field => ({
+  name,
+  label,
+  type: "textlist",
+  initial,
+  help,
 });
 
 const PRECISION: QueryParam = {
@@ -854,6 +863,166 @@ export const CATEGORIES: Category[] = [
         blurb: "Solve a first-order ODE in y(x). Use y' for the derivative and include '='.",
         endpoint: "/cas/solve-differential",
         fields: [txt("equation", "Equation", "y' + y = 0")],
+        result: "string",
+      },
+    ],
+  },
+
+  // ===================== MULTIVARIABLE CALCULUS =====================
+  {
+    id: "calculus",
+    label: "Calculus",
+    tagline: "Vector & multivariable calculus",
+    operations: [
+      {
+        id: "calc-partial",
+        label: "Partial derivative",
+        blurb: "∂/∂x of a multivariable expression, to any order.",
+        endpoint: "/calculus/partial",
+        fields: [
+          txt("expression", "Expression f", "x**2*y + sin(x*y)"),
+          txt("variable", "Variable", "x"),
+          int("order", "Order", "1"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-gradient",
+        label: "Gradient (∇f)",
+        blurb: "Vector of first partials of a scalar field.",
+        endpoint: "/calculus/gradient",
+        fields: [
+          txt("expression", "Scalar field f", "x**2 + y**2 + z**2"),
+          txt("variables", "Variables", "x, y, z"),
+        ],
+        result: "exprvector",
+      },
+      {
+        id: "calc-divergence",
+        label: "Divergence (∇·F)",
+        blurb: "Divergence of a vector field (one component per line).",
+        endpoint: "/calculus/divergence",
+        fields: [
+          tlist("field", "Vector field F", ["x*y", "y*z", "z*x"], "One component per line, matching the variables."),
+          txt("variables", "Variables", "x, y, z"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-curl",
+        label: "Curl (∇×F)",
+        blurb: "Curl of a 3-D vector field.",
+        endpoint: "/calculus/curl",
+        fields: [
+          tlist("field", "Vector field F", ["x*y", "y*z", "z*x"], "Exactly three components."),
+          txt("variables", "Variables", "x, y, z"),
+        ],
+        result: "exprvector",
+      },
+      {
+        id: "calc-laplacian",
+        label: "Laplacian (∇²f)",
+        blurb: "Sum of unmixed second partials.",
+        endpoint: "/calculus/laplacian",
+        fields: [
+          txt("expression", "Scalar field f", "x**2 + y**2 + z**2"),
+          txt("variables", "Variables", "x, y, z"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-hessian",
+        label: "Hessian",
+        blurb: "Matrix of second partial derivatives.",
+        endpoint: "/calculus/hessian",
+        fields: [
+          txt("expression", "Scalar field f", "x**2*y + y**3"),
+          txt("variables", "Variables", "x, y"),
+        ],
+        result: "exprmatrix",
+      },
+      {
+        id: "calc-jacobian",
+        label: "Jacobian",
+        blurb: "Jacobian matrix of a vector-valued function.",
+        endpoint: "/calculus/jacobian",
+        fields: [
+          tlist("functions", "Component functions", ["x*y", "x + y"], "One function per line."),
+          txt("variables", "Variables", "x, y"),
+        ],
+        result: "exprmatrix",
+      },
+      {
+        id: "calc-dirderiv",
+        label: "Directional derivative",
+        blurb: "Rate of change of f along a direction (auto-normalised).",
+        endpoint: "/calculus/directional-derivative",
+        fields: [
+          txt("expression", "Scalar field f", "x**2 + y**2"),
+          txt("variables", "Variables", "x, y"),
+          tlist("direction", "Direction vector", ["1", "1"], "One component per line, matching the variables."),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-double-int",
+        label: "Double integral",
+        blurb: "Iterated ∫∫ — inner variable integrated first.",
+        endpoint: "/calculus/double-integral",
+        fields: [
+          txt("expression", "Integrand", "x*y"),
+          txt("var1", "Inner variable", "x"),
+          txt("lower1", "Inner lower", "0"),
+          txt("upper1", "Inner upper", "1"),
+          txt("var2", "Outer variable", "y"),
+          txt("lower2", "Outer lower", "0"),
+          txt("upper2", "Outer upper", "2"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-triple-int",
+        label: "Triple integral",
+        blurb: "Iterated ∫∫∫ — innermost variable integrated first.",
+        endpoint: "/calculus/triple-integral",
+        fields: [
+          txt("expression", "Integrand", "1"),
+          txt("var1", "Innermost variable", "x"),
+          txt("lower1", "Lower", "0"),
+          txt("upper1", "Upper", "1"),
+          txt("var2", "Middle variable", "y"),
+          txt("lower2", "Lower", "0"),
+          txt("upper2", "Upper", "1"),
+          txt("var3", "Outermost variable", "z"),
+          txt("lower3", "Lower", "0"),
+          txt("upper3", "Upper", "1"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-limit",
+        label: "Limit",
+        blurb: "Limit as a variable approaches a point (use 'oo' for ∞).",
+        endpoint: "/calculus/limit",
+        fields: [
+          txt("expression", "Expression", "sin(x)/x"),
+          txt("variable", "Variable", "x"),
+          txt("point", "Approaching", "0"),
+          txt("direction", "Direction (+, - or +-)", "+"),
+        ],
+        result: "string",
+      },
+      {
+        id: "calc-taylor",
+        label: "Taylor series",
+        blurb: "Series expansion about a point, to a given order.",
+        endpoint: "/calculus/taylor-series",
+        fields: [
+          txt("expression", "Expression", "exp(x)"),
+          txt("variable", "Variable", "x"),
+          txt("point", "About point", "0"),
+          int("order", "Order", "6"),
+        ],
         result: "string",
       },
     ],

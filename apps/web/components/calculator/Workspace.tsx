@@ -499,12 +499,15 @@ function HistoryTape({
 
 function summarize(kind: ResultKind, value: unknown): string {
   switch (kind) {
-    case "matrix": {
-      const m = value as number[][];
+    case "matrix":
+    case "exprmatrix": {
+      const m = value as unknown[][];
       return `${m.length}×${m[0]?.length ?? 0} matrix`;
     }
     case "vector":
       return `[${(value as number[]).join(", ")}]`;
+    case "exprvector":
+      return `(${(value as string[]).join(", ")})`;
     case "intlist": {
       const a = value as number[];
       const head = a.slice(0, 6).join(", ");

@@ -69,6 +69,12 @@ function Rendered({ kind, value }: { kind: ResultKind; value: unknown }) {
     case "triangle":
       return <Triangle data={value as Record<string, number>} />;
 
+    case "exprvector":
+      return <ExprVector items={value as string[]} />;
+
+    case "exprmatrix":
+      return <ExprMatrix rows={value as string[][]} />;
+
     default:
       return <Big>{String(value)}</Big>;
   }
@@ -181,6 +187,51 @@ function Triples({ rows }: { rows: number[][] }) {
   );
 }
 
+function ExprVector({ items }: { items: string[] }) {
+  return (
+    <div className="flex items-stretch gap-3 font-mono">
+      <span
+        className="w-[3px] rounded"
+        style={{ background: "var(--ink, var(--text))" }}
+      />
+      <div className="flex flex-col gap-2 py-1">
+        {items.map((s, i) => (
+          <span key={i} className="text-[18px] text-[var(--text)] break-words">
+            {s}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ExprMatrix({ rows }: { rows: string[][] }) {
+  const cols = rows[0]?.length ?? 0;
+  return (
+    <div
+      className="inline-grid gap-1.5 p-3 rounded-md font-mono"
+      style={{
+        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+        borderLeft: "2px solid var(--text)",
+        borderRight: "2px solid var(--text)",
+        background: "var(--surface-sunk)",
+      }}
+    >
+      {rows.map((row, r) =>
+        row.map((s, c) => (
+          <span
+            key={`${r}-${c}`}
+            className="px-3 py-2 text-center text-[15px] rounded"
+            style={{ background: "var(--surface)" }}
+          >
+            {s}
+          </span>
+        ))
+      )}
+    </div>
+  );
+}
+
 function Triangle({ data }: { data: Record<string, number> }) {
   const sides = ["a", "b", "c"];
   const angles = ["A", "B", "C"];
@@ -224,7 +275,10 @@ function plainText(kind: ResultKind, value: unknown): string {
     case "intlist":
       return `[${(value as number[]).join(", ")}]`;
     case "matrix":
-      return (value as number[][]).map((r) => r.join("\t")).join("\n");
+    case "exprmatrix":
+      return (value as unknown[][]).map((r) => r.join("\t")).join("\n");
+    case "exprvector":
+      return (value as string[]).join("\n");
     case "triples":
       return (value as number[][]).map((t) => `(${t.join(", ")})`).join("\n");
     case "triangle": {
