@@ -1,0 +1,11 @@
+# Keep the Python API deployment slim. The serverless bundle is defined by
+# vercel.json's includeFiles, so trimming these only speeds up uploads.
+node_modules
+**/node_modules
+.next
+.turbo
+.venv
+.uv-cache
+**/__pycache__
+**/.pytest_cache
+apps/web

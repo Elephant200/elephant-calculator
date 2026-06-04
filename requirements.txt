@@ -1,0 +1,9 @@
+# Runtime dependencies for the Vercel Python serverless API (api/index.py).
+# The local workspace packages are imported from source (see api/index.py),
+# so only third-party libraries are listed here.
+fastapi>=0.115.6
+pydantic>=2.10.4
+sympy>=1.13.3
+numpy>=2.2.0
+mpmath>=1.3.0
+inputimeout>=1.0.4
