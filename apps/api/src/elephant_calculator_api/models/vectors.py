@@ -13,10 +13,10 @@ class VectorOperation(BaseModel):
         return vector
 
     @model_validator(mode="after")
-    def validate_matching_dimensions(cls, values):
-        if len(values.vector1) != len(values.vector2):
+    def validate_matching_dimensions(self):
+        if len(self.vector1) != len(self.vector2):
             raise ValueError("vector1 and vector2 must have the same dimensions.")
-        return values
+        return self
 
 
 class ScalarVectorOperation(BaseModel):

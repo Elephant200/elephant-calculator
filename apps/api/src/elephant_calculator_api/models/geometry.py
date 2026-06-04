@@ -51,12 +51,10 @@ class Ellipse(BaseModel):
         return v
 
     @model_validator(mode="after")
-    def validate_minor_less_than_major(cls, values):
-        semi_major = values.semi_major
-        semi_minor = values.semi_minor
-        if semi_major and semi_minor > semi_major:
+    def validate_minor_less_than_major(self):
+        if self.semi_major and self.semi_minor > self.semi_major:
             raise ValueError("Semi-minor axis must be less than or equal to semi-major axis.")
-        return values
+        return self
 
 
 class Rectangle(BaseModel):
@@ -162,13 +160,11 @@ class TriangleHeron(BaseModel):
         return v
 
     @model_validator(mode="after")
-    def validate_triangle_inequality(cls, values):
-        a = values.side1
-        b = values.side2
-        c = values.side3
+    def validate_triangle_inequality(self):
+        a, b, c = self.side1, self.side2, self.side3
         if not (a + b > c and a + c > b and b + c > a):
             raise ValueError("Sides do not satisfy the triangle inequality.")
-        return values
+        return self
 
 
 class TriangleSAS(BaseModel):

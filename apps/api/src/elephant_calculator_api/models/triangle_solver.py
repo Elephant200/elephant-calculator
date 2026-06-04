@@ -21,12 +21,12 @@ class TriangleRequest(BaseModel):
         return v
 
     @model_validator(mode="after")
-    def validate_sufficient_inputs(cls, values):
+    def validate_sufficient_inputs(self):
         """
         Ensure at least three inputs, including one side, are provided.
         """
-        sides = [values.a, values.b, values.c]
-        angles = [values.A, values.B, values.C]
+        sides = [self.a, self.b, self.c]
+        angles = [self.A, self.B, self.C]
 
         # Count the number of non-None values
         provided_sides = sum(1 for side in sides if side is not None)
@@ -35,4 +35,4 @@ class TriangleRequest(BaseModel):
         if provided_sides + provided_angles < 3 or provided_sides < 1:
             raise ValueError("At least three parameters, including one side, must be provided.")
 
-        return values
+        return self
