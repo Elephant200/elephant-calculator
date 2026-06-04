@@ -107,6 +107,85 @@
         "title": "DifferentialEquationRequest",
         "type": "object"
       },
+      "DirectionalDerivativeRequest": {
+        "properties": {
+          "direction": {
+            "description": "Direction vector components (one per variable).",
+            "items": {
+              "type": "string"
+            },
+            "title": "Direction",
+            "type": "array"
+          },
+          "expression": {
+            "description": "The scalar field f(x, y, ...).",
+            "title": "Expression",
+            "type": "string"
+          },
+          "variables": {
+            "description": "Comma-separated variables, e.g. 'x, y'.",
+            "title": "Variables",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variables",
+          "direction"
+        ],
+        "title": "DirectionalDerivativeRequest",
+        "type": "object"
+      },
+      "DoubleIntegralRequest": {
+        "properties": {
+          "expression": {
+            "description": "The integrand.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "lower1": {
+            "description": "Inner lower limit (may depend on the outer variable).",
+            "title": "Lower1",
+            "type": "string"
+          },
+          "lower2": {
+            "description": "Outer lower limit.",
+            "title": "Lower2",
+            "type": "string"
+          },
+          "upper1": {
+            "description": "Inner upper limit (may depend on the outer variable).",
+            "title": "Upper1",
+            "type": "string"
+          },
+          "upper2": {
+            "description": "Outer upper limit.",
+            "title": "Upper2",
+            "type": "string"
+          },
+          "var1": {
+            "description": "Inner integration variable.",
+            "title": "Var1",
+            "type": "string"
+          },
+          "var2": {
+            "description": "Outer integration variable.",
+            "title": "Var2",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "var1",
+          "lower1",
+          "upper1",
+          "var2",
+          "lower2",
+          "upper2"
+        ],
+        "title": "DoubleIntegralRequest",
+        "type": "object"
+      },
       "Ellipse": {
         "properties": {
           "axis3": {
@@ -184,6 +263,61 @@
           "variable"
         ],
         "title": "IntegralRequest",
+        "type": "object"
+      },
+      "JacobianRequest": {
+        "properties": {
+          "functions": {
+            "description": "Component functions, e.g. ['x*y', 'x+y'].",
+            "items": {
+              "type": "string"
+            },
+            "title": "Functions",
+            "type": "array"
+          },
+          "variables": {
+            "description": "Comma-separated variables, e.g. 'x, y'.",
+            "title": "Variables",
+            "type": "string"
+          }
+        },
+        "required": [
+          "functions",
+          "variables"
+        ],
+        "title": "JacobianRequest",
+        "type": "object"
+      },
+      "LimitRequest": {
+        "properties": {
+          "direction": {
+            "default": "+",
+            "description": "Approach direction: '+', '-' or '+-'.",
+            "title": "Direction",
+            "type": "string"
+          },
+          "expression": {
+            "description": "The expression to take the limit of.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "point": {
+            "description": "The point approached (use 'oo' for infinity).",
+            "title": "Point",
+            "type": "string"
+          },
+          "variable": {
+            "description": "The variable that approaches the point.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variable",
+          "point"
+        ],
+        "title": "LimitRequest",
         "type": "object"
       },
       "MatrixOperation": {
@@ -265,6 +399,32 @@
           "theta"
         ],
         "title": "Parallelogram",
+        "type": "object"
+      },
+      "PartialDerivativeRequest": {
+        "properties": {
+          "expression": {
+            "description": "The expression to differentiate.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "order": {
+            "default": 1,
+            "description": "The order of the derivative.",
+            "title": "Order",
+            "type": "integer"
+          },
+          "variable": {
+            "description": "The variable to differentiate with respect to.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variable"
+        ],
+        "title": "PartialDerivativeRequest",
         "type": "object"
       },
       "Polygon": {
@@ -455,6 +615,27 @@
         "title": "Rhombus",
         "type": "object"
       },
+      "ScalarFieldRequest": {
+        "description": "A scalar function plus the variables it depends on (gradient, laplacian, hessian).",
+        "properties": {
+          "expression": {
+            "description": "The scalar field f(x, y, ...).",
+            "title": "Expression",
+            "type": "string"
+          },
+          "variables": {
+            "description": "Comma-separated variables, e.g. 'x, y, z'.",
+            "title": "Variables",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variables"
+        ],
+        "title": "ScalarFieldRequest",
+        "type": "object"
+      },
       "ScalarMatrixOperation": {
         "properties": {
           "matrix": {
@@ -570,6 +751,38 @@
           "side"
         ],
         "title": "Square",
+        "type": "object"
+      },
+      "TaylorSeriesRequest": {
+        "properties": {
+          "expression": {
+            "description": "The expression to expand.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "order": {
+            "default": 6,
+            "description": "Truncation order.",
+            "title": "Order",
+            "type": "integer"
+          },
+          "point": {
+            "default": "0",
+            "description": "The point to expand about.",
+            "title": "Point",
+            "type": "string"
+          },
+          "variable": {
+            "description": "The expansion variable.",
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "variable"
+        ],
+        "title": "TaylorSeriesRequest",
         "type": "object"
       },
       "Trapezoid": {
@@ -798,6 +1011,74 @@
         "title": "TrigonometricOperation",
         "type": "object"
       },
+      "TripleIntegralRequest": {
+        "properties": {
+          "expression": {
+            "description": "The integrand.",
+            "title": "Expression",
+            "type": "string"
+          },
+          "lower1": {
+            "description": "Innermost lower limit.",
+            "title": "Lower1",
+            "type": "string"
+          },
+          "lower2": {
+            "description": "Middle lower limit.",
+            "title": "Lower2",
+            "type": "string"
+          },
+          "lower3": {
+            "description": "Outermost lower limit.",
+            "title": "Lower3",
+            "type": "string"
+          },
+          "upper1": {
+            "description": "Innermost upper limit.",
+            "title": "Upper1",
+            "type": "string"
+          },
+          "upper2": {
+            "description": "Middle upper limit.",
+            "title": "Upper2",
+            "type": "string"
+          },
+          "upper3": {
+            "description": "Outermost upper limit.",
+            "title": "Upper3",
+            "type": "string"
+          },
+          "var1": {
+            "description": "Innermost integration variable.",
+            "title": "Var1",
+            "type": "string"
+          },
+          "var2": {
+            "description": "Middle integration variable.",
+            "title": "Var2",
+            "type": "string"
+          },
+          "var3": {
+            "description": "Outermost integration variable.",
+            "title": "Var3",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression",
+          "var1",
+          "lower1",
+          "upper1",
+          "var2",
+          "lower2",
+          "upper2",
+          "var3",
+          "lower3",
+          "upper3"
+        ],
+        "title": "TripleIntegralRequest",
+        "type": "object"
+      },
       "UnaryOperation": {
         "properties": {
           "operand": {
@@ -850,6 +1131,30 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "VectorFieldRequest": {
+        "description": "A vector field (one expression per component) plus its variables.",
+        "properties": {
+          "field": {
+            "description": "Vector-field components, e.g. ['x*y', 'y*z', 'z*x'].",
+            "items": {
+              "type": "string"
+            },
+            "title": "Field",
+            "type": "array"
+          },
+          "variables": {
+            "description": "Comma-separated variables, e.g. 'x, y, z'.",
+            "title": "Variables",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "variables"
+        ],
+        "title": "VectorFieldRequest",
         "type": "object"
       },
       "VectorMatrixOperation": {
@@ -915,6 +1220,540 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/calculus/curl": {
+      "post": {
+        "description": "Curl \u2207\u00d7F of a 3-D vector field.",
+        "operationId": "curl_api_calculus_curl_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorFieldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response Curl Api Calculus Curl Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Curl",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/directional-derivative": {
+      "post": {
+        "description": "Directional derivative of f along a (normalised) direction vector.",
+        "operationId": "directional_derivative_api_calculus_directional_derivative_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirectionalDerivativeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Directional Derivative Api Calculus Directional Derivative Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Directional Derivative",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/divergence": {
+      "post": {
+        "description": "Divergence \u2207\u00b7F of a vector field.",
+        "operationId": "divergence_api_calculus_divergence_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorFieldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Divergence Api Calculus Divergence Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Divergence",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/double-integral": {
+      "post": {
+        "description": "Iterated double integral (inner variable first).",
+        "operationId": "double_integral_api_calculus_double_integral_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoubleIntegralRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Double Integral Api Calculus Double Integral Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Double Integral",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/gradient": {
+      "post": {
+        "description": "Gradient \u2207f as a list of partial derivatives, one per variable.",
+        "operationId": "gradient_api_calculus_gradient_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalarFieldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response Gradient Api Calculus Gradient Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Gradient",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/hessian": {
+      "post": {
+        "description": "Hessian matrix of second partial derivatives.",
+        "operationId": "hessian_api_calculus_hessian_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalarFieldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Hessian Api Calculus Hessian Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Hessian",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/jacobian": {
+      "post": {
+        "description": "Jacobian matrix of a vector-valued function.",
+        "operationId": "jacobian_api_calculus_jacobian_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JacobianRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Jacobian Api Calculus Jacobian Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Jacobian",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/laplacian": {
+      "post": {
+        "description": "Laplacian \u2207\u00b2f (sum of unmixed second partials).",
+        "operationId": "laplacian_api_calculus_laplacian_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScalarFieldRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Laplacian Api Calculus Laplacian Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Laplacian",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/limit": {
+      "post": {
+        "description": "Limit of an expression as a variable approaches a point.",
+        "operationId": "compute_limit_api_calculus_limit_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LimitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Compute Limit Api Calculus Limit Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Limit",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/partial": {
+      "post": {
+        "description": "Compute a (possibly higher-order) partial derivative.",
+        "operationId": "partial_derivative_api_calculus_partial_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartialDerivativeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Partial Derivative Api Calculus Partial Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Partial Derivative",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/taylor-series": {
+      "post": {
+        "description": "Taylor/Maclaurin series expansion to a given order.",
+        "operationId": "taylor_series_api_calculus_taylor_series_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaylorSeriesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Taylor Series Api Calculus Taylor Series Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Taylor Series",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
+    "/api/calculus/triple-integral": {
+      "post": {
+        "description": "Iterated triple integral (innermost variable first).",
+        "operationId": "triple_integral_api_calculus_triple_integral_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripleIntegralRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Triple Integral Api Calculus Triple Integral Post",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Triple Integral",
+        "tags": [
+          "Multivariable Calculus"
+        ]
+      }
+    },
     "/api/cas/definite-integral": {
       "post": {
         "description": "Compute the definite integral of an expression over a range.\n\nArgs:\n    data (DefiniteIntegralRequest): The input expression, variable, and limits for integration.\n\nReturns:\n    str: The definite integral of the expression over the specified range.",

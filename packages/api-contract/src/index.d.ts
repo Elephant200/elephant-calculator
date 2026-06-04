@@ -4,6 +4,246 @@
  */
 
 export interface paths {
+    "/api/calculus/curl": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Curl
+         * @description Curl ∇×F of a 3-D vector field.
+         */
+        post: operations["curl_api_calculus_curl_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/directional-derivative": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Directional Derivative
+         * @description Directional derivative of f along a (normalised) direction vector.
+         */
+        post: operations["directional_derivative_api_calculus_directional_derivative_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/divergence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Divergence
+         * @description Divergence ∇·F of a vector field.
+         */
+        post: operations["divergence_api_calculus_divergence_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/double-integral": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Double Integral
+         * @description Iterated double integral (inner variable first).
+         */
+        post: operations["double_integral_api_calculus_double_integral_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/gradient": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gradient
+         * @description Gradient ∇f as a list of partial derivatives, one per variable.
+         */
+        post: operations["gradient_api_calculus_gradient_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/hessian": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Hessian
+         * @description Hessian matrix of second partial derivatives.
+         */
+        post: operations["hessian_api_calculus_hessian_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/jacobian": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Jacobian
+         * @description Jacobian matrix of a vector-valued function.
+         */
+        post: operations["jacobian_api_calculus_jacobian_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/laplacian": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Laplacian
+         * @description Laplacian ∇²f (sum of unmixed second partials).
+         */
+        post: operations["laplacian_api_calculus_laplacian_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/limit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compute Limit
+         * @description Limit of an expression as a variable approaches a point.
+         */
+        post: operations["compute_limit_api_calculus_limit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/partial": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Partial Derivative
+         * @description Compute a (possibly higher-order) partial derivative.
+         */
+        post: operations["partial_derivative_api_calculus_partial_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/taylor-series": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Taylor Series
+         * @description Taylor/Maclaurin series expansion to a given order.
+         */
+        post: operations["taylor_series_api_calculus_taylor_series_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/calculus/triple-integral": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Triple Integral
+         * @description Iterated triple integral (innermost variable first).
+         */
+        post: operations["triple_integral_api_calculus_triple_integral_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/cas/definite-integral": {
         parameters: {
             query?: never;
@@ -2377,6 +2617,62 @@ export interface components {
              */
             equation: string;
         };
+        /** DirectionalDerivativeRequest */
+        DirectionalDerivativeRequest: {
+            /**
+             * Direction
+             * @description Direction vector components (one per variable).
+             */
+            direction: string[];
+            /**
+             * Expression
+             * @description The scalar field f(x, y, ...).
+             */
+            expression: string;
+            /**
+             * Variables
+             * @description Comma-separated variables, e.g. 'x, y'.
+             */
+            variables: string;
+        };
+        /** DoubleIntegralRequest */
+        DoubleIntegralRequest: {
+            /**
+             * Expression
+             * @description The integrand.
+             */
+            expression: string;
+            /**
+             * Lower1
+             * @description Inner lower limit (may depend on the outer variable).
+             */
+            lower1: string;
+            /**
+             * Lower2
+             * @description Outer lower limit.
+             */
+            lower2: string;
+            /**
+             * Upper1
+             * @description Inner upper limit (may depend on the outer variable).
+             */
+            upper1: string;
+            /**
+             * Upper2
+             * @description Outer upper limit.
+             */
+            upper2: string;
+            /**
+             * Var1
+             * @description Inner integration variable.
+             */
+            var1: string;
+            /**
+             * Var2
+             * @description Outer integration variable.
+             */
+            var2: string;
+        };
         /** Ellipse */
         Ellipse: {
             /**
@@ -2418,6 +2714,43 @@ export interface components {
             /**
              * Variable
              * @description The variable with respect to which integration is performed.
+             */
+            variable: string;
+        };
+        /** JacobianRequest */
+        JacobianRequest: {
+            /**
+             * Functions
+             * @description Component functions, e.g. ['x*y', 'x+y'].
+             */
+            functions: string[];
+            /**
+             * Variables
+             * @description Comma-separated variables, e.g. 'x, y'.
+             */
+            variables: string;
+        };
+        /** LimitRequest */
+        LimitRequest: {
+            /**
+             * Direction
+             * @description Approach direction: '+', '-' or '+-'.
+             * @default +
+             */
+            direction: string;
+            /**
+             * Expression
+             * @description The expression to take the limit of.
+             */
+            expression: string;
+            /**
+             * Point
+             * @description The point approached (use 'oo' for infinity).
+             */
+            point: string;
+            /**
+             * Variable
+             * @description The variable that approaches the point.
              */
             variable: string;
         };
@@ -2464,6 +2797,25 @@ export interface components {
              * @description The angle (in degrees) between the two sides.
              */
             theta: number;
+        };
+        /** PartialDerivativeRequest */
+        PartialDerivativeRequest: {
+            /**
+             * Expression
+             * @description The expression to differentiate.
+             */
+            expression: string;
+            /**
+             * Order
+             * @description The order of the derivative.
+             * @default 1
+             */
+            order: number;
+            /**
+             * Variable
+             * @description The variable to differentiate with respect to.
+             */
+            variable: string;
         };
         /** Polygon */
         Polygon: {
@@ -2580,6 +2932,22 @@ export interface components {
              */
             diagonal2: number;
         };
+        /**
+         * ScalarFieldRequest
+         * @description A scalar function plus the variables it depends on (gradient, laplacian, hessian).
+         */
+        ScalarFieldRequest: {
+            /**
+             * Expression
+             * @description The scalar field f(x, y, ...).
+             */
+            expression: string;
+            /**
+             * Variables
+             * @description Comma-separated variables, e.g. 'x, y, z'.
+             */
+            variables: string;
+        };
         /** ScalarMatrixOperation */
         ScalarMatrixOperation: {
             /**
@@ -2642,6 +3010,31 @@ export interface components {
              * @description The side length of the square.
              */
             side: number;
+        };
+        /** TaylorSeriesRequest */
+        TaylorSeriesRequest: {
+            /**
+             * Expression
+             * @description The expression to expand.
+             */
+            expression: string;
+            /**
+             * Order
+             * @description Truncation order.
+             * @default 6
+             */
+            order: number;
+            /**
+             * Point
+             * @description The point to expand about.
+             * @default 0
+             */
+            point: string;
+            /**
+             * Variable
+             * @description The expansion variable.
+             */
+            variable: string;
         };
         /** Trapezoid */
         Trapezoid: {
@@ -2767,6 +3160,59 @@ export interface components {
              */
             radians: boolean;
         };
+        /** TripleIntegralRequest */
+        TripleIntegralRequest: {
+            /**
+             * Expression
+             * @description The integrand.
+             */
+            expression: string;
+            /**
+             * Lower1
+             * @description Innermost lower limit.
+             */
+            lower1: string;
+            /**
+             * Lower2
+             * @description Middle lower limit.
+             */
+            lower2: string;
+            /**
+             * Lower3
+             * @description Outermost lower limit.
+             */
+            lower3: string;
+            /**
+             * Upper1
+             * @description Innermost upper limit.
+             */
+            upper1: string;
+            /**
+             * Upper2
+             * @description Middle upper limit.
+             */
+            upper2: string;
+            /**
+             * Upper3
+             * @description Outermost upper limit.
+             */
+            upper3: string;
+            /**
+             * Var1
+             * @description Innermost integration variable.
+             */
+            var1: string;
+            /**
+             * Var2
+             * @description Middle integration variable.
+             */
+            var2: string;
+            /**
+             * Var3
+             * @description Outermost integration variable.
+             */
+            var3: string;
+        };
         /** UnaryOperation */
         UnaryOperation: {
             /**
@@ -2787,6 +3233,22 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+        };
+        /**
+         * VectorFieldRequest
+         * @description A vector field (one expression per component) plus its variables.
+         */
+        VectorFieldRequest: {
+            /**
+             * Field
+             * @description Vector-field components, e.g. ['x*y', 'y*z', 'z*x'].
+             */
+            field: string[];
+            /**
+             * Variables
+             * @description Comma-separated variables, e.g. 'x, y, z'.
+             */
+            variables: string;
         };
         /** VectorMatrixOperation */
         VectorMatrixOperation: {
@@ -2823,6 +3285,402 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    curl_api_calculus_curl_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VectorFieldRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    directional_derivative_api_calculus_directional_derivative_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirectionalDerivativeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    divergence_api_calculus_divergence_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VectorFieldRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    double_integral_api_calculus_double_integral_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DoubleIntegralRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    gradient_api_calculus_gradient_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScalarFieldRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    hessian_api_calculus_hessian_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScalarFieldRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    jacobian_api_calculus_jacobian_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JacobianRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    laplacian_api_calculus_laplacian_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScalarFieldRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    compute_limit_api_calculus_limit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LimitRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    partial_derivative_api_calculus_partial_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PartialDerivativeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    taylor_series_api_calculus_taylor_series_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaylorSeriesRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    triple_integral_api_calculus_triple_integral_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TripleIntegralRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     definite_integral_endpoint_api_cas_definite_integral_post: {
         parameters: {
             query?: never;
