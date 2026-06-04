@@ -20,7 +20,12 @@ from elephant_calculator_api.routers import (
 
 logger = logging.getLogger("elephant_calculator_api")
 
-app = FastAPI(title="The Elephant Calculator API", docs_url="/api/docs", redoc_url="/api/redoc")
+app = FastAPI(
+    title="The Elephant Calculator API",
+    docs_url=None,
+    redoc_url="/api/docs",
+    openapi_url="/api/openapi.json",
+)
 
 # Same-origin deployments use the Next.js proxy and need no CORS. To serve the
 # API standalone to a browser on another origin, set ELEPHANT_CORS_ORIGINS to a

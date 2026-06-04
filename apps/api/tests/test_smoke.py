@@ -11,6 +11,22 @@ def test_openapi_docs_are_available() -> None:
     assert response.status_code == 200
 
 
+def test_openapi_json_is_available_under_api_prefix() -> None:
+    response = client.get("/api/openapi.json")
+    assert response.status_code == 200
+    assert response.json()["openapi"].startswith("3.")
+
+
+def test_swagger_ui_is_disabled() -> None:
+    response = client.get("/docs")
+    assert response.status_code == 404
+
+
+def test_old_redoc_url_is_disabled() -> None:
+    response = client.get("/api/redoc")
+    assert response.status_code == 404
+
+
 def test_vector_addition() -> None:
     response = client.post(
         "/api/vectors/add",
