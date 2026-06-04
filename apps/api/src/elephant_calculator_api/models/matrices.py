@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 
 class MatrixOperation(BaseModel):
     matrix1: list[list[float]] = Field(..., description="The first matrix for the operation.")
@@ -55,8 +55,8 @@ class VectorMatrixOperation(BaseModel):
         return matrix
 
     @field_validator("matrix")
-    def validate_dimensions(cls, matrix, values):
-        vector = values.get("vector")
+    def validate_dimensions(cls, matrix, info: ValidationInfo):
+        vector = info.data.get("vector")
         if vector and len(matrix[0]) != len(vector):
             raise ValueError("Matrix column count must match vector length.")
         return matrix

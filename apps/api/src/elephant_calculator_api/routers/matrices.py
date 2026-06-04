@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from elephant_calculator_api.models.matrices import *
 from elephant_calculator.services.matrix import Matrix
+from elephant_calculator.services.vector import Vector
 
 router = APIRouter()
 
@@ -60,9 +61,8 @@ def vector_matrix_multiply(data: VectorMatrixOperation):
     Returns:
         list[float]: The resulting vector after multiplication.
     """
-    v = data.vector
     m = Matrix(data.matrix)
-    return m * v
+    return (m * Vector(data.vector)).elements
 
 @router.post("/scale", response_model=list[list[float]])
 def scale_matrix(data: ScalarMatrixOperation):
