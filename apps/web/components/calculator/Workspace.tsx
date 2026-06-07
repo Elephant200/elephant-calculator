@@ -104,6 +104,13 @@ export default function Workspace() {
     setQueryValues(initQueryState(nextOp));
     setError(null);
     setResult(null);
+    // Keep the URL in sync so the current tool is shareable/bookmarkable and the
+    // browser reflects what's on screen. replaceState avoids stacking a history
+    // entry per click.
+    if (typeof window !== "undefined") {
+      const url = `${window.location.pathname}?cat=${cat.id}&op=${nextOp.id}`;
+      window.history.replaceState(null, "", url);
+    }
   }
 
   function setFieldValue(name: string, value: FormValue) {
