@@ -71,6 +71,20 @@ export default function Workspace() {
     }
   }, [history]);
 
+  // Honour a deep link from the home page (e.g. /calculator?cat=statistics or
+  // ?cat=geometry&op=geo-area-circle), selecting that category/operation once.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const catId = params.get("cat");
+    if (!catId) return;
+    const cat = CATEGORIES.find((c) => c.id === catId);
+    if (!cat) return;
+    const opId = params.get("op");
+    const target =
+      (opId && cat.operations.find((o) => o.id === opId)) || cat.operations[0];
+    selectOperation(target, cat);
+  }, []);
+
   // Compute on ⌘/Ctrl+Enter from anywhere on the page.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -114,11 +128,15 @@ export default function Workspace() {
 
     setLoading(true);
     try {
-      const value = await callApi<unknown>(op.endpoint, {
-        method: op.method ?? "POST",
-        body: request.body,
-        query: request.query,
-      });
+      // Client-side tools (statistics, base conversion) compute in-browser; the
+      // rest call the FastAPI backend.
+      const value = op.compute
+        ? op.compute((request.body ?? {}) as Record<string, unknown>)
+        : await callApi<unknown>(op.endpoint, {
+            method: op.method ?? "POST",
+            body: request.body,
+            query: request.query,
+          });
       const entry: ResultEntry = {
         id: nextEntryId(),
         opId: op.id,
@@ -134,6 +152,9 @@ export default function Workspace() {
     } catch (e) {
       if (e instanceof ApiError) {
         setError({ type: e.errorType, message: e.message });
+      } else if (e instanceof Error) {
+        // Client-side compute raises plain Errors for invalid input.
+        setError({ type: "Check your input", message: e.message });
       } else {
         setError({ type: "Unexpected error", message: String(e) });
       }
@@ -411,8 +432,14 @@ function OperationHeader({
       </h1>
       <p className="mt-2 text-[var(--text-soft)] max-w-[60ch]">{op.blurb}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <span className="soft-chip">{op.method ?? "POST"}</span>
-        <span className="soft-chip">{op.endpoint}</span>
+        {op.compute ? (
+          <span className="soft-chip">in-browser</span>
+        ) : (
+          <>
+            <span className="soft-chip">{op.method ?? "POST"}</span>
+            <span className="soft-chip">{op.endpoint}</span>
+          </>
+        )}
         <span className="soft-chip">{op.resultLabel ?? op.result}</span>
         <span className="soft-chip">
           {category.operations.length} in {category.label}
@@ -548,6 +575,13 @@ function summarize(kind: ResultKind, value: unknown): string {
     }
     case "triples":
       return `${(value as number[][]).length} triples`;
+    case "table": {
+      const rows = value as { label: string; value: string }[];
+      return rows
+        .slice(0, 2)
+        .map((r) => `${r.label}: ${r.value}`)
+        .join("  ·  ");
+    }
     case "triangle": {
       const d = value as Record<string, number>;
       return `a${fmt(d.a)} b${fmt(d.b)} c${fmt(d.c)}`;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { ResultKind } from "../../lib/tools";
+import type { ResultKind, TableRow } from "../../lib/tools";
 import { formatNumber } from "../../lib/format";
 
 export function ResultView({
@@ -68,6 +68,9 @@ function Rendered({ kind, value }: { kind: ResultKind; value: unknown }) {
 
     case "triangle":
       return <Triangle data={value as Record<string, number>} />;
+
+    case "table":
+      return <LabelledTable rows={value as TableRow[]} />;
 
     case "exprvector":
       return <ExprVector items={value as string[]} />;
@@ -232,6 +235,24 @@ function ExprMatrix({ rows }: { rows: string[][] }) {
   );
 }
 
+function LabelledTable({ rows }: { rows: TableRow[] }) {
+  return (
+    <div className="flex flex-col divide-y divide-[var(--rule-soft)] font-mono">
+      {rows.map((r) => (
+        <div
+          key={r.label}
+          className="flex items-baseline justify-between gap-6 py-2"
+        >
+          <span className="text-[14px] text-[var(--muted)]">{r.label}</span>
+          <span className="text-[18px] text-[var(--text)] text-right break-all">
+            {r.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Triangle({ data }: { data: Record<string, number> }) {
   const sides = ["a", "b", "c"];
   const angles = ["A", "B", "C"];
@@ -281,6 +302,10 @@ function plainText(kind: ResultKind, value: unknown): string {
       return (value as string[]).join("\n");
     case "triples":
       return (value as number[][]).map((t) => `(${t.join(", ")})`).join("\n");
+    case "table":
+      return (value as TableRow[])
+        .map((r) => `${r.label}\t${r.value}`)
+        .join("\n");
     case "triangle": {
       const d = value as Record<string, number>;
       return ["a", "b", "c", "A", "B", "C"]

@@ -1,6 +1,18 @@
 // Data-driven registry of every calculator operation exposed by the API.
 // The UI is generated entirely from this file, so adding/adjusting an
 // operation is a data edit, not a component change.
+//
+// Most operations call the FastAPI backend (`endpoint`). A few run entirely in
+// the browser via `compute` — see lib/clientCompute.ts.
+
+import {
+  baseConvert,
+  statsMean,
+  statsMedian,
+  statsMode,
+  statsStdDev,
+  statsSummary,
+} from "./clientCompute";
 
 export type FieldType =
   | "number" // float
@@ -44,19 +56,32 @@ export type ResultKind =
   | "intlist"
   | "triples"
   | "triangle"
+  | "table" // labelled rows: { label, value }[] (stats summary, base conversions)
   | "exprvector" // list of symbolic expression strings (e.g. gradient, curl)
   | "exprmatrix"; // grid of symbolic expression strings (e.g. hessian, jacobian)
+
+// A labelled row for the "table" result kind.
+export interface TableRow {
+  label: string;
+  value: string;
+}
 
 export interface Operation {
   id: string;
   label: string;
   blurb: string;
+  // REST path for server-backed ops. Empty for client-side ops (see `compute`).
   endpoint: string;
   method?: "GET" | "POST";
   fields: Field[];
   query?: QueryParam[];
   result: ResultKind;
   resultLabel?: string;
+  // When set, the operation runs entirely in the browser from the built request
+  // body — no network call. Used for instant tools like statistics & base
+  // conversion. `body` holds already-parsed field values (vectors as number[],
+  // ints as number, etc.). Throw an Error to surface a validation message.
+  compute?: (body: Record<string, unknown>) => unknown;
 }
 
 export interface Category {
@@ -309,6 +334,14 @@ export const CATEGORIES: Category[] = [
         result: "scalar",
       },
       {
+        id: "geo-area-semicircle",
+        label: "Area · Semicircle",
+        blurb: "½πr² for a half-disc.",
+        endpoint: "/geometry/area/semi_circle",
+        fields: [num("radius", "Radius", "5")],
+        result: "scalar",
+      },
+      {
         id: "geo-area-ellipse",
         label: "Area · Ellipse",
         blurb: "π·a·b for an ellipse.",
@@ -443,10 +476,50 @@ export const CATEGORIES: Category[] = [
         result: "scalar",
       },
       {
+        id: "geo-perim-pentagon",
+        label: "Perimeter · Pentagon",
+        blurb: "5·side (regular pentagon).",
+        endpoint: "/geometry/perimeter/pentagon",
+        fields: [num("side", "Side", "4")],
+        result: "scalar",
+      },
+      {
         id: "geo-perim-hexagon",
         label: "Perimeter · Hexagon",
         blurb: "6·side (regular hexagon).",
         endpoint: "/geometry/perimeter/hexagon",
+        fields: [num("side", "Side", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-perim-heptagon",
+        label: "Perimeter · Heptagon",
+        blurb: "7·side (regular heptagon).",
+        endpoint: "/geometry/perimeter/heptagon",
+        fields: [num("side", "Side", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-perim-octagon",
+        label: "Perimeter · Octagon",
+        blurb: "8·side (regular octagon).",
+        endpoint: "/geometry/perimeter/octagon",
+        fields: [num("side", "Side", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-perim-nonagon",
+        label: "Perimeter · Nonagon",
+        blurb: "9·side (regular nonagon).",
+        endpoint: "/geometry/perimeter/nonagon",
+        fields: [num("side", "Side", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-perim-decagon",
+        label: "Perimeter · Decagon",
+        blurb: "10·side (regular decagon).",
+        endpoint: "/geometry/perimeter/decagon",
         fields: [num("side", "Side", "4")],
         result: "scalar",
       },
@@ -497,6 +570,22 @@ export const CATEGORIES: Category[] = [
         blurb: "Regular tetrahedron from edge length.",
         endpoint: "/geometry/volume/tetrahedron",
         fields: [num("side", "Edge", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-vol-octa",
+        label: "Volume · Octahedron",
+        blurb: "Regular octahedron from edge length.",
+        endpoint: "/geometry/volume/octahedron",
+        fields: [num("side", "Edge", "3")],
+        result: "scalar",
+      },
+      {
+        id: "geo-vol-dodeca",
+        label: "Volume · Dodecahedron",
+        blurb: "Regular dodecahedron from edge length.",
+        endpoint: "/geometry/volume/dodecahedron",
+        fields: [num("side", "Edge", "2")],
         result: "scalar",
       },
       {
@@ -590,6 +679,30 @@ export const CATEGORIES: Category[] = [
           num("base_perimeter", "Base perimeter", "16"),
           num("height", "Height", "10"),
         ],
+        result: "scalar",
+      },
+      {
+        id: "geo-sa-tetra",
+        label: "Surface area · Tetrahedron",
+        blurb: "√3·side².",
+        endpoint: "/geometry/surface_area/tetrahedron",
+        fields: [num("side", "Edge", "4")],
+        result: "scalar",
+      },
+      {
+        id: "geo-sa-octa",
+        label: "Surface area · Octahedron",
+        blurb: "2·√3·side².",
+        endpoint: "/geometry/surface_area/octahedron",
+        fields: [num("side", "Edge", "3")],
+        result: "scalar",
+      },
+      {
+        id: "geo-sa-dodeca",
+        label: "Surface area · Dodecahedron",
+        blurb: "3·√(25 + 10√5)·side².",
+        endpoint: "/geometry/surface_area/dodecahedron",
+        fields: [num("side", "Edge", "2")],
         result: "scalar",
       },
       {
@@ -1050,6 +1163,97 @@ export const CATEGORIES: Category[] = [
           },
         ],
         result: "triples",
+      },
+    ],
+  },
+
+  // ===================== STATISTICS (client-side) =====================
+  {
+    id: "statistics",
+    label: "Statistics",
+    tagline: "Descriptive stats on a data set",
+    operations: [
+      {
+        id: "stat-summary",
+        label: "Summary",
+        blurb:
+          "Full descriptive summary of a data set — count, sum, mean, median, mode, range, variance and standard deviation.",
+        endpoint: "",
+        fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
+        result: "table",
+        resultLabel: "Summary",
+        compute: statsSummary,
+      },
+      {
+        id: "stat-mean",
+        label: "Mean",
+        blurb: "Arithmetic mean (average) of the values.",
+        endpoint: "",
+        fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
+        result: "scalar",
+        resultLabel: "Mean",
+        compute: statsMean,
+      },
+      {
+        id: "stat-median",
+        label: "Median",
+        blurb: "Middle value once the data set is sorted.",
+        endpoint: "",
+        fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
+        result: "scalar",
+        resultLabel: "Median",
+        compute: statsMedian,
+      },
+      {
+        id: "stat-mode",
+        label: "Mode",
+        blurb: "Most frequent value(s) in the data set.",
+        endpoint: "",
+        fields: [vec("data", "Data set", [2, 4, 4, 5, 7, 7, 9])],
+        result: "vector",
+        resultLabel: "Mode",
+        compute: statsMode,
+      },
+      {
+        id: "stat-stddev",
+        label: "Standard deviation",
+        blurb: "Spread of the data about the mean.",
+        endpoint: "",
+        fields: [
+          vec("data", "Data set", [4, 8, 15, 16, 23, 42]),
+          {
+            name: "sample",
+            label: "Sample (n − 1)",
+            type: "bool",
+            initial: true,
+          } as Field,
+        ],
+        result: "scalar",
+        resultLabel: "Std deviation",
+        compute: statsStdDev,
+      },
+    ],
+  },
+
+  // ===================== NUMBER BASES (client-side) =====================
+  {
+    id: "bases",
+    label: "Number bases",
+    tagline: "Convert between binary, decimal & hex",
+    operations: [
+      {
+        id: "base-convert",
+        label: "Convert base",
+        blurb:
+          "Read a number written in any base from 2 to 36 and show it in decimal, binary, octal and hexadecimal.",
+        endpoint: "",
+        fields: [
+          txt("number", "Number", "2A"),
+          int("from_base", "Source base", "16", "The base the number above is written in (2–36)."),
+        ],
+        result: "table",
+        resultLabel: "Conversions",
+        compute: baseConvert,
       },
     ],
   },

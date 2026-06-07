@@ -72,13 +72,13 @@ export default function Home() {
           >
             What it computes
           </h2>
-          <span className="eyebrow hidden sm:block">eight disciplines</span>
+          <span className="eyebrow hidden sm:block">{totalCategories} disciplines</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CATEGORIES.map((cat, i) => (
             <Link
               key={cat.id}
-              href="/calculator"
+              href={`/calculator?cat=${cat.id}`}
               className="panel p-5 group rise-in transition-transform hover:-translate-y-1 tool-shell"
               style={{ animationDelay: `${120 + i * 55}ms` }}
             >
