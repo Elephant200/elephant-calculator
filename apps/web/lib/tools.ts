@@ -315,6 +315,26 @@ export const CATEGORIES: Category[] = [
         fields: [mat("matrix", "Matrix", [[1, 2, 3], [4, 5, 6]])],
         result: "matrix",
       },
+      {
+        id: "mat-trace",
+        label: "Trace",
+        blurb: "Sum of the main-diagonal entries of a square matrix.",
+        endpoint: "/matrices/trace",
+        fields: [mat("matrix", "Matrix", [[1, 2], [3, 4]])],
+        result: "scalar",
+        resultLabel: "Trace",
+      },
+      {
+        id: "mat-power",
+        label: "Power (Aⁿ)",
+        blurb: "Raise a square matrix to a non-negative integer power.",
+        endpoint: "/matrices/power",
+        fields: [
+          mat("matrix", "Matrix A", [[1, 1], [0, 1]]),
+          int("exponent", "Exponent n", "3"),
+        ],
+        result: "matrix",
+      },
     ],
   },
 

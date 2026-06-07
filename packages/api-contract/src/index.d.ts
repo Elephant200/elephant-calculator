@@ -2234,6 +2234,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/matrices/power": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Matrix Power
+         * @description Raise a square matrix to a non-negative integer power.
+         *
+         *     Args:
+         *         data (MatrixPower): Contains the matrix and the exponent.
+         *
+         *     Returns:
+         *         list[list[float]]: The resulting matrix.
+         */
+        post: operations["matrix_power_api_matrices_power_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/matrices/scale": {
         parameters: {
             query?: never;
@@ -2280,6 +2306,32 @@ export interface paths {
          *         list[list[float]]: The resulting matrix after subtraction.
          */
         post: operations["subtract_matrices_api_matrices_subtract_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/matrices/trace": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Matrix Trace
+         * @description Compute the trace (sum of the main diagonal) of a square matrix.
+         *
+         *     Args:
+         *         data (SingleMatrixOperation): Contains the square matrix.
+         *
+         *     Returns:
+         *         float: The trace of the matrix.
+         */
+        post: operations["matrix_trace_api_matrices_trace_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3145,6 +3197,19 @@ export interface components {
              * @description The second matrix for the operation.
              */
             matrix2: number[][];
+        };
+        /** MatrixPower */
+        MatrixPower: {
+            /**
+             * Exponent
+             * @description A non-negative integer exponent.
+             */
+            exponent: number;
+            /**
+             * Matrix
+             * @description The square matrix to raise to a power.
+             */
+            matrix: number[][];
         };
         /** MultiVariableEquationsRequest */
         MultiVariableEquationsRequest: {
@@ -6637,6 +6702,39 @@ export interface operations {
             };
         };
     };
+    matrix_power_api_matrices_power_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MatrixPower"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     scale_matrix_api_matrices_scale_post: {
         parameters: {
             query?: never;
@@ -6690,6 +6788,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": number[][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    matrix_trace_api_matrices_trace_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SingleMatrixOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
                 };
             };
             /** @description Validation Error */

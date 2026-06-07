@@ -119,3 +119,29 @@ def transpose_matrix(data: SingleMatrixOperation):
     """
     m = Matrix(data.matrix)
     return m.transpose().elements
+
+@router.post("/trace", response_model=float)
+def matrix_trace(data: SingleMatrixOperation):
+    """
+    Compute the trace (sum of the main diagonal) of a square matrix.
+
+    Args:
+        data (SingleMatrixOperation): Contains the square matrix.
+
+    Returns:
+        float: The trace of the matrix.
+    """
+    return Matrix(data.matrix).trace()
+
+@router.post("/power", response_model=list[list[float]])
+def matrix_power(data: MatrixPower):
+    """
+    Raise a square matrix to a non-negative integer power.
+
+    Args:
+        data (MatrixPower): Contains the matrix and the exponent.
+
+    Returns:
+        list[list[float]]: The resulting matrix.
+    """
+    return (Matrix(data.matrix) ** data.exponent).elements

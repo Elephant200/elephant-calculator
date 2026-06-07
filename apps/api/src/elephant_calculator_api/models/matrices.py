@@ -74,3 +74,24 @@ class SingleMatrixOperation(BaseModel):
         if len({len(row) for row in matrix}) > 1:
             raise ValueError("All rows in a matrix must have the same length.")
         return matrix
+
+
+class MatrixPower(BaseModel):
+    matrix: list[list[float]] = Field(..., description="The square matrix to raise to a power.")
+    exponent: int = Field(..., description="A non-negative integer exponent.")
+
+    @field_validator("matrix")
+    def validate_matrix(cls, matrix):
+        if not matrix or not all(isinstance(row, list) for row in matrix):
+            raise ValueError("Matrix must be a non-empty list of rows.")
+        if not all(isinstance(x, (int, float)) for row in matrix for x in row):
+            raise ValueError("Matrix elements must be numeric (int or float).")
+        if len({len(row) for row in matrix}) > 1:
+            raise ValueError("All rows in a matrix must have the same length.")
+        return matrix
+
+    @field_validator("exponent")
+    def validate_exponent(cls, exponent):
+        if exponent < 0:
+            raise ValueError("Exponent must be a non-negative integer.")
+        return exponent

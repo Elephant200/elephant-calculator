@@ -89,6 +89,11 @@ class Matrix:
 			det += ((-1) ** c) * self.elements[0][c] * self.minor(0, c).determinant()
 		return det
 
+	def trace(self):
+		if self.rows != self.cols:
+			raise ValueError("Trace is only defined for square matrices.")
+		return sum(self.elements[i][i] for i in range(self.rows))
+
 	def minor(self, row, col):
 		return Matrix([
 			[self[i][j] for j in range(self.cols) if j != col]

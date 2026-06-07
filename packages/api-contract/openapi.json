@@ -412,6 +412,32 @@
         "title": "MatrixOperation",
         "type": "object"
       },
+      "MatrixPower": {
+        "properties": {
+          "exponent": {
+            "description": "A non-negative integer exponent.",
+            "title": "Exponent",
+            "type": "integer"
+          },
+          "matrix": {
+            "description": "The square matrix to raise to a power.",
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Matrix",
+            "type": "array"
+          }
+        },
+        "required": [
+          "matrix",
+          "exponent"
+        ],
+        "title": "MatrixPower",
+        "type": "object"
+      },
       "MultiVariableEquationsRequest": {
         "properties": {
           "equations": {
@@ -5345,6 +5371,55 @@
         ]
       }
     },
+    "/api/matrices/power": {
+      "post": {
+        "description": "Raise a square matrix to a non-negative integer power.\n\nArgs:\n    data (MatrixPower): Contains the matrix and the exponent.\n\nReturns:\n    list[list[float]]: The resulting matrix.",
+        "operationId": "matrix_power_api_matrices_power_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatrixPower"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "items": {
+                      "type": "number"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Matrix Power Api Matrices Power Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Matrix Power",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
     "/api/matrices/scale": {
       "post": {
         "description": "Scale a matrix by a scalar value.\n\nArgs:\n    data (ScalarMatrixOperation): Contains a matrix and a scalar for scaling.\n\nReturns:\n    list[list[float]]: The resulting matrix after scaling.",
@@ -5438,6 +5513,49 @@
           }
         },
         "summary": "Subtract Matrices",
+        "tags": [
+          "Matrices"
+        ]
+      }
+    },
+    "/api/matrices/trace": {
+      "post": {
+        "description": "Compute the trace (sum of the main diagonal) of a square matrix.\n\nArgs:\n    data (SingleMatrixOperation): Contains the square matrix.\n\nReturns:\n    float: The trace of the matrix.",
+        "operationId": "matrix_trace_api_matrices_trace_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleMatrixOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Matrix Trace Api Matrices Trace Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Matrix Trace",
         "tags": [
           "Matrices"
         ]
