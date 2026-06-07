@@ -1,4 +1,4 @@
-# The Elephant Calculator
+[# The Elephant Calculator](https://elephant-calculator.vercel.app)
 
 The Elephant Calculator is a FastAPI + Next.js monorepo for a multi-purpose calculator with vector, matrix, geometry, prime, high-precision decimal, Pythagorean triple, triangle-solving, and CAS tools.
 
