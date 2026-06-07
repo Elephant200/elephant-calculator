@@ -113,3 +113,10 @@ def test_matrix_power() -> None:
     r = client.post("/api/matrices/power", json={"matrix": [[1, 1], [0, 1]], "exponent": 3})
     assert r.status_code == 200
     assert r.json() == [[1, 3], [0, 1]]
+
+
+def test_vector_times_vector_is_dot_product() -> None:
+    # Regression: Vector.__mul__ previously called dot with the wrong arity.
+    from elephant_calculator.services.vector import Vector
+
+    assert Vector([1, 2, 3]) * Vector([4, 5, 6]) == 32

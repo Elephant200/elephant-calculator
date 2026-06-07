@@ -23,7 +23,7 @@ class Vector:
 
 	def __mul__(self, other):
 		if isinstance(other, Vector):
-			return self.dot(self, other)
+			return self.dot(other)
 		elif isinstance(other, (int, float)):
 			return Vector([a * other for a in self.elements])
 		else:

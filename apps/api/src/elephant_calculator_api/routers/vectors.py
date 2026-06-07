@@ -144,4 +144,4 @@ def vector_projection(data: VectorOperation):
     Returns:
         list[float]: The projection of vector1 onto vector2.
     """
-    return Vector(data.vector1).projection(Vector(data.vector2))
+    return Vector(data.vector1).projection(Vector(data.vector2)).elements
