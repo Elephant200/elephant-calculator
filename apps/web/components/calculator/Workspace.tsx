@@ -86,6 +86,19 @@ export default function Workspace() {
     selectOperation(target, cat);
   }, []);
 
+  // The global command palette fires this when the calculator is already open.
+  useEffect(() => {
+    function onNavigate(e: Event) {
+      const { catId, opId } = (e as CustomEvent).detail ?? {};
+      const cat = CATEGORIES.find((c) => c.id === catId);
+      if (!cat) return;
+      const target = cat.operations.find((o) => o.id === opId) ?? cat.operations[0];
+      selectOperation(target, cat);
+    }
+    window.addEventListener("elephant:navigate", onNavigate);
+    return () => window.removeEventListener("elephant:navigate", onNavigate);
+  }, []);
+
   // Compute on ⌘/Ctrl+Enter from anywhere on the page.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {

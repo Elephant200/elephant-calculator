@@ -5,6 +5,7 @@ import {
   JetBrains_Mono,
 } from "next/font/google";
 import Header from "../components/Header";
+import CommandPalette from "../components/CommandPalette";
 import { AuthProvider } from "../context/AuthContext";
 import "./globals.css";
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         <AuthProvider>
           <Header />
           <main>{children}</main>
+          <CommandPalette />
         </AuthProvider>
       </body>
     </html>

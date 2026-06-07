@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CommandTrigger from "./CommandTrigger";
 
 export default function Header() {
   return (
@@ -12,7 +13,8 @@ export default function Header() {
         </span>
       </Link>
       <nav className="flex items-center gap-1">
-        <Link href="/" className="header-link">
+        <CommandTrigger />
+        <Link href="/" className="header-link hidden sm:inline-flex">
           Overview
         </Link>
         <Link href="/calculator" className="header-link">
