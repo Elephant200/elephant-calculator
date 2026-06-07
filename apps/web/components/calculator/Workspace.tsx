@@ -20,6 +20,7 @@ import {
 import { ApiError, callApi } from "../../lib/api";
 import { FieldInput } from "./FieldInputs";
 import { ResultView } from "./ResultView";
+import { GeometryDiagram, hasGeometryDiagram } from "./GeometryDiagram";
 
 interface ResultEntry {
   id: string;
@@ -163,6 +164,8 @@ export default function Workspace() {
     }
   }
 
+  const showDiagram = hasGeometryDiagram(op.endpoint);
+
   return (
     <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-[248px_1fr] gap-6 lg:gap-8">
@@ -177,8 +180,15 @@ export default function Workspace() {
         <div className="min-w-0">
           <OperationHeader op={op} category={activeCat} />
 
+          <div
+            className={
+              showDiagram
+                ? "mt-4 grid gap-4 lg:grid-cols-[1fr_minmax(220px,300px)]"
+                : "mt-4"
+            }
+          >
           <form
-            className="panel tool-shell p-5 sm:p-7 mt-4"
+            className="panel tool-shell p-5 sm:p-7"
             onSubmit={(e) => {
               e.preventDefault();
               compute();
@@ -263,6 +273,12 @@ export default function Workspace() {
               </button>
             </div>
           </form>
+            {showDiagram && (
+              <div className="self-start lg:sticky lg:top-[84px]">
+                <GeometryDiagram endpoint={op.endpoint} />
+              </div>
+            )}
+          </div>
 
           <ResultPanel error={error} result={result} op={op} category={activeCat} />
 
