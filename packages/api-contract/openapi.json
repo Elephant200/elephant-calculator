@@ -819,6 +819,23 @@
         "title": "SingleVariableEquationRequest",
         "type": "object"
       },
+      "SingleVector": {
+        "properties": {
+          "vector": {
+            "description": "A single vector.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Vector",
+            "type": "array"
+          }
+        },
+        "required": [
+          "vector"
+        ],
+        "title": "SingleVector",
+        "type": "object"
+      },
       "SpreadRequest": {
         "properties": {
           "data": {
@@ -6075,6 +6092,49 @@
         ]
       }
     },
+    "/api/vectors/angle": {
+      "post": {
+        "description": "Compute the angle between two vectors, in degrees.\n\nArgs:\n    data (VectorOperation): Contains the two vectors.\n\nReturns:\n    float: The angle between them in degrees.",
+        "operationId": "vector_angle_api_vectors_angle_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Vector Angle Api Vectors Angle Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vector Angle",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
     "/api/vectors/cross": {
       "post": {
         "description": "Compute the cross product of two 3D vectors.\n\nArgs:\n    data (VectorOperation): Contains two 3D vectors for cross product computation.\n\nReturns:\n    list[float]: The resulting vector after cross product.\n\nRaises:\n    ValueError: If the vectors are not 3D.",
@@ -6121,6 +6181,49 @@
         ]
       }
     },
+    "/api/vectors/distance": {
+      "post": {
+        "description": "Compute the Euclidean distance between two vectors.\n\nArgs:\n    data (VectorOperation): Contains the two vectors.\n\nReturns:\n    float: The distance between them.",
+        "operationId": "vector_distance_api_vectors_distance_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Vector Distance Api Vectors Distance Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vector Distance",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
     "/api/vectors/dot": {
       "post": {
         "description": "Compute the dot product of two vectors.\n\nArgs:\n    data (VectorOperation): Contains two vectors for dot product computation.\n\nReturns:\n    float: The dot product of the two vectors.",
@@ -6159,6 +6262,141 @@
           }
         },
         "summary": "Dot Product",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/magnitude": {
+      "post": {
+        "description": "Compute the magnitude (Euclidean length) of a vector.\n\nArgs:\n    data (SingleVector): Contains the vector.\n\nReturns:\n    float: The vector's magnitude.",
+        "operationId": "vector_magnitude_api_vectors_magnitude_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleVector"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Vector Magnitude Api Vectors Magnitude Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vector Magnitude",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/normalize": {
+      "post": {
+        "description": "Normalize a vector to unit length.\n\nArgs:\n    data (SingleVector): Contains the vector.\n\nReturns:\n    list[float]: The unit vector in the same direction.",
+        "operationId": "normalize_vector_api_vectors_normalize_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SingleVector"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Normalize Vector Api Vectors Normalize Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Normalize Vector",
+        "tags": [
+          "Vectors"
+        ]
+      }
+    },
+    "/api/vectors/projection": {
+      "post": {
+        "description": "Compute the vector projection of vector1 onto vector2.\n\nArgs:\n    data (VectorOperation): Contains the two vectors.\n\nReturns:\n    list[float]: The projection of vector1 onto vector2.",
+        "operationId": "vector_projection_api_vectors_projection_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorOperation"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Vector Projection Api Vectors Projection Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vector Projection",
         "tags": [
           "Vectors"
         ]

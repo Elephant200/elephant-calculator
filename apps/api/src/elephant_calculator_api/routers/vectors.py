@@ -80,3 +80,68 @@ def scale_vector(data: ScalarVectorOperation):
     """
     v = Vector(data.vector)
     return (v * data.scalar).elements
+
+@router.post("/magnitude", response_model=float)
+def vector_magnitude(data: SingleVector):
+    """
+    Compute the magnitude (Euclidean length) of a vector.
+
+    Args:
+        data (SingleVector): Contains the vector.
+
+    Returns:
+        float: The vector's magnitude.
+    """
+    return Vector(data.vector).magnitude()
+
+@router.post("/normalize", response_model=list[float])
+def normalize_vector(data: SingleVector):
+    """
+    Normalize a vector to unit length.
+
+    Args:
+        data (SingleVector): Contains the vector.
+
+    Returns:
+        list[float]: The unit vector in the same direction.
+    """
+    return Vector(data.vector).normalize().elements
+
+@router.post("/distance", response_model=float)
+def vector_distance(data: VectorOperation):
+    """
+    Compute the Euclidean distance between two vectors.
+
+    Args:
+        data (VectorOperation): Contains the two vectors.
+
+    Returns:
+        float: The distance between them.
+    """
+    return Vector(data.vector1).distance(Vector(data.vector2))
+
+@router.post("/angle", response_model=float)
+def vector_angle(data: VectorOperation):
+    """
+    Compute the angle between two vectors, in degrees.
+
+    Args:
+        data (VectorOperation): Contains the two vectors.
+
+    Returns:
+        float: The angle between them in degrees.
+    """
+    return Vector(data.vector1).angle(Vector(data.vector2))
+
+@router.post("/projection", response_model=list[float])
+def vector_projection(data: VectorOperation):
+    """
+    Compute the vector projection of vector1 onto vector2.
+
+    Args:
+        data (VectorOperation): Contains the two vectors.
+
+    Returns:
+        list[float]: The projection of vector1 onto vector2.
+    """
+    return Vector(data.vector1).projection(Vector(data.vector2))

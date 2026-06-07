@@ -2652,6 +2652,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/vectors/angle": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vector Angle
+         * @description Compute the angle between two vectors, in degrees.
+         *
+         *     Args:
+         *         data (VectorOperation): Contains the two vectors.
+         *
+         *     Returns:
+         *         float: The angle between them in degrees.
+         */
+        post: operations["vector_angle_api_vectors_angle_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/vectors/cross": {
         parameters: {
             query?: never;
@@ -2681,6 +2707,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/vectors/distance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vector Distance
+         * @description Compute the Euclidean distance between two vectors.
+         *
+         *     Args:
+         *         data (VectorOperation): Contains the two vectors.
+         *
+         *     Returns:
+         *         float: The distance between them.
+         */
+        post: operations["vector_distance_api_vectors_distance_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/vectors/dot": {
         parameters: {
             query?: never;
@@ -2701,6 +2753,84 @@ export interface paths {
          *         float: The dot product of the two vectors.
          */
         post: operations["dot_product_api_vectors_dot_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/vectors/magnitude": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vector Magnitude
+         * @description Compute the magnitude (Euclidean length) of a vector.
+         *
+         *     Args:
+         *         data (SingleVector): Contains the vector.
+         *
+         *     Returns:
+         *         float: The vector's magnitude.
+         */
+        post: operations["vector_magnitude_api_vectors_magnitude_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/vectors/normalize": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Normalize Vector
+         * @description Normalize a vector to unit length.
+         *
+         *     Args:
+         *         data (SingleVector): Contains the vector.
+         *
+         *     Returns:
+         *         list[float]: The unit vector in the same direction.
+         */
+        post: operations["normalize_vector_api_vectors_normalize_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/vectors/projection": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vector Projection
+         * @description Compute the vector projection of vector1 onto vector2.
+         *
+         *     Args:
+         *         data (VectorOperation): Contains the two vectors.
+         *
+         *     Returns:
+         *         list[float]: The projection of vector1 onto vector2.
+         */
+        post: operations["vector_projection_api_vectors_projection_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3264,6 +3394,14 @@ export interface components {
              * @description The variable to solve for.
              */
             variable: string;
+        };
+        /** SingleVector */
+        SingleVector: {
+            /**
+             * Vector
+             * @description A single vector.
+             */
+            vector: number[];
         };
         /** SpreadRequest */
         SpreadRequest: {
@@ -7035,6 +7173,39 @@ export interface operations {
             };
         };
     };
+    vector_angle_api_vectors_angle_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VectorOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     cross_product_api_vectors_cross_post: {
         parameters: {
             query?: never;
@@ -7068,6 +7239,39 @@ export interface operations {
             };
         };
     };
+    vector_distance_api_vectors_distance_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VectorOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     dot_product_api_vectors_dot_post: {
         parameters: {
             query?: never;
@@ -7088,6 +7292,105 @@ export interface operations {
                 };
                 content: {
                     "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    vector_magnitude_api_vectors_magnitude_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SingleVector"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    normalize_vector_api_vectors_normalize_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SingleVector"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    vector_projection_api_vectors_projection_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VectorOperation"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
                 };
             };
             /** @description Validation Error */

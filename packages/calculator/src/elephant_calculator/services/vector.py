@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, acos, degrees as _degrees
 from elephant_calculator.utils.validators import parse_input
 
 class Vector:
@@ -47,6 +47,42 @@ class Vector:
 		if len(self) != len(other):
 			raise ValueError("Vectors must be of the same dimension for dot product.")
 		return sum(a * b for a, b in zip(self.elements, other.elements))
+
+	def magnitude(self):
+		"""Euclidean length (L2 norm) of the vector."""
+		return sqrt(sum(a * a for a in self.elements))
+
+	def normalize(self):
+		"""Unit vector pointing in the same direction."""
+		mag = self.magnitude()
+		if mag == 0:
+			raise ValueError("Cannot normalize the zero vector.")
+		return Vector([a / mag for a in self.elements])
+
+	def distance(self, other):
+		"""Euclidean distance between the points the vectors point to."""
+		if len(self) != len(other):
+			raise ValueError("Vectors must be of the same dimension to measure distance.")
+		return sqrt(sum((a - b) ** 2 for a, b in zip(self.elements, other.elements)))
+
+	def angle(self, other, in_degrees=True):
+		"""Angle between two vectors (in degrees by default)."""
+		if len(self) != len(other):
+			raise ValueError("Vectors must be of the same dimension to measure an angle.")
+		m1, m2 = self.magnitude(), other.magnitude()
+		if m1 == 0 or m2 == 0:
+			raise ValueError("Angle is undefined when a vector has zero magnitude.")
+		cos_theta = max(-1.0, min(1.0, self.dot(other) / (m1 * m2)))
+		theta = acos(cos_theta)
+		return _degrees(theta) if in_degrees else theta
+
+	def projection(self, other):
+		"""Vector projection of this vector onto ``other``."""
+		denom = other.dot(other)
+		if denom == 0:
+			raise ValueError("Cannot project onto the zero vector.")
+		scale = self.dot(other) / denom
+		return Vector([scale * b for b in other.elements])
 
 	@staticmethod
 	def input_vector():

@@ -19,6 +19,16 @@ class VectorOperation(BaseModel):
         return self
 
 
+class SingleVector(BaseModel):
+    vector: list[float] = Field(..., description="A single vector.")
+
+    @field_validator("vector")
+    def validate_vector(cls, vector):
+        if not vector or not all(isinstance(x, (int, float)) for x in vector):
+            raise ValueError("Vector must be a non-empty list of numeric values.")
+        return vector
+
+
 class ScalarVectorOperation(BaseModel):
     vector: list[float] = Field(..., description="The vector to scale.")
     scalar: float = Field(..., description="The scalar value for scaling the vector.")
