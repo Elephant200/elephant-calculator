@@ -1129,6 +1129,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/geometry/solid": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Calculate Regular Solid
+         * @description Compute volume, surface area and face/edge/vertex counts for any of the five
+         *     regular (Platonic) solids from a single edge length.
+         *
+         *     Args:
+         *         data (PlatonicSolid): The solid name and its edge length.
+         *
+         *     Returns:
+         *         list[LabeledValue]: Labelled rows describing the solid.
+         */
+        post: operations["calculate_regular_solid_api_geometry_solid_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/geometry/surface_area/cone": {
         parameters: {
             query?: never;
@@ -3038,6 +3065,19 @@ export interface components {
              * @description The variable to differentiate with respect to.
              */
             variable: string;
+        };
+        /** PlatonicSolid */
+        PlatonicSolid: {
+            /**
+             * Side
+             * @description The edge length of the solid.
+             */
+            side: number;
+            /**
+             * Solid
+             * @description One of: tetrahedron, cube, octahedron, dodecahedron, icosahedron.
+             */
+            solid: string;
         };
         /** Polygon */
         Polygon: {
@@ -5026,6 +5066,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    calculate_regular_solid_api_geometry_solid_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlatonicSolid"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LabeledValue"][];
                 };
             };
             /** @description Validation Error */

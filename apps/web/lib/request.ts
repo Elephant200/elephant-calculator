@@ -30,6 +30,8 @@ function initFieldValue(f: Field): FormValue {
       return (f.initial as string[]).join("\n");
     case "bool":
       return Boolean(f.initial);
+    case "select":
+      return String(f.initial ?? f.options?.[0]?.value ?? "");
     default:
       return String(f.initial ?? "");
   }
@@ -96,6 +98,9 @@ export function buildRequest(
       }
       case "bool":
         body[f.name] = Boolean(v);
+        break;
+      case "select":
+        body[f.name] = String(v);
         break;
       case "vector":
         body[f.name] = (v as string[]).map((cell, i) =>

@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from elephant_calculator_api.models.geometry import *
+from elephant_calculator_api.models.common import LabeledValue
 from elephant_calculator.services.geometry import *
+from elephant_calculator.utils.formatters import format_number
 
 router = APIRouter()
 
@@ -626,3 +628,26 @@ def calculate_surface_area_icosahedron(data: Cube):
         float: The surface area of the icosahedron.
     """
     return surface_area_icosahedron(data.side)
+
+# REGULAR (PLATONIC) SOLIDS
+@router.post("/solid", response_model=list[LabeledValue])
+def calculate_regular_solid(data: PlatonicSolid):
+    """
+    Compute volume, surface area and face/edge/vertex counts for any of the five
+    regular (Platonic) solids from a single edge length.
+
+    Args:
+        data (PlatonicSolid): The solid name and its edge length.
+
+    Returns:
+        list[LabeledValue]: Labelled rows describing the solid.
+    """
+    r = platonic_solid(data.solid, data.side)
+    return [
+        {"label": "Solid", "value": r["solid"].capitalize()},
+        {"label": "Faces", "value": str(r["faces"])},
+        {"label": "Edges", "value": str(r["edges"])},
+        {"label": "Vertices", "value": str(r["vertices"])},
+        {"label": "Volume", "value": format_number(r["volume"])},
+        {"label": "Surface area", "value": format_number(r["surface_area"])},
+    ]

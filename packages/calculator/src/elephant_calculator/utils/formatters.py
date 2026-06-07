@@ -1,3 +1,14 @@
+def format_number(value):
+    """Render a number with up to 12 significant figures, trailing zeros
+    trimmed, matching the web UI's number formatting."""
+    if isinstance(value, int):
+        return str(value)
+    if value != value:  # NaN
+        return "nan"
+    text = f"{value:.12g}"
+    return text.replace("e+0", "e").replace("e+", "e").replace("e-0", "e-")
+
+
 def format_expression(expression, diff=False):
     if diff:
         expression = expression.replace("'", ".diff()")

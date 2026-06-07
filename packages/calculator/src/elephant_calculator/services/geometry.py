@@ -167,6 +167,36 @@ def surface_area_icosahedron(side):
 def surface_area_prism(base_area, base_perimeter, height):
     return 2 * base_area + base_perimeter * height
 
+#====================REGULAR (PLATONIC) SOLIDS====================
+# Each entry pairs a solid's face/edge/vertex counts with its volume and
+# surface-area formulas, so the five Platonic solids share a single endpoint.
+PLATONIC_SOLIDS = {
+    "tetrahedron": (4, 6, 4, volume_tetrahedron, surface_area_tetrahedron),
+    "cube": (6, 12, 8, volume_cube, surface_area_cube),
+    "octahedron": (8, 12, 6, volume_octahedron, surface_area_octahedron),
+    "dodecahedron": (12, 30, 20, volume_dodecahedron, surface_area_dodecahedron),
+    "icosahedron": (20, 30, 12, volume_icosahedron, surface_area_icosahedron),
+}
+
+def platonic_solid(solid, side):
+    """Return volume, surface area and face/edge/vertex counts for a regular
+    (Platonic) solid given its edge length."""
+    key = str(solid).lower()
+    if key not in PLATONIC_SOLIDS:
+        names = ", ".join(PLATONIC_SOLIDS)
+        raise ValueError(f"Unknown solid '{solid}'. Choose one of: {names}.")
+    if side <= 0:
+        raise ValueError("Edge length must be greater than zero.")
+    faces, edges, vertices, vol, sa = PLATONIC_SOLIDS[key]
+    return {
+        "solid": key,
+        "faces": faces,
+        "edges": edges,
+        "vertices": vertices,
+        "volume": vol(side),
+        "surface_area": sa(side),
+    }
+
 #====================USER INTERFACE===============================
 def area(type):
     type = type.lower()

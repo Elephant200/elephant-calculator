@@ -487,6 +487,26 @@
         "title": "PartialDerivativeRequest",
         "type": "object"
       },
+      "PlatonicSolid": {
+        "properties": {
+          "side": {
+            "description": "The edge length of the solid.",
+            "title": "Side",
+            "type": "number"
+          },
+          "solid": {
+            "description": "One of: tetrahedron, cube, octahedron, dodecahedron, icosahedron.",
+            "title": "Solid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "solid",
+          "side"
+        ],
+        "title": "PlatonicSolid",
+        "type": "object"
+      },
       "Polygon": {
         "properties": {
           "side_length": {
@@ -3297,6 +3317,52 @@
           }
         },
         "summary": "Calculate Perimeter Triangle",
+        "tags": [
+          "Geometry"
+        ]
+      }
+    },
+    "/api/geometry/solid": {
+      "post": {
+        "description": "Compute volume, surface area and face/edge/vertex counts for any of the five\nregular (Platonic) solids from a single edge length.\n\nArgs:\n    data (PlatonicSolid): The solid name and its edge length.\n\nReturns:\n    list[LabeledValue]: Labelled rows describing the solid.",
+        "operationId": "calculate_regular_solid_api_geometry_solid_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlatonicSolid"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LabeledValue"
+                  },
+                  "title": "Response Calculate Regular Solid Api Geometry Solid Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Calculate Regular Solid",
         "tags": [
           "Geometry"
         ]

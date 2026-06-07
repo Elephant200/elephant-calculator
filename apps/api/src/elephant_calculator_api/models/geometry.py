@@ -226,6 +226,27 @@ class RectangularPrism(BaseModel):
         return v
 
 
+class PlatonicSolid(BaseModel):
+    solid: str = Field(
+        ...,
+        description="One of: tetrahedron, cube, octahedron, dodecahedron, icosahedron.",
+    )
+    side: float = Field(..., description="The edge length of the solid.")
+
+    @field_validator("solid")
+    def validate_solid(cls, v):
+        allowed = {"tetrahedron", "cube", "octahedron", "dodecahedron", "icosahedron"}
+        if v.lower() not in allowed:
+            raise ValueError(f"Solid must be one of: {', '.join(sorted(allowed))}.")
+        return v.lower()
+
+    @field_validator("side")
+    def validate_side(cls, v):
+        if v <= 0:
+            raise ValueError("Edge length must be greater than zero.")
+        return v
+
+
 class Prism(BaseModel):
     base_area: float = Field(..., description="The base area of the prism.")
     base_perimeter: float | None = Field(None, description="The base perimeter of the prism (required for surface area).")

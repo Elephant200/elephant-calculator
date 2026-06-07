@@ -8,6 +8,7 @@ export type FieldType =
   | "int" // integer
   | "text" // raw string (kept verbatim — used for high-precision operands & CAS)
   | "bool"
+  | "select" // one of a fixed set of string options (dropdown)
   | "vector" // number[]
   | "matrix" // number[][]
   | "textlist"; // string[] (one entry per line)
@@ -19,6 +20,11 @@ export type FieldValue =
   | number[][]
   | string[];
 
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
 export interface Field {
   name: string;
   label: string;
@@ -26,6 +32,7 @@ export interface Field {
   help?: string;
   optional?: boolean;
   initial: FieldValue;
+  options?: SelectOption[]; // for type "select"
 }
 
 export interface QueryParam {
@@ -115,6 +122,13 @@ const tlist = (name: string, label: string, initial: string[], help?: string): F
   initial,
   help,
 });
+const sel = (
+  name: string,
+  label: string,
+  options: SelectOption[],
+  initial: string,
+  help?: string
+): Field => ({ name, label, type: "select", options, initial, help });
 
 const PRECISION: QueryParam = {
   name: "precision",
@@ -375,7 +389,8 @@ export const CATEGORIES: Category[] = [
       {
         id: "geo-area-polygon",
         label: "Area · Regular polygon",
-        blurb: "Area of an n-sided regular polygon.",
+        blurb:
+          "Area of any n-sided regular polygon — pentagon, hexagon, heptagon, octagon, nonagon, decagon and beyond.",
         endpoint: "/geometry/area/polygon",
         fields: [int("sides", "Number of sides", "6"), num("side_length", "Side length", "4")],
         result: "scalar",
@@ -432,7 +447,8 @@ export const CATEGORIES: Category[] = [
       {
         id: "geo-perim-polygon",
         label: "Perimeter · Regular polygon",
-        blurb: "n·side.",
+        blurb:
+          "n·side for any regular polygon — pentagon, hexagon, heptagon, octagon, nonagon, decagon and beyond.",
         endpoint: "/geometry/perimeter/polygon",
         fields: [int("sides", "Number of sides", "6"), num("side_length", "Side length", "4")],
         result: "scalar",
@@ -458,63 +474,7 @@ export const CATEGORIES: Category[] = [
         ],
         result: "scalar",
       },
-      {
-        id: "geo-perim-pentagon",
-        label: "Perimeter · Pentagon",
-        blurb: "5·side (regular pentagon).",
-        endpoint: "/geometry/perimeter/pentagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-perim-hexagon",
-        label: "Perimeter · Hexagon",
-        blurb: "6·side (regular hexagon).",
-        endpoint: "/geometry/perimeter/hexagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-perim-heptagon",
-        label: "Perimeter · Heptagon",
-        blurb: "7·side (regular heptagon).",
-        endpoint: "/geometry/perimeter/heptagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-perim-octagon",
-        label: "Perimeter · Octagon",
-        blurb: "8·side (regular octagon).",
-        endpoint: "/geometry/perimeter/octagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-perim-nonagon",
-        label: "Perimeter · Nonagon",
-        blurb: "9·side (regular nonagon).",
-        endpoint: "/geometry/perimeter/nonagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-perim-decagon",
-        label: "Perimeter · Decagon",
-        blurb: "10·side (regular decagon).",
-        endpoint: "/geometry/perimeter/decagon",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
       // -- Volume --
-      {
-        id: "geo-vol-cube",
-        label: "Volume · Cube",
-        blurb: "side³.",
-        endpoint: "/geometry/volume/cube",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
       {
         id: "geo-vol-rect-prism",
         label: "Volume · Rectangular prism",
@@ -548,30 +508,6 @@ export const CATEGORIES: Category[] = [
         result: "scalar",
       },
       {
-        id: "geo-vol-tetra",
-        label: "Volume · Tetrahedron",
-        blurb: "Regular tetrahedron from edge length.",
-        endpoint: "/geometry/volume/tetrahedron",
-        fields: [num("side", "Edge", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-vol-octa",
-        label: "Volume · Octahedron",
-        blurb: "Regular octahedron from edge length.",
-        endpoint: "/geometry/volume/octahedron",
-        fields: [num("side", "Edge", "3")],
-        result: "scalar",
-      },
-      {
-        id: "geo-vol-dodeca",
-        label: "Volume · Dodecahedron",
-        blurb: "Regular dodecahedron from edge length.",
-        endpoint: "/geometry/volume/dodecahedron",
-        fields: [num("side", "Edge", "2")],
-        result: "scalar",
-      },
-      {
         id: "geo-vol-ellipsoid",
         label: "Volume · Ellipsoid",
         blurb: "4⁄3·π·a·b·c from three semi-axes.",
@@ -591,23 +527,7 @@ export const CATEGORIES: Category[] = [
         fields: [num("base_area", "Base area", "16"), num("height", "Height", "10")],
         result: "scalar",
       },
-      {
-        id: "geo-vol-icosa",
-        label: "Volume · Icosahedron",
-        blurb: "Regular icosahedron from edge length.",
-        endpoint: "/geometry/volume/icosahedron",
-        fields: [num("side", "Edge", "2")],
-        result: "scalar",
-      },
       // -- Surface area --
-      {
-        id: "geo-sa-cube",
-        label: "Surface area · Cube",
-        blurb: "6·side².",
-        endpoint: "/geometry/surface_area/cube",
-        fields: [num("side", "Side", "4")],
-        result: "scalar",
-      },
       {
         id: "geo-sa-sphere",
         label: "Surface area · Sphere",
@@ -664,37 +584,30 @@ export const CATEGORIES: Category[] = [
         ],
         result: "scalar",
       },
+      // -- Regular (Platonic) solids: one tool for all five --
       {
-        id: "geo-sa-tetra",
-        label: "Surface area · Tetrahedron",
-        blurb: "√3·side².",
-        endpoint: "/geometry/surface_area/tetrahedron",
-        fields: [num("side", "Edge", "4")],
-        result: "scalar",
-      },
-      {
-        id: "geo-sa-octa",
-        label: "Surface area · Octahedron",
-        blurb: "2·√3·side².",
-        endpoint: "/geometry/surface_area/octahedron",
-        fields: [num("side", "Edge", "3")],
-        result: "scalar",
-      },
-      {
-        id: "geo-sa-dodeca",
-        label: "Surface area · Dodecahedron",
-        blurb: "3·√(25 + 10√5)·side².",
-        endpoint: "/geometry/surface_area/dodecahedron",
-        fields: [num("side", "Edge", "2")],
-        result: "scalar",
-      },
-      {
-        id: "geo-sa-icosa",
-        label: "Surface area · Icosahedron",
-        blurb: "5·√3·side².",
-        endpoint: "/geometry/surface_area/icosahedron",
-        fields: [num("side", "Edge", "2")],
-        result: "scalar",
+        id: "geo-solid",
+        label: "Regular polyhedron",
+        blurb:
+          "Volume, surface area and face/edge/vertex counts for any Platonic solid — tetrahedron, cube, octahedron, dodecahedron or icosahedron — from a single edge length.",
+        endpoint: "/geometry/solid",
+        fields: [
+          sel(
+            "solid",
+            "Solid",
+            [
+              { value: "tetrahedron", label: "Tetrahedron (4 faces)" },
+              { value: "cube", label: "Cube (6 faces)" },
+              { value: "octahedron", label: "Octahedron (8 faces)" },
+              { value: "dodecahedron", label: "Dodecahedron (12 faces)" },
+              { value: "icosahedron", label: "Icosahedron (20 faces)" },
+            ],
+            "icosahedron"
+          ),
+          num("side", "Edge length", "2"),
+        ],
+        result: "table",
+        resultLabel: "Solid",
       },
     ],
   },

@@ -33,6 +33,20 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
           onChange={(v) => onChange(v)}
         />
       );
+    case "select":
+      return (
+        <select
+          className="text-input cursor-pointer"
+          value={value as string}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          {(field.options ?? []).map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      );
     case "textlist":
       return (
         <textarea

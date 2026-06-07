@@ -7,6 +7,7 @@ type Props = { endpoint: string };
 // Map an endpoint to a diagram key. Triangles have sub-paths
 // (/area/triangle/heron); everything else keys off the final segment.
 function shapeKey(endpoint: string): string | null {
+  if (endpoint === "/geometry/solid") return "polyhedron";
   const m = endpoint.match(/^\/geometry\/(?:area|perimeter|volume|surface_area)\/(.+)$/);
   if (!m) return null;
   const rest = m[1];
