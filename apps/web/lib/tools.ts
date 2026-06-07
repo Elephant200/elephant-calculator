@@ -1,18 +1,7 @@
 // Data-driven registry of every calculator operation exposed by the API.
 // The UI is generated entirely from this file, so adding/adjusting an
-// operation is a data edit, not a component change.
-//
-// Most operations call the FastAPI backend (`endpoint`). A few run entirely in
-// the browser via `compute` — see lib/clientCompute.ts.
-
-import {
-  baseConvert,
-  statsMean,
-  statsMedian,
-  statsMode,
-  statsStdDev,
-  statsSummary,
-} from "./clientCompute";
+// operation is a data edit, not a component change. Every operation is computed
+// by the FastAPI backend via its `endpoint`.
 
 export type FieldType =
   | "number" // float
@@ -70,18 +59,12 @@ export interface Operation {
   id: string;
   label: string;
   blurb: string;
-  // REST path for server-backed ops. Empty for client-side ops (see `compute`).
   endpoint: string;
   method?: "GET" | "POST";
   fields: Field[];
   query?: QueryParam[];
   result: ResultKind;
   resultLabel?: string;
-  // When set, the operation runs entirely in the browser from the built request
-  // body — no network call. Used for instant tools like statistics & base
-  // conversion. `body` holds already-parsed field values (vectors as number[],
-  // ints as number, etc.). Throw an Error to surface a validation message.
-  compute?: (body: Record<string, unknown>) => unknown;
 }
 
 export interface Category {
@@ -1167,7 +1150,7 @@ export const CATEGORIES: Category[] = [
     ],
   },
 
-  // ===================== STATISTICS (client-side) =====================
+  // ===================== STATISTICS =====================
   {
     id: "statistics",
     label: "Statistics",
@@ -1177,48 +1160,61 @@ export const CATEGORIES: Category[] = [
         id: "stat-summary",
         label: "Summary",
         blurb:
-          "Full descriptive summary of a data set — count, sum, mean, median, mode, range, variance and standard deviation.",
-        endpoint: "",
+          "Full descriptive summary of a data set — count, mean, median, mode, quartiles, variance, standard deviation, skewness and more.",
+        endpoint: "/statistics/summary",
         fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
         result: "table",
         resultLabel: "Summary",
-        compute: statsSummary,
       },
       {
         id: "stat-mean",
         label: "Mean",
         blurb: "Arithmetic mean (average) of the values.",
-        endpoint: "",
+        endpoint: "/statistics/mean",
         fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
         result: "scalar",
         resultLabel: "Mean",
-        compute: statsMean,
       },
       {
         id: "stat-median",
         label: "Median",
         blurb: "Middle value once the data set is sorted.",
-        endpoint: "",
+        endpoint: "/statistics/median",
         fields: [vec("data", "Data set", [4, 8, 15, 16, 23, 42])],
         result: "scalar",
         resultLabel: "Median",
-        compute: statsMedian,
       },
       {
         id: "stat-mode",
         label: "Mode",
         blurb: "Most frequent value(s) in the data set.",
-        endpoint: "",
+        endpoint: "/statistics/mode",
         fields: [vec("data", "Data set", [2, 4, 4, 5, 7, 7, 9])],
         result: "vector",
         resultLabel: "Mode",
-        compute: statsMode,
+      },
+      {
+        id: "stat-variance",
+        label: "Variance",
+        blurb: "Average squared deviation from the mean.",
+        endpoint: "/statistics/variance",
+        fields: [
+          vec("data", "Data set", [4, 8, 15, 16, 23, 42]),
+          {
+            name: "sample",
+            label: "Sample (n − 1)",
+            type: "bool",
+            initial: true,
+          } as Field,
+        ],
+        result: "scalar",
+        resultLabel: "Variance",
       },
       {
         id: "stat-stddev",
         label: "Standard deviation",
         blurb: "Spread of the data about the mean.",
-        endpoint: "",
+        endpoint: "/statistics/standard-deviation",
         fields: [
           vec("data", "Data set", [4, 8, 15, 16, 23, 42]),
           {
@@ -1230,12 +1226,11 @@ export const CATEGORIES: Category[] = [
         ],
         result: "scalar",
         resultLabel: "Std deviation",
-        compute: statsStdDev,
       },
     ],
   },
 
-  // ===================== NUMBER BASES (client-side) =====================
+  // ===================== NUMBER BASES =====================
   {
     id: "bases",
     label: "Number bases",
@@ -1246,14 +1241,13 @@ export const CATEGORIES: Category[] = [
         label: "Convert base",
         blurb:
           "Read a number written in any base from 2 to 36 and show it in decimal, binary, octal and hexadecimal.",
-        endpoint: "",
+        endpoint: "/bases/convert",
         fields: [
           txt("number", "Number", "2A"),
           int("from_base", "Source base", "16", "The base the number above is written in (2–36)."),
         ],
         result: "table",
         resultLabel: "Conversions",
-        compute: baseConvert,
       },
     ],
   },

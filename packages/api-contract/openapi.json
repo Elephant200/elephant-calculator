@@ -21,6 +21,28 @@
         "title": "ArithmeticOperation",
         "type": "object"
       },
+      "BaseConversion": {
+        "properties": {
+          "from_base": {
+            "description": "The base the number is written in (2\u201336).",
+            "maximum": 36.0,
+            "minimum": 2.0,
+            "title": "From Base",
+            "type": "integer"
+          },
+          "number": {
+            "description": "The number to convert, written in the source base.",
+            "title": "Number",
+            "type": "string"
+          }
+        },
+        "required": [
+          "number",
+          "from_base"
+        ],
+        "title": "BaseConversion",
+        "type": "object"
+      },
       "Circle": {
         "properties": {
           "height": {
@@ -59,6 +81,23 @@
           "side"
         ],
         "title": "Cube",
+        "type": "object"
+      },
+      "Dataset": {
+        "properties": {
+          "data": {
+            "description": "The data set to summarise.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Data",
+            "type": "array"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "Dataset",
         "type": "object"
       },
       "DefiniteIntegralRequest": {
@@ -286,6 +325,27 @@
           "variables"
         ],
         "title": "JacobianRequest",
+        "type": "object"
+      },
+      "LabeledValue": {
+        "description": "A single labelled row in a tabular result (e.g. a statistics summary or\na set of base conversions).",
+        "properties": {
+          "label": {
+            "description": "Human-readable name of the row.",
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "description": "Formatted value for display.",
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "LabeledValue",
         "type": "object"
       },
       "LimitRequest": {
@@ -737,6 +797,29 @@
           "variable"
         ],
         "title": "SingleVariableEquationRequest",
+        "type": "object"
+      },
+      "SpreadRequest": {
+        "properties": {
+          "data": {
+            "description": "The data set to summarise.",
+            "items": {
+              "type": "number"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "sample": {
+            "default": true,
+            "description": "Use the sample (n \u2212 1) estimator. False uses the population (n) estimator.",
+            "title": "Sample",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "SpreadRequest",
         "type": "object"
       },
       "Square": {
@@ -1220,6 +1303,52 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/bases/convert": {
+      "post": {
+        "description": "Convert a number written in any base (2\u201336) to decimal, binary, octal and\nhexadecimal.\n\nArgs:\n    data (BaseConversion): The number and the base it is written in.\n\nReturns:\n    list[LabeledValue]: Label/value rows for each target base.",
+        "operationId": "convert_base_api_bases_convert_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseConversion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LabeledValue"
+                  },
+                  "title": "Response Convert Base Api Bases Convert Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Convert Base",
+        "tags": [
+          "Number Bases"
+        ]
+      }
+    },
     "/api/calculus/curl": {
       "post": {
         "description": "Curl \u2207\u00d7F of a 3-D vector field.",
@@ -5523,6 +5652,270 @@
         "summary": "Generate Pythagorean Triples",
         "tags": [
           "Pythagorean Triple Generator"
+        ]
+      }
+    },
+    "/api/statistics/mean": {
+      "post": {
+        "description": "Compute the arithmetic mean (average) of a data set.\n\nArgs:\n    data (Dataset): The list of values.\n\nReturns:\n    float: The mean.",
+        "operationId": "arithmetic_mean_api_statistics_mean_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dataset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Arithmetic Mean Api Statistics Mean Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Arithmetic Mean",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/api/statistics/median": {
+      "post": {
+        "description": "Compute the median (middle value) of a data set.\n\nArgs:\n    data (Dataset): The list of values.\n\nReturns:\n    float: The median.",
+        "operationId": "median_value_api_statistics_median_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dataset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Median Value Api Statistics Median Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Median Value",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/api/statistics/mode": {
+      "post": {
+        "description": "Find the most frequent value(s) in a data set.\n\nArgs:\n    data (Dataset): The list of values.\n\nReturns:\n    list[float]: The mode(s); empty if every value occurs once.",
+        "operationId": "modal_values_api_statistics_mode_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dataset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "number"
+                  },
+                  "title": "Response Modal Values Api Statistics Mode Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Modal Values",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/api/statistics/standard-deviation": {
+      "post": {
+        "description": "Compute the standard deviation of a data set.\n\nArgs:\n    data (SpreadRequest): The values plus a `sample` flag (n \u2212 1 vs n).\n\nReturns:\n    float: The standard deviation.",
+        "operationId": "standard_deviation_value_api_statistics_standard_deviation_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Standard Deviation Value Api Statistics Standard Deviation Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Standard Deviation Value",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/api/statistics/summary": {
+      "post": {
+        "description": "Compute a full descriptive-statistics summary of a data set.\n\nArgs:\n    data (Dataset): The list of values to summarise.\n\nReturns:\n    list[LabeledValue]: Ordered label/value rows (count, mean, median,\n    quartiles, variance, standard deviation, skewness, and more).",
+        "operationId": "descriptive_summary_api_statistics_summary_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dataset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LabeledValue"
+                  },
+                  "title": "Response Descriptive Summary Api Statistics Summary Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Descriptive Summary",
+        "tags": [
+          "Statistics"
+        ]
+      }
+    },
+    "/api/statistics/variance": {
+      "post": {
+        "description": "Compute the variance of a data set.\n\nArgs:\n    data (SpreadRequest): The values plus a `sample` flag (n \u2212 1 vs n).\n\nReturns:\n    float: The variance.",
+        "operationId": "variance_value_api_statistics_variance_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Variance Value Api Statistics Variance Post",
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Variance Value",
+        "tags": [
+          "Statistics"
         ]
       }
     },

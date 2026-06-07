@@ -4,6 +4,33 @@
  */
 
 export interface paths {
+    "/api/bases/convert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Convert Base
+         * @description Convert a number written in any base (2–36) to decimal, binary, octal and
+         *     hexadecimal.
+         *
+         *     Args:
+         *         data (BaseConversion): The number and the base it is written in.
+         *
+         *     Returns:
+         *         list[LabeledValue]: Label/value rows for each target base.
+         */
+        post: operations["convert_base_api_bases_convert_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/calculus/curl": {
         parameters: {
             query?: never;
@@ -2389,6 +2416,163 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/statistics/mean": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Arithmetic Mean
+         * @description Compute the arithmetic mean (average) of a data set.
+         *
+         *     Args:
+         *         data (Dataset): The list of values.
+         *
+         *     Returns:
+         *         float: The mean.
+         */
+        post: operations["arithmetic_mean_api_statistics_mean_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/median": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Median Value
+         * @description Compute the median (middle value) of a data set.
+         *
+         *     Args:
+         *         data (Dataset): The list of values.
+         *
+         *     Returns:
+         *         float: The median.
+         */
+        post: operations["median_value_api_statistics_median_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/mode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Modal Values
+         * @description Find the most frequent value(s) in a data set.
+         *
+         *     Args:
+         *         data (Dataset): The list of values.
+         *
+         *     Returns:
+         *         list[float]: The mode(s); empty if every value occurs once.
+         */
+        post: operations["modal_values_api_statistics_mode_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/standard-deviation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Standard Deviation Value
+         * @description Compute the standard deviation of a data set.
+         *
+         *     Args:
+         *         data (SpreadRequest): The values plus a `sample` flag (n − 1 vs n).
+         *
+         *     Returns:
+         *         float: The standard deviation.
+         */
+        post: operations["standard_deviation_value_api_statistics_standard_deviation_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Descriptive Summary
+         * @description Compute a full descriptive-statistics summary of a data set.
+         *
+         *     Args:
+         *         data (Dataset): The list of values to summarise.
+         *
+         *     Returns:
+         *         list[LabeledValue]: Ordered label/value rows (count, mean, median,
+         *         quartiles, variance, standard deviation, skewness, and more).
+         */
+        post: operations["descriptive_summary_api_statistics_summary_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/statistics/variance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Variance Value
+         * @description Compute the variance of a data set.
+         *
+         *     Args:
+         *         data (SpreadRequest): The values plus a `sample` flag (n − 1 vs n).
+         *
+         *     Returns:
+         *         float: The variance.
+         */
+        post: operations["variance_value_api_statistics_variance_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/triangles/solve": {
         parameters: {
             query?: never;
@@ -2565,6 +2749,19 @@ export interface components {
              */
             operand2: string;
         };
+        /** BaseConversion */
+        BaseConversion: {
+            /**
+             * From Base
+             * @description The base the number is written in (2–36).
+             */
+            from_base: number;
+            /**
+             * Number
+             * @description The number to convert, written in the source base.
+             */
+            number: string;
+        };
         /** Circle */
         Circle: {
             /**
@@ -2585,6 +2782,14 @@ export interface components {
              * @description The side length of the cube.
              */
             side: number;
+        };
+        /** Dataset */
+        Dataset: {
+            /**
+             * Data
+             * @description The data set to summarise.
+             */
+            data: number[];
         };
         /** DefiniteIntegralRequest */
         DefiniteIntegralRequest: {
@@ -2729,6 +2934,23 @@ export interface components {
              * @description Comma-separated variables, e.g. 'x, y'.
              */
             variables: string;
+        };
+        /**
+         * LabeledValue
+         * @description A single labelled row in a tabular result (e.g. a statistics summary or
+         *     a set of base conversions).
+         */
+        LabeledValue: {
+            /**
+             * Label
+             * @description Human-readable name of the row.
+             */
+            label: string;
+            /**
+             * Value
+             * @description Formatted value for display.
+             */
+            value: string;
         };
         /** LimitRequest */
         LimitRequest: {
@@ -3002,6 +3224,20 @@ export interface components {
              * @description The variable to solve for.
              */
             variable: string;
+        };
+        /** SpreadRequest */
+        SpreadRequest: {
+            /**
+             * Data
+             * @description The data set to summarise.
+             */
+            data: number[];
+            /**
+             * Sample
+             * @description Use the sample (n − 1) estimator. False uses the population (n) estimator.
+             * @default true
+             */
+            sample: boolean;
         };
         /** Square */
         Square: {
@@ -3285,6 +3521,39 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    convert_base_api_bases_convert_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BaseConversion"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LabeledValue"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     curl_api_calculus_curl_post: {
         parameters: {
             query?: never;
@@ -6414,6 +6683,204 @@ export interface operations {
                         number,
                         number
                     ][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    arithmetic_mean_api_statistics_mean_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Dataset"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    median_value_api_statistics_median_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Dataset"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    modal_values_api_statistics_mode_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Dataset"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    standard_deviation_value_api_statistics_standard_deviation_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SpreadRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    descriptive_summary_api_statistics_summary_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Dataset"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LabeledValue"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    variance_value_api_statistics_variance_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SpreadRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
                 };
             };
             /** @description Validation Error */

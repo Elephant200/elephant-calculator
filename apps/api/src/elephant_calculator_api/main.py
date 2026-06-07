@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from elephant_calculator_api.routers import (
+    bases,
     cas,
     geometry,
     irrationals,
@@ -14,6 +15,7 @@ from elephant_calculator_api.routers import (
     multivariable,
     primes,
     pythagorean,
+    statistics,
     triangle_solver,
     vectors,
 )
@@ -49,6 +51,8 @@ app.include_router(irrationals.router, prefix=f"{api_prefix}/irrationals", tags=
 app.include_router(cas.router, prefix=f"{api_prefix}/cas", tags=["CAS"])
 app.include_router(multivariable.router, prefix=f"{api_prefix}/calculus", tags=["Multivariable Calculus"])
 app.include_router(pythagorean.router, prefix=f"{api_prefix}/pythagorean", tags=["Pythagorean Triple Generator"])
+app.include_router(statistics.router, prefix=f"{api_prefix}/statistics", tags=["Statistics"])
+app.include_router(bases.router, prefix=f"{api_prefix}/bases", tags=["Number Bases"])
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):

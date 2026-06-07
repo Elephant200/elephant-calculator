@@ -128,15 +128,11 @@ export default function Workspace() {
 
     setLoading(true);
     try {
-      // Client-side tools (statistics, base conversion) compute in-browser; the
-      // rest call the FastAPI backend.
-      const value = op.compute
-        ? op.compute((request.body ?? {}) as Record<string, unknown>)
-        : await callApi<unknown>(op.endpoint, {
-            method: op.method ?? "POST",
-            body: request.body,
-            query: request.query,
-          });
+      const value = await callApi<unknown>(op.endpoint, {
+        method: op.method ?? "POST",
+        body: request.body,
+        query: request.query,
+      });
       const entry: ResultEntry = {
         id: nextEntryId(),
         opId: op.id,
@@ -152,9 +148,6 @@ export default function Workspace() {
     } catch (e) {
       if (e instanceof ApiError) {
         setError({ type: e.errorType, message: e.message });
-      } else if (e instanceof Error) {
-        // Client-side compute raises plain Errors for invalid input.
-        setError({ type: "Check your input", message: e.message });
       } else {
         setError({ type: "Unexpected error", message: String(e) });
       }
@@ -432,14 +425,8 @@ function OperationHeader({
       </h1>
       <p className="mt-2 text-[var(--text-soft)] max-w-[60ch]">{op.blurb}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        {op.compute ? (
-          <span className="soft-chip">in-browser</span>
-        ) : (
-          <>
-            <span className="soft-chip">{op.method ?? "POST"}</span>
-            <span className="soft-chip">{op.endpoint}</span>
-          </>
-        )}
+        <span className="soft-chip">{op.method ?? "POST"}</span>
+        <span className="soft-chip">{op.endpoint}</span>
         <span className="soft-chip">{op.resultLabel ?? op.result}</span>
         <span className="soft-chip">
           {category.operations.length} in {category.label}
