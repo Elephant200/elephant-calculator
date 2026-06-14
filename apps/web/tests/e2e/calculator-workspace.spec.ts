@@ -17,6 +17,20 @@ test("restores a shared calculator setup and submits it to the API", async ({
 
   await page.goto("/calculator?cat=vectors&op=vec-add");
 
+  await page.getByRole("button", { name: "Pin" }).click();
+  await expect(page.getByRole("button", { name: "Pinned" })).toHaveAttribute(
+    "aria-pressed",
+    "true"
+  );
+  await page.getByRole("button", { name: "Matrices 10" }).click();
+  await expect(page.getByRole("heading", { name: "Add" })).toBeVisible();
+  await page
+    .locator("section")
+    .filter({ hasText: "Pinned" })
+    .getByRole("button", { name: "Add Vectors" })
+    .click();
+  await expect(page.getByText("/vectors/add")).toBeVisible();
+
   await page.getByLabel("Vector A component 1").fill("8");
   await page.getByLabel("Vector A component 2").fill("9");
   await page.getByLabel("Vector A component 3").fill("10");

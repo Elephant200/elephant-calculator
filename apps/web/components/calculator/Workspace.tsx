@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FiLink, FiRotateCcw } from "react-icons/fi";
+import { FiLink, FiRotateCcw, FiStar } from "react-icons/fi";
 import {
   CATEGORIES,
   ALL_OPERATIONS,
@@ -43,6 +43,7 @@ interface SetupState {
 }
 
 const SETUP_QUERY_PARAM = "setup";
+const PINNED_TOOLS_STORAGE_KEY = "elephant-pinned-tools";
 
 let entrySeq = 0;
 // Unique across page reloads so localStorage-restored entries never collide
@@ -66,6 +67,7 @@ export default function Workspace() {
   const [history, setHistory] = useState<ResultEntry[]>([]);
   const [search, setSearch] = useState("");
   const [shareCopied, setShareCopied] = useState(false);
+  const [pinnedTools, setPinnedTools] = useState<string[]>([]);
 
   // Restore the tape from a previous visit.
   useEffect(() => {
@@ -83,6 +85,30 @@ export default function Workspace() {
       /* storage may be unavailable */
     }
   }, [history]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(PINNED_TOOLS_STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        const valid = parsed.filter((id): id is string => CATEGORY_OF.has(String(id)));
+        setPinnedTools([...new Set(valid)]);
+      }
+    } catch {
+      /* ignore corrupt storage */
+    }
+  }, []);
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        PINNED_TOOLS_STORAGE_KEY,
+        JSON.stringify(pinnedTools)
+      );
+    } catch {
+      /* storage may be unavailable */
+    }
+  }, [pinnedTools]);
 
   // Honour a deep link from the home page (e.g. /calculator?cat=statistics or
   // ?cat=geometry&op=geo-area-circle), selecting that category/operation once.
@@ -167,6 +193,14 @@ export default function Workspace() {
     setQueryValues((prev) => ({ ...prev, [name]: value }));
   }
 
+  function togglePinnedTool(opId: string) {
+    setPinnedTools((prev) =>
+      prev.includes(opId)
+        ? prev.filter((id) => id !== opId)
+        : [opId, ...prev].slice(0, 8)
+    );
+  }
+
   async function compute() {
     setError(null);
     let request;
@@ -249,10 +283,16 @@ export default function Workspace() {
           onSelect={selectOperation}
           search={search}
           onSearch={setSearch}
+          pinnedTools={pinnedTools}
         />
 
         <div className="min-w-0">
-          <OperationHeader op={op} category={activeCat} />
+          <OperationHeader
+            op={op}
+            category={activeCat}
+            pinned={pinnedTools.includes(op.id)}
+            onTogglePinned={() => togglePinnedTool(op.id)}
+          />
 
           <div
             className={
@@ -520,12 +560,14 @@ function Rail({
   onSelect,
   search,
   onSearch,
+  pinnedTools,
 }: {
   activeCat: Category;
   activeOpId: string;
   onSelect: (op: Operation, cat: Category) => void;
   search: string;
   onSearch: (v: string) => void;
+  pinnedTools: string[];
 }) {
   const q = search.trim().toLowerCase();
   const matches = q
@@ -585,61 +627,104 @@ function Rail({
           })}
         </nav>
       ) : (
-      <nav className="flex flex-col gap-1">
-        {CATEGORIES.map((cat) => {
-          const active = cat.id === activeCat.id;
-          return (
-            <div key={cat.id}>
-              <button
-                type="button"
-                onClick={() => onSelect(cat.operations[0], cat)}
-                className="category-button w-full text-left px-3 py-2 rounded-md transition-colors"
-                data-active={active}
-                style={{
-                  background: active ? "var(--surface)" : "transparent",
-                  border: active
-                    ? "1px solid var(--rule)"
-                    : "1px solid transparent",
-                }}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="font-display font-bold text-[15px]">
-                    {cat.label}
-                  </div>
-                  <span className="font-mono text-[11px] text-[var(--muted)]">
-                    {cat.operations.length}
-                  </span>
-                </div>
-                <div className="text-[12px] text-[var(--muted)] leading-tight">
-                  {cat.tagline}
-                </div>
-              </button>
-              {active && (
-                <div className="mt-1 mb-2 ml-2 pl-2 border-l border-[var(--rule)] flex flex-col">
-                  {cat.operations.map((o) => {
-                    const on = o.id === activeOpId;
-                    return (
-                      <button
-                        key={o.id}
-                        type="button"
-                        onClick={() => onSelect(o, cat)}
-                        className="text-left px-2.5 py-1.5 rounded-md text-[13.5px] font-mono transition-colors"
+        <div className="flex flex-col gap-4">
+          {pinnedTools.length > 0 && (
+            <section>
+              <div className="eyebrow mb-2">Pinned</div>
+              <nav className="flex flex-col gap-0.5">
+                {pinnedTools.map((id) => {
+                  const cat = CATEGORY_OF.get(id);
+                  const pinnedOp = cat?.operations.find((o) => o.id === id);
+                  if (!cat || !pinnedOp) return null;
+                  const on = pinnedOp.id === activeOpId;
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => onSelect(pinnedOp, cat)}
+                      className="text-left px-2.5 py-1.5 rounded-md transition-colors"
+                      style={{
+                        background: on ? "var(--surface-sunk)" : "transparent",
+                      }}
+                    >
+                      <span
+                        className="font-mono text-[13.5px]"
                         style={{
-                          background: on ? "var(--surface-sunk)" : "transparent",
-                          color: on ? "var(--accent-deep)" : "var(--text-soft)",
-                          fontWeight: on ? 600 : 400,
+                          color: on ? "var(--accent-deep)" : "var(--text)",
                         }}
                       >
-                        {o.label}
-                      </button>
-                    );
-                  })}
+                        {pinnedOp.label}
+                      </span>
+                      <span className="block text-[11px] text-[var(--muted)]">
+                        {cat.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </nav>
+            </section>
+          )}
+
+          <nav className="flex flex-col gap-1">
+            {CATEGORIES.map((cat) => {
+              const active = cat.id === activeCat.id;
+              return (
+                <div key={cat.id}>
+                  <button
+                    type="button"
+                    onClick={() => onSelect(cat.operations[0], cat)}
+                    className="category-button w-full text-left px-3 py-2 rounded-md transition-colors"
+                    data-active={active}
+                    style={{
+                      background: active ? "var(--surface)" : "transparent",
+                      border: active
+                        ? "1px solid var(--rule)"
+                        : "1px solid transparent",
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="font-display font-bold text-[15px]">
+                        {cat.label}
+                      </div>
+                      <span className="font-mono text-[11px] text-[var(--muted)]">
+                        {cat.operations.length}
+                      </span>
+                    </div>
+                    <div className="text-[12px] text-[var(--muted)] leading-tight">
+                      {cat.tagline}
+                    </div>
+                  </button>
+                  {active && (
+                    <div className="mt-1 mb-2 ml-2 pl-2 border-l border-[var(--rule)] flex flex-col">
+                      {cat.operations.map((o) => {
+                        const on = o.id === activeOpId;
+                        return (
+                          <button
+                            key={o.id}
+                            type="button"
+                            onClick={() => onSelect(o, cat)}
+                            className="text-left px-2.5 py-1.5 rounded-md text-[13.5px] font-mono transition-colors"
+                            style={{
+                              background: on
+                                ? "var(--surface-sunk)"
+                                : "transparent",
+                              color: on
+                                ? "var(--accent-deep)"
+                                : "var(--text-soft)",
+                              fontWeight: on ? 600 : 400,
+                            }}
+                          >
+                            {o.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </nav>
+              );
+            })}
+          </nav>
+        </div>
       )}
     </aside>
   );
@@ -648,19 +733,37 @@ function Rail({
 function OperationHeader({
   op,
   category,
+  pinned,
+  onTogglePinned,
 }: {
   op: Operation;
   category: Category;
+  pinned: boolean;
+  onTogglePinned: () => void;
 }) {
   return (
     <div className="rise-in" key={op.id}>
       <div className="eyebrow">{category.label}</div>
-      <h1
-        className="font-display mt-1"
-        style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
-      >
-        {op.label}
-      </h1>
+      <div className="mt-1 flex items-start justify-between gap-4">
+        <h1
+          className="font-display"
+          style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+        >
+          {op.label}
+        </h1>
+        <button
+          type="button"
+          className="btn btn-ghost inline-flex items-center gap-2 shrink-0"
+          aria-pressed={pinned}
+          onClick={onTogglePinned}
+        >
+          <FiStar
+            aria-hidden="true"
+            fill={pinned ? "currentColor" : "none"}
+          />
+          {pinned ? "Pinned" : "Pin"}
+        </button>
+      </div>
       <p className="mt-2 text-[var(--text-soft)] max-w-[60ch]">{op.blurb}</p>
       <div className="mt-4 flex flex-wrap gap-2">
         <span className="soft-chip">{op.method ?? "POST"}</span>
