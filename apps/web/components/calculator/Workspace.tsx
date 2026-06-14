@@ -34,6 +34,7 @@ interface ResultEntry {
   resultLabel?: string;
   value: unknown;
   summary: string;
+  setup?: SetupState;
 }
 
 interface SetupState {
@@ -195,6 +196,10 @@ export default function Workspace() {
         resultLabel: op.resultLabel,
         value,
         summary: summarize(op.result, value),
+        setup: {
+          values: cloneFormState(values),
+          queryValues: cloneQueryState(queryValues),
+        },
       };
       setResult(entry);
       setHistory((prev) => [entry, ...prev].slice(0, 12));
@@ -223,6 +228,14 @@ export default function Workspace() {
         message: url,
       });
     }
+  }
+
+  function useHistorySetup(entry: ResultEntry) {
+    if (!entry.setup) return;
+    const cat = CATEGORY_OF.get(entry.opId);
+    const nextOp = cat?.operations.find((candidate) => candidate.id === entry.opId);
+    if (!cat || !nextOp) return;
+    selectOperation(nextOp, cat, { setup: entry.setup });
   }
 
   const showDiagram = hasGeometryDiagram(op.endpoint);
@@ -356,6 +369,7 @@ export default function Workspace() {
             <HistoryTape
               history={history}
               onPick={(entry) => setResult(entry)}
+              onUseSetup={useHistorySetup}
               onClear={() => setHistory([])}
             />
           )}
@@ -380,6 +394,24 @@ function buildSetupUrl(
     JSON.stringify({ values, queryValues })
   );
   return url.toString();
+}
+
+function cloneFormState(values: FormState): Partial<FormState> {
+  const next: Partial<FormState> = {};
+  for (const [key, value] of Object.entries(values)) {
+    if (Array.isArray(value)) {
+      next[key] = value.map((item) =>
+        Array.isArray(item) ? [...item] : item
+      ) as FormValue;
+    } else {
+      next[key] = value;
+    }
+  }
+  return next;
+}
+
+function cloneQueryState(values: QueryState): Partial<QueryState> {
+  return { ...values };
 }
 
 function readSetupParam(
@@ -711,10 +743,12 @@ function ResultPanel({
 function HistoryTape({
   history,
   onPick,
+  onUseSetup,
   onClear,
 }: {
   history: ResultEntry[];
   onPick: (entry: ResultEntry) => void;
+  onUseSetup: (entry: ResultEntry) => void;
   onClear: () => void;
 }) {
   return (
@@ -731,19 +765,31 @@ function HistoryTape({
       </div>
       <div className="flex flex-col divide-y divide-[var(--rule-soft)] panel overflow-hidden">
         {history.map((h) => (
-          <button
+          <div
             key={h.id}
-            type="button"
-            onClick={() => onPick(h)}
-            className="flex items-center justify-between gap-4 px-4 py-2.5 text-left hover:bg-[var(--surface-sunk)] transition-colors"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-4 py-2.5 hover:bg-[var(--surface-sunk)] transition-colors"
           >
-            <span className="font-mono text-[12px] text-[var(--muted)] shrink-0 w-[150px] truncate">
-              {h.categoryLabel} · {h.opLabel}
-            </span>
-            <span className="font-mono text-[14px] text-[var(--text)] truncate text-right">
-              {h.summary}
-            </span>
-          </button>
+            <button
+              type="button"
+              onClick={() => onPick(h)}
+              className="min-w-0 flex flex-1 items-center justify-between gap-4 text-left"
+            >
+              <span className="font-mono text-[12px] text-[var(--muted)] shrink-0 w-[150px] truncate">
+                {h.categoryLabel} · {h.opLabel}
+              </span>
+              <span className="font-mono text-[14px] text-[var(--text)] truncate text-right">
+                {h.summary}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onUseSetup(h)}
+              disabled={!h.setup}
+              className="font-mono text-[11px] uppercase tracking-wider text-[var(--muted)] hover:text-[var(--text)] disabled:opacity-40 disabled:hover:text-[var(--muted)]"
+            >
+              Use setup
+            </button>
+          </div>
         ))}
       </div>
     </div>

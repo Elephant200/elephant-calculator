@@ -55,4 +55,23 @@ test("restores a shared calculator setup and submits it to the API", async ({
   await expect(
     page.getByTestId("result-panel").getByText("[12, 15, 18]", { exact: true })
   ).toBeVisible();
+
+  await page.getByLabel("Vector A component 1").fill("99");
+  await page.getByLabel("Vector B component 3").fill("1");
+  await page.getByRole("button", { name: /use setup/i }).click();
+
+  await expect(page.getByLabel("Vector A component 1")).toHaveValue("8");
+  await expect(page.getByLabel("Vector B component 3")).toHaveValue("8");
+
+  await page.getByRole("button", { name: "Compute" }).click();
+  await expect.poll(() => requests).toEqual([
+    {
+      vector1: [8, 9, 10],
+      vector2: [4, 6, 8],
+    },
+    {
+      vector1: [8, 9, 10],
+      vector2: [4, 6, 8],
+    },
+  ]);
 });
