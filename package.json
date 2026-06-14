@@ -10,6 +10,7 @@
     "dev:web": "turbo run dev --filter=@elephant-calculator/web",
     "generate:api-types": "turbo run generate --filter=@elephant-calculator/api-contract",
     "lint": "turbo run lint",
+    "test:e2e": "turbo run test:e2e",
     "test": "turbo run test"
   },
   "devDependencies": {

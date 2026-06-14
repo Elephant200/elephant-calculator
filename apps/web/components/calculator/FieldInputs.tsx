@@ -14,6 +14,7 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
     case "vector":
       return (
         <VectorInput
+          label={field.label}
           value={value as string[]}
           onChange={(v) => onChange(v)}
         />
@@ -21,6 +22,7 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
     case "matrix":
       return (
         <MatrixInput
+          label={field.label}
           value={value as string[][]}
           onChange={(v) => onChange(v)}
         />
@@ -37,6 +39,7 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
       return (
         <select
           className="text-input cursor-pointer"
+          aria-label={field.label}
           value={value as string}
           onChange={(e) => onChange(e.target.value)}
         >
@@ -51,6 +54,7 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
       return (
         <textarea
           className="text-input"
+          aria-label={field.label}
           rows={4}
           spellCheck={false}
           value={value as string}
@@ -61,6 +65,7 @@ export function FieldInput({ field, value, onChange }: FieldInputProps) {
       return (
         <input
           className="text-input"
+          aria-label={field.label}
           inputMode={field.type === "text" ? "text" : "decimal"}
           spellCheck={false}
           value={value as string}
@@ -112,9 +117,11 @@ function ToggleInput({
 }
 
 function VectorInput({
+  label,
   value,
   onChange,
 }: {
+  label: string;
   value: string[];
   onChange: (v: string[]) => void;
 }) {
@@ -135,6 +142,7 @@ function VectorInput({
         <input
           key={i}
           className="num-cell"
+          aria-label={`${label} component ${i + 1}`}
           style={{ width: 60 }}
           inputMode="decimal"
           value={cell}
@@ -153,9 +161,11 @@ function VectorInput({
 }
 
 function MatrixInput({
+  label,
   value,
   onChange,
 }: {
+  label: string;
   value: string[][];
   onChange: (v: string[][]) => void;
 }) {
@@ -196,6 +206,7 @@ function MatrixInput({
             <input
               key={`${r}-${c}`}
               className="num-cell"
+              aria-label={`${label} row ${r + 1} column ${c + 1}`}
               style={{ width: 56 }}
               inputMode="decimal"
               value={cell}

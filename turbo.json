@@ -30,6 +30,9 @@
     },
     "test": {
       "dependsOn": ["^generate"]
+    },
+    "test:e2e": {
+      "cache": false
     }
   }
 }

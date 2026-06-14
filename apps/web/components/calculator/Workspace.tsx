@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FiLink, FiRotateCcw } from "react-icons/fi";
 import {
   CATEGORIES,
   ALL_OPERATIONS,
   type Category,
+  type Field,
   type Operation,
+  type QueryParam,
   type ResultKind,
 } from "../../lib/tools";
 import {
@@ -33,6 +36,13 @@ interface ResultEntry {
   summary: string;
 }
 
+interface SetupState {
+  values: Partial<FormState>;
+  queryValues: Partial<QueryState>;
+}
+
+const SETUP_QUERY_PARAM = "setup";
+
 let entrySeq = 0;
 // Unique across page reloads so localStorage-restored entries never collide
 // with freshly computed ones (which previously both started at 1).
@@ -54,6 +64,7 @@ export default function Workspace() {
   const [result, setResult] = useState<ResultEntry | null>(null);
   const [history, setHistory] = useState<ResultEntry[]>([]);
   const [search, setSearch] = useState("");
+  const [shareCopied, setShareCopied] = useState(false);
 
   // Restore the tape from a previous visit.
   useEffect(() => {
@@ -83,7 +94,11 @@ export default function Workspace() {
     const opId = params.get("op");
     const target =
       (opId && cat.operations.find((o) => o.id === opId)) || cat.operations[0];
-    selectOperation(target, cat);
+    const setup = readSetupParam(params, target);
+    selectOperation(target, cat, {
+      setup,
+      setupToken: setup ? params.get(SETUP_QUERY_PARAM) : null,
+    });
   }, []);
 
   // The global command palette fires this when the calculator is already open.
@@ -111,19 +126,36 @@ export default function Workspace() {
     return () => window.removeEventListener("keydown", onKey);
   });
 
-  function selectOperation(nextOp: Operation, cat: Category) {
+  function selectOperation(
+    nextOp: Operation,
+    cat: Category,
+    options: { setup?: SetupState | null; setupToken?: string | null } = {}
+  ) {
+    const nextValues = initFormState(nextOp);
+    Object.assign(nextValues, options.setup?.values);
+    const nextQueryValues = initQueryState(nextOp);
+    Object.assign(nextQueryValues, options.setup?.queryValues);
+
     setActiveCat(cat);
     setOp(nextOp);
-    setValues(initFormState(nextOp));
-    setQueryValues(initQueryState(nextOp));
+    setValues(nextValues);
+    setQueryValues(nextQueryValues);
     setError(null);
     setResult(null);
+    setShareCopied(false);
     // Keep the URL in sync so the current tool is shareable/bookmarkable and the
     // browser reflects what's on screen. replaceState avoids stacking a history
     // entry per click.
     if (typeof window !== "undefined") {
-      const url = `${window.location.pathname}?cat=${cat.id}&op=${nextOp.id}`;
-      window.history.replaceState(null, "", url);
+      const params = new URLSearchParams();
+      params.set("cat", cat.id);
+      params.set("op", nextOp.id);
+      if (options.setupToken) params.set(SETUP_QUERY_PARAM, options.setupToken);
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}?${params.toString()}`
+      );
     }
   }
 
@@ -174,6 +206,22 @@ export default function Workspace() {
       }
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function copySetupLink() {
+    if (typeof window === "undefined") return;
+    const url = buildSetupUrl(activeCat, op, values, queryValues);
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      window.setTimeout(() => setShareCopied(false), 1400);
+    } catch {
+      setError({
+        type: "Clipboard unavailable",
+        message: url,
+      });
     }
   }
 
@@ -269,7 +317,7 @@ export default function Workspace() {
               )}
             </div>
 
-            <div className="flex items-center gap-3 mt-7">
+            <div className="flex flex-wrap items-center gap-3 mt-7">
               <button
                 type="submit"
                 className="btn btn-accent"
@@ -279,10 +327,19 @@ export default function Workspace() {
               </button>
               <button
                 type="button"
-                className="btn btn-ghost"
+                className="btn btn-ghost inline-flex items-center gap-2"
                 onClick={() => selectOperation(op, activeCat)}
               >
+                <FiRotateCcw aria-hidden="true" />
                 Reset
+              </button>
+              <button
+                type="button"
+                className="btn btn-ghost inline-flex items-center gap-2"
+                onClick={copySetupLink}
+              >
+                <FiLink aria-hidden="true" />
+                {shareCopied ? "Link copied" : "Share setup"}
               </button>
             </div>
           </form>
@@ -306,6 +363,119 @@ export default function Workspace() {
       </div>
     </div>
   );
+}
+
+function buildSetupUrl(
+  category: Category,
+  op: Operation,
+  values: FormState,
+  queryValues: QueryState
+): string {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.searchParams.set("cat", category.id);
+  url.searchParams.set("op", op.id);
+  url.searchParams.set(
+    SETUP_QUERY_PARAM,
+    JSON.stringify({ values, queryValues })
+  );
+  return url.toString();
+}
+
+function readSetupParam(
+  params: URLSearchParams,
+  op: Operation
+): SetupState | null {
+  const raw = params.get(SETUP_QUERY_PARAM);
+  if (!raw) return null;
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isRecord(parsed)) return null;
+    return {
+      values: coerceFormValues(op.fields, parsed.values),
+      queryValues: coerceQueryValues(op.query ?? [], parsed.queryValues),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function coerceFormValues(
+  fields: Field[],
+  rawValues: unknown
+): Partial<FormState> {
+  if (!isRecord(rawValues)) return {};
+  const next: Partial<FormState> = {};
+
+  for (const field of fields) {
+    if (!Object.prototype.hasOwnProperty.call(rawValues, field.name)) continue;
+    const value = coerceFormValue(field, rawValues[field.name]);
+    if (value !== null) next[field.name] = value;
+  }
+
+  return next;
+}
+
+function coerceFormValue(field: Field, raw: unknown): FormValue | null {
+  switch (field.type) {
+    case "vector":
+      return Array.isArray(raw) ? raw.map(String) : null;
+    case "matrix":
+      return Array.isArray(raw) && raw.every(Array.isArray)
+        ? raw.map((row) => row.map(String))
+        : null;
+    case "bool":
+      if (typeof raw === "boolean") return raw;
+      if (raw === "true") return true;
+      if (raw === "false") return false;
+      return null;
+    case "textlist":
+      if (Array.isArray(raw)) return raw.map(String).join("\n");
+      return typeof raw === "string" || typeof raw === "number"
+        ? String(raw)
+        : null;
+    default:
+      return typeof raw === "string" || typeof raw === "number"
+        ? String(raw)
+        : null;
+  }
+}
+
+function coerceQueryValues(
+  query: QueryParam[],
+  rawValues: unknown
+): Partial<QueryState> {
+  if (!isRecord(rawValues)) return {};
+  const next: Partial<QueryState> = {};
+
+  for (const param of query) {
+    if (!Object.prototype.hasOwnProperty.call(rawValues, param.name)) continue;
+    const value = coerceQueryValue(param, rawValues[param.name]);
+    if (value !== null) next[param.name] = value;
+  }
+
+  return next;
+}
+
+function coerceQueryValue(
+  param: QueryParam,
+  raw: unknown
+): string | boolean | null {
+  if (param.type === "bool") {
+    if (typeof raw === "boolean") return raw;
+    if (raw === "true") return true;
+    if (raw === "false") return false;
+    return null;
+  }
+
+  return typeof raw === "string" || typeof raw === "number"
+    ? String(raw)
+    : null;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 const CATEGORY_OF = new Map<string, Category>(
@@ -504,7 +674,7 @@ function ResultPanel({
 
   if (result) {
     return (
-      <div className="panel p-5 sm:p-7 mt-5">
+      <div className="panel p-5 sm:p-7 mt-5" data-testid="result-panel">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[var(--rule-soft)] pb-3">
           <span className="soft-chip">
             {result.categoryLabel} · {result.opLabel}
